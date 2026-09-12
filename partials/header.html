@@ -1,0 +1,31 @@
+<!-- ===========================================================================
+     PARTIAL · site header + audience switcher
+     Canonical source. Paste verbatim into every page; change only:
+       · aria-current="page" moves to the audience whose path the page is on
+         (index.html carries it on none)
+       · .site-mark__section text, if a page sits outside "Placements"
+     No templating: this file is the reference copy, not an include.
+     =========================================================================== -->
+
+<a class="skip-link" href="#main">Skip to the main content</a>
+
+<div class="crop-marks" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+
+<header class="site-header">
+  <div class="wrap site-header__inner">
+
+    <a class="site-mark" href="index.html">
+      <span class="site-mark__name">RV University</span>
+      <span class="site-mark__section">Placements</span>
+    </a>
+
+    <nav class="audience-switcher" aria-label="Choose your audience">
+      <ul class="audience-switcher__list">
+        <li><a class="audience-switcher__link" href="students.html">For students</a></li>
+        <li><a class="audience-switcher__link" href="recruiters.html">For recruiters</a></li>
+        <li><a class="audience-switcher__link" href="parents.html">For parents</a></li>
+      </ul>
+    </nav>
+
+  </div>
+</header>

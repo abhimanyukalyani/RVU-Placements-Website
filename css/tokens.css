@@ -1,0 +1,121 @@
+/* ===========================================================================
+   tokens.css — RVU Placements
+   Phase 0. Palette, type scale, spacing. Nothing here paints anything.
+   Names mirror the live RVU theme's --gcid-* custom properties (CLAUDE.md §H)
+   so the two token systems stay legible to each other on port to WordPress.
+   =========================================================================== */
+
+:root {
+  /* --- Palette · the nine, and only the nine (CLAUDE.md §A) ---------------
+     Contrast ratios recorded against the grounds each colour is permitted on.
+     No colour outside this block. No red, ever — status is weight and wording. */
+
+  --rvu-gold:       #d0a863;  /* theme --gcid-primary-color   · fills, rules, bars, marks
+                                 NEVER text on light: 2.08:1 on paper — fails both floors.
+                                 As text it is permitted on --rvu-slate-deep only: 7.11:1 */
+  --rvu-gold-deep:  #b18733;  /* in use on site               · display text only, >=24px
+                                 or >=19px bold: 3.08:1 on paper (large-text floor 3:1)   */
+  --rvu-gold-text:  #866c40;  /* derived · the only gold for copy on light
+                                 4.64:1 on paper · 4.96:1 on white
+                                 NOT on --rvu-panel: 4.36:1 — fails the 4.5:1 body floor  */
+  --rvu-slate:      #233039;  /* theme --gcid-secondary-color · body text; dark ground
+                                 12.64:1 on paper · 13.52:1 on white · 11.89:1 on panel   */
+  --rvu-slate-deep: #1a242b;  /* derived · layered dark ground
+                                 carries white 15.78:1 and --rvu-gold 7.11:1              */
+  --rvu-ink:        #04070a;  /* theme --gcid-body-color      · display headings, figures
+                                 18.89:1 on paper · 20.19:1 on white · 9.10:1 on gold     */
+  --rvu-panel:      #ecf1f5;  /* in use on site               · cool callout fill         */
+  --rvu-paper:      #faf7f1;  /* derived, low chroma          · warm page ground          */
+  --rvu-white:      #ffffff;  /*                              · cards, tables on paper    */
+
+  /* Semantic aliases. These resolve to the nine above and add no new colour. */
+  --ground-page:      var(--rvu-paper);
+  --ground-raised:    var(--rvu-white);
+  --ground-callout:   var(--rvu-panel);
+  --ground-inverse:   var(--rvu-slate-deep);
+
+  --text-body:        var(--rvu-slate);       /* 12.64:1 on paper */
+  --text-display:     var(--rvu-ink);         /* 18.89:1 on paper */
+  --text-accent:      var(--rvu-gold-text);   /*  4.64:1 on paper */
+  --text-accent-lg:   var(--rvu-gold-deep);   /*  3.08:1 on paper, >=24px only */
+  --text-inverse:     var(--rvu-white);       /* 15.78:1 on slate-deep */
+  --text-inverse-accent: var(--rvu-gold);     /*  7.11:1 on slate-deep */
+
+  /* Hairlines (CLAUDE.md §D). Decorative, not text — no contrast floor applies. */
+  --rule-open:   1px solid var(--rvu-gold);                       /* opens a section  */
+  --rule-divide: 1px solid color-mix(in srgb, var(--rvu-slate) 16%, transparent);
+  --rule-close:  2px solid var(--rvu-slate);                      /* closes a block   */
+  --rule-divide-strength: 16%;   /* the 14–18% band, named once   */
+
+  /* Focus ring. --rvu-ink against every ground we use:
+     18.89:1 on paper · 20.19:1 on white · 17.76:1 on panel — all far past the 3:1 floor.
+     On the inverse ground the ring flips to --rvu-gold: 7.11:1 on slate-deep. */
+  --focus-ring-color:         var(--rvu-ink);
+  --focus-ring-color-inverse: var(--rvu-gold);
+  --focus-ring-width: 2px;
+  --focus-ring-offset: 3px;
+
+  /* --- Type (CLAUDE.md §B) · two faces, three weights, no third import ---- */
+  --font-display: "Playfair Display", Georgia, serif;              /* 600 */
+  --font-body:    Cantarell, Carlito, "Helvetica Neue", sans-serif; /* 400 / 700 */
+
+  --weight-display: 600;
+  --weight-body:    400;
+  --weight-label:   700;
+
+  /* size / line-height / tracking, exactly as tabulated in CLAUDE.md §B */
+  --type-display-xl:   132px;  --lh-display-xl:   122px;  --track-display-xl:  -0.02em;
+  --type-display-l:     48px;  --lh-display-l:     53px;  --track-display-l:  -0.015em;
+  --type-display-m:     32px;  --lh-display-m:     36px;  --track-display-m:  -0.01em;
+  --type-heading:       27px;  --lh-heading:       32px;
+  --type-figure:        58px;  --lh-figure:        58px;
+  --type-body-l:        17px;  --lh-body-l:        27px;
+  --type-body:          15px;  --lh-body:          24px;
+  --type-caption:       13px;  --lh-caption:       21px;
+  --type-label:       10.5px;  --lh-label:         16px;  --track-label:       0.17em;
+
+  --measure-prose: 65ch;   /* the 62–68ch band, single value */
+
+  /* --- Spacing and layout (CLAUDE.md §C) · the theme's scale, not a new one */
+  --content-max-width:  1080px;  /* outer container, from the theme       */
+  --wp-content-size:     823px;  /* the theme's reading measure for prose */
+  --section-padding:      56px;
+  --section-gutter:       60px;
+  --module-gutter:        30px;
+  --row-gutter-vertical:  40px;
+
+  --page-margin:      96px;  /* desktop side gutter */
+  --page-margin-min:  16px;  /* phone floor — never below this            */
+  --grid-columns:       12;
+  --breakpoint-stack: 640px; /* every multi-column row collapses here     */
+  --breakpoint-crop:  768px; /* crop marks omitted below this             */
+
+  --tap-target-min: 44px;
+  --pill-radius:   800px;    /* the theme's own button geometry           */
+  --pill-padding:   12px;    /* 12px padding clears the 44px floor        */
+
+  --crop-arm:   32px;
+  --crop-inset: 56px;
+  --crop-opacity: 0.55;
+
+  --motion-fast: 120ms;
+  --motion-base: 200ms;
+  --motion-ease: cubic-bezier(0.2, 0, 0.2, 1);
+}
+
+/* The side gutter shrinks with the viewport but never past the 16px floor. */
+@media (max-width: 1272px) { :root { --page-margin: 48px; } }
+@media (max-width: 768px)  { :root { --page-margin: 24px; } }
+@media (max-width: 480px)  { :root { --page-margin: var(--page-margin-min); } }
+
+/* Display XL at 132px does not fit a phone. Step it, keep the ratio. */
+@media (max-width: 900px) { :root { --type-display-xl: 84px; --lh-display-xl: 82px; } }
+@media (max-width: 640px) {
+  :root {
+    --type-display-xl: 52px;  --lh-display-xl: 54px;
+    --type-display-l:  36px;  --lh-display-l:  41px;
+    --type-display-m:  27px;  --lh-display-m:  32px;
+    --type-figure:     44px;  --lh-figure:     46px;
+    --section-padding: 32px;  --section-gutter: 40px;
+  }
+}
