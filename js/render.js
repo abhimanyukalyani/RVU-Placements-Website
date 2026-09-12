@@ -624,3 +624,122 @@
   R.mount = mount;
 
 }(typeof window !== "undefined" ? window : globalThis));
+
+/* ===========================================================================
+   render.js · part 3 — slots.
+
+   Prose lives in the markup, where a page author (and, after the WordPress
+   port, a Gutenberg editor) can edit it. Figures never do: a slot is an empty
+   element in the HTML that a value is written into at load.
+
+       <span data-fig="placements.cohort.offers_made"></span>
+       <span data-fig="…basic.median" data-fmt="inr_lpa"></span>
+       <span data-pct="cohort.students_placed / cohort.seeking_through_university"
+             data-bare></span>
+       <p data-stamp></p>
+
+   §E.7 governs figures, not words. The structural guarantees survive the move:
+   fillSlots() refuses to leave a figure row without its cohort stamp, and
+   refuses a maximum that is not beside a median.
+   =========================================================================== */
+(function (global) {
+  "use strict";
+
+  var RVU = global.RVU = global.RVU || {};
+  var R = RVU.render;
+  var doc = global.document;
+
+  /* Resolve "placements.cohort.offers_made" against window.RVU. */
+  function resolve(path) {
+    var parts = String(path).split(".");
+    var node = RVU;
+    for (var i = 0; i < parts.length; i++) {
+      if (node === null || node === undefined) { return undefined; }
+      node = node[parts[i]];
+    }
+    return node;
+  }
+
+  /* Derived values a page may ask for by name. These are computed, never
+     stored, so they cannot drift from the data they summarise. */
+  var DERIVED = {
+    "recruiter_count": function () {
+      return R.countRecruiters(RVU.recruiters.sectors);
+    },
+    "drive_count_open": function () {
+      var n = 0;
+      for (var i = 0; i < RVU.drives.length; i++) {
+        if (RVU.drives[i].status === "open" || RVU.drives[i].status === "closing") { n++; }
+      }
+      return n;
+    },
+    "school_count": function () { return (RVU.schools || []).length; }
+  };
+
+  function valueFor(path) {
+    if (Object.prototype.hasOwnProperty.call(DERIVED, path)) { return DERIVED[path](); }
+    return resolve(path);
+  }
+
+  function fillSlots(root) {
+    root = root || doc;
+    var i;
+
+    /* --- figures ---------------------------------------------------------- */
+    var figs = root.querySelectorAll("[data-fig]");
+    for (i = 0; i < figs.length; i++) {
+      var el = figs[i];
+      el.textContent = R.fig(valueFor(el.getAttribute("data-fig")),
+                             el.getAttribute("data-fmt") || "count");
+    }
+
+    /* --- percentages · pct() still throws without a denominator ----------- */
+    var pcts = root.querySelectorAll("[data-pct]");
+    for (i = 0; i < pcts.length; i++) {
+      var pel = pcts[i];
+      var expr = pel.getAttribute("data-pct").split("/");
+      if (expr.length !== 2) {
+        throw new Error("data-pct must be \"numerator / denominator\", got: " +
+                        pel.getAttribute("data-pct"));
+      }
+      pel.textContent = R.pct(valueFor(expr[0].trim()), valueFor(expr[1].trim()),
+                              { bare: pel.hasAttribute("data-bare") });
+    }
+
+    /* --- cohort stamps ---------------------------------------------------- */
+    var stamps = root.querySelectorAll("[data-stamp]");
+    for (i = 0; i < stamps.length; i++) { stamps[i].textContent = R.stamp(); }
+
+    /* --- the structural guarantees, preserved -----------------------------
+       A figure row without a stamp gets one; a maximum outside a median block
+       is a build error, not a styling accident. */
+    var rows = root.querySelectorAll(".figure-row");
+    for (i = 0; i < rows.length; i++) {
+      var row = rows[i];
+
+      var maxes = row.querySelectorAll(".figure-block__max");
+      for (var m = 0; m < maxes.length; m++) {
+        var block = maxes[m].closest(".figure-block");
+        if (!block || block.className.indexOf("figure-block--median") === -1) {
+          throw new Error("A maximum may only appear beside a median, never " +
+                          "alone and never larger (CLAUDE.md §E.1).");
+        }
+      }
+
+      var after = row.nextElementSibling;
+      var hasStamp = after && after.className &&
+                     after.className.indexOf("cohort-stamp") !== -1;
+      if (!hasStamp) {
+        var p = doc.createElement("p");
+        p.className = "cohort-stamp t-caption";
+        p.textContent = R.stamp();
+        row.parentNode.insertBefore(p, row.nextSibling);
+      }
+    }
+  }
+
+  R.resolve = resolve;
+  R.valueFor = valueFor;
+  R.fillSlots = fillSlots;
+
+}(typeof window !== "undefined" ? window : globalThis));

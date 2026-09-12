@@ -150,7 +150,9 @@ These are structural rules. `js/render.js` owns them so a page author cannot bre
 - Dynamic results announced with `aria-live="polite"`.
 - Visible focus ring on every interactive element, 3:1 against its ground. Never `outline: none` without a replacement.
 - **Zero dead links.** Every link resolves to a real page or a real anchor. The live RVU page ships six dead school links; reproducing that would be fatal to the submission.
-- `<noscript>` on every interactive module renders the underlying table so the content is never JS-gated.
+- **`<noscript>` on every interactive module** carries a notice that states plainly what is unavailable and links to the page that answers the same question without JS — `methodology.html`, or the office contact.
+- **A static fallback must never restate a figure.** Doing so creates a second source, which §E.7 forbids. The earlier rule here — that `<noscript>` render the underlying table — conflicted with §E.7 directly. §E.7 wins: one source, always.
+- This constraint is an artefact of the static build, not of the design. In the WordPress port the figures render server-side from ACF, so both the no-JS fallback and the SEO concern resolve without changing the data spine. Say so on `methodology.html` rather than leaving a reader to infer it.
 
 ---
 

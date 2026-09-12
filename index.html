@@ -45,38 +45,137 @@
 
 <main class="site-main" id="main">
 
-  <!-- Mount points only. Every block is composed by a renderer in
-       js/render.js; no component markup is hand-written on this page, and no
-       figure is typed into it. -->
+  <!-- Prose lives here, where it can be edited (and, after the WordPress port,
+       edited in Gutenberg). Figures never do: every [data-fig] / [data-pct] /
+       [data-stamp] below is an empty slot filled from data/ at load, and the
+       list blocks are rendered into their [data-*] mounts. -->
 
-  <section class="wrap hero" data-hero aria-label="Placements at RV University"></section>
+  <section class="wrap hero" aria-labelledby="hero-title">
+    <p class="eyebrow">RV University</p>
+    <h1 class="hero__title" id="hero-title">Placements</h1>
+    <p class="hero__subhead">You are here to find work, to hire, or to understand
+      what either looks like for someone you care about. Every figure below comes
+      from one sheet, carries the date it was recorded, and shows the spread
+      behind it.</p>
+    <div class="hero__actions">
+      <a class="pill" href="outcomes.html">See the outcomes</a>
+      <a class="pill pill--quiet" href="hire.html">Start a hiring request</a>
+    </div>
+  </section>
 
-  <section class="wrap section" data-doors aria-label="Choose your path"></section>
+  <section class="wrap section" aria-label="Choose your path">
+    <div class="doors">
 
-  <section class="wrap section" data-figures aria-label="The cohort at a glance"></section>
+      <article class="door">
+        <span class="door__label t-label">01 &middot; For students</span>
+        <h2 class="door__title">Know where you stand, and what to do next</h2>
+        <p class="door__body">Your timeline year by year, an eligibility check that
+          tells you where you stand today, and every live drive in one list.</p>
+        <a class="door__link" href="students.html">Start with your year
+          <svg class="door__arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor"
+               stroke-width="1.5" aria-hidden="true" focusable="false"><path d="M2 8h11M9 4l4 4-4 4"/></svg></a>
+      </article>
 
-  <section class="wrap section" data-distribution aria-label="Distribution of offers"></section>
+      <article class="door">
+        <span class="door__label t-label">02 &middot; For recruiters</span>
+        <h2 class="door__title">Tell us your stage, and we route you</h2>
+        <p class="door__body">Tell us what stage you&rsquo;re at. We&rsquo;ll route you
+          to the right cohort, the right window, and a named person.</p>
+        <a class="door__link" href="recruiters.html">Tell us what you need
+          <svg class="door__arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor"
+               stroke-width="1.5" aria-hidden="true" focusable="false"><path d="M2 8h11M9 4l4 4-4 4"/></svg></a>
+      </article>
+
+      <article class="door">
+        <span class="door__label t-label">03 &middot; For parents</span>
+        <h2 class="door__title">What the process is, and what you can do</h2>
+        <p class="door__body">What the placement process actually is, what the
+          numbers mean in plain English, and three things you can do.</p>
+        <a class="door__link" href="parents.html">See what you can do
+          <svg class="door__arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor"
+               stroke-width="1.5" aria-hidden="true" focusable="false"><path d="M2 8h11M9 4l4 4-4 4"/></svg></a>
+      </article>
+
+    </div>
+  </section>
+
+  <section class="wrap section" aria-label="The cohort at a glance">
+    <p class="eyebrow">The cohort at a glance</p>
+
+    <div class="figure-row">
+      <div class="figure-block">
+        <span class="figure-block__value" data-fig="placements.cohort.offers_made"></span>
+        <span class="figure-block__caption t-label">Offers made</span>
+      </div>
+      <div class="figure-block">
+        <span class="figure-block__value" data-fig="recruiter_count"></span>
+        <span class="figure-block__caption t-label">Recruiting organisations</span>
+      </div>
+      <div class="figure-block figure-block--median">
+        <span class="figure-block__value" data-fig="placements.salary_inr_lpa.basic.median"
+              data-fmt="inr_lpa"></span>
+        <span class="figure-block__max">Highest <span
+              data-fig="placements.salary_inr_lpa.basic.max" data-fmt="inr_lpa"></span></span>
+        <span class="figure-block__caption t-label">Median package</span>
+      </div>
+    </div>
+    <p class="cohort-stamp t-caption" data-stamp></p>
+  </section>
+
+  <section class="wrap section" aria-labelledby="spread-title">
+    <p class="eyebrow">Where the offers landed</p>
+    <h2 class="section-head__title" id="spread-title">The spread behind the median</h2>
+    <p class="section-head__aside">Every student placed, sorted by the size of their
+      offer. The median sits inside the second band.</p>
+    <div class="stack" data-distribution></div>
+  </section>
 
   <div class="wrap">
-    <section class="denominator" data-denominator aria-label="Who these numbers are about"></section>
+    <section class="denominator" aria-label="Who these numbers are about">
+      <p class="eyebrow">Who these numbers are about</p>
+      <p class="denominator__text">
+        <b data-fig="placements.cohort.students_placed"></b> of the
+        <b data-fig="placements.cohort.seeking_through_university"></b> students
+        seeking placement through the university received an offer &mdash;
+        <b data-pct="placements.cohort.students_placed / placements.cohort.seeking_through_university"
+           data-bare></b>. Of the rest of the graduating class,
+        <span data-fig="placements.cohort.continuing_further_study"></span> continued
+        to further study, <span data-fig="placements.cohort.entrepreneurship_or_family_business"></span>
+        went to entrepreneurship or a family business,
+        <span data-fig="placements.cohort.placed_independently"></span> placed
+        independently, and <span data-fig="placements.cohort.postponing_search"></span>
+        postponed the search.
+      </p>
+    </section>
   </div>
 
-  <section class="wrap section" data-recruiters aria-label="Recruiting organisations"></section>
+  <section class="wrap section" aria-labelledby="recruiters-title">
+    <p class="eyebrow">Recruiting organisations</p>
+    <h2 class="section-head__title" id="recruiters-title">Who hired from this cohort</h2>
+    <p class="section-head__aside">Set as names, not logos. Organisation names are
+      placeholders until the placement sheet is loaded.</p>
+    <div class="stack" data-recruiters></div>
+  </section>
 
-  <section class="wrap section" data-closing aria-label="Drives closing this week"></section>
+  <section class="wrap section" aria-labelledby="closing-title">
+    <p class="eyebrow">Act this week</p>
+    <h2 class="section-head__title" id="closing-title">Closing this week</h2>
+    <div class="stack" data-closing></div>
+    <p class="hero__actions"><a class="pill" href="drives.html">See all live drives</a></p>
+  </section>
 
   <noscript>
     <div class="wrap section">
       <div class="noscript-note">
         <p><strong>The figures on this page are switched off.</strong> Every number
-        at RV University Placements is read from a single data file at the moment
-        the page opens, rather than typed into the page — which is what lets one
-        change update the whole site, and what puts a date on every figure.
-        With JavaScript disabled there is nothing to read them with.</p>
+        here is read from a single data file when the page opens, rather than typed
+        into the page &mdash; which is what lets one change update the whole site,
+        and what puts a date on every figure. Restating them here would create a
+        second source, so this notice does not.</p>
         <p>Turn JavaScript on to see the cohort figures, or write to
         <a href="mailto:recruit@rvu.edu.in">recruit@rvu.edu.in</a> and the office
         will send the outcomes report. <a href="methodology.html">How we report</a>
-        explains where each figure comes from.</p>
+        explains where each figure comes from, and why the page is built this way.</p>
       </div>
     </div>
   </noscript>
