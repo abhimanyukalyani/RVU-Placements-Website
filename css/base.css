@@ -1,0 +1,335 @@
+/* ===========================================================================
+   base.css — RVU Placements
+   Phase 0. Reset, type, measure, focus, and the shared page chrome
+   (skip link, wrapper, crop marks, header + audience switcher, footer).
+   Component styles proper land in components.css at Phase 2.
+   Every colour here resolves to one of the nine tokens. Ratios are recorded
+   beside any declaration that puts text on a ground.
+   =========================================================================== */
+
+@layer reset, base, chrome, utilities;
+
+/* --------------------------------------------------------------- reset -- */
+@layer reset {
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html { -webkit-text-size-adjust: 100%; }
+
+  body, h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd, ol, ul {
+    margin: 0;
+  }
+
+  ul[class], ol[class] { padding: 0; list-style: none; }
+
+  img, svg, video { max-width: 100%; height: auto; display: block; }
+
+  button, input, select, textarea { font: inherit; color: inherit; }
+
+  table { border-collapse: collapse; border-spacing: 0; }
+
+  /* Tables keep their width inside their own scroller; the body never
+     scrolls sideways (CLAUDE.md §C). */
+  html, body { overflow-x: clip; max-width: 100%; }
+}
+
+/* ---------------------------------------------------------------- base -- */
+@layer base {
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+  }
+
+  body {
+    background: var(--ground-page);                 /* #faf7f1 */
+    color: var(--text-body);                        /* #233039 on #faf7f1 · 12.64:1 */
+    font-family: var(--font-body);
+    font-weight: var(--weight-body);
+    font-size: var(--type-body);
+    line-height: calc(var(--lh-body) / var(--type-body));
+    font-synthesis-weight: none;
+    text-rendering: optimizeLegibility;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* -- headings ---------------------------------------------------------- */
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: var(--weight-display);
+    color: var(--text-display);                     /* #04070a on #faf7f1 · 18.89:1 */
+    text-wrap: balance;
+  }
+
+  h1 { font-size: var(--type-display-xl);
+       line-height: calc(var(--lh-display-xl) / var(--type-display-xl));
+       letter-spacing: var(--track-display-xl); }
+  h2 { font-size: var(--type-display-l);
+       line-height: calc(var(--lh-display-l) / var(--type-display-l));
+       letter-spacing: var(--track-display-l); }
+  h3 { font-size: var(--type-display-m);
+       line-height: calc(var(--lh-display-m) / var(--type-display-m));
+       letter-spacing: var(--track-display-m); }
+  h4 { font-size: var(--type-heading);
+       line-height: calc(var(--lh-heading) / var(--type-heading)); }
+
+  p, li, dd { text-wrap: pretty; }
+
+  /* -- running text: 62–68ch, never the full 1080px ---------------------- */
+  .prose,
+  .measure { max-width: var(--measure-prose); }
+
+  .prose > * + * { margin-block-start: var(--lh-body-l); }
+
+  /* -- named type styles ------------------------------------------------- */
+  .t-body-l  { font-size: var(--type-body-l);
+               line-height: calc(var(--lh-body-l) / var(--type-body-l)); }
+
+  .t-caption { font-size: var(--type-caption);
+               line-height: calc(var(--lh-caption) / var(--type-caption));
+               font-style: italic; }        /* the only italic on the site */
+
+  .t-label,
+  .eyebrow   { font-family: var(--font-body);
+               font-weight: var(--weight-label);
+               font-size: var(--type-label);
+               line-height: calc(var(--lh-label) / var(--type-label));
+               letter-spacing: var(--track-label);
+               text-transform: uppercase;
+               font-style: normal; }
+
+  .eyebrow   { color: var(--text-accent); } /* #866c40 on #faf7f1 · 4.64:1 */
+
+  /* Gold display text is permitted at >=24px only. Guarded by the class name
+     so it cannot be dropped onto a 15px label by accident. */
+  .t-display-gold { color: var(--text-accent-lg);   /* #b18733 on #faf7f1 · 3.08:1 */
+                    font-family: var(--font-display);
+                    font-weight: var(--weight-display);
+                    font-size: max(24px, var(--type-display-m)); }
+
+  /* -- figures ----------------------------------------------------------- */
+  .tabular,
+  .figure-value,
+  th, td { font-variant-numeric: tabular-nums; }
+
+  /* -- links ------------------------------------------------------------- */
+  a { color: var(--text-accent);            /* #866c40 on #faf7f1 · 4.64:1 */
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 0.18em; }
+
+  a:hover { text-decoration-thickness: 2px; }
+
+  /* -- focus: visible everywhere, 3:1 against its ground ----------------- */
+  :focus-visible {
+    outline: var(--focus-ring-width) solid var(--focus-ring-color); /* #04070a: 18.89:1 on paper,
+                                                                      20.19:1 on white,
+                                                                      17.76:1 on panel */
+    outline-offset: var(--focus-ring-offset);
+    border-radius: 2px;
+  }
+
+  .on-inverse :focus-visible {
+    outline-color: var(--focus-ring-color-inverse);  /* #d0a863 on #1a242b · 7.11:1 */
+  }
+
+  /* -- hairlines --------------------------------------------------------- */
+  hr { border: 0; border-block-start: var(--rule-divide); margin: 0; }
+  .rule-open  { border-block-start: var(--rule-open); }
+  .rule-close { border-block-end:   var(--rule-close); }
+
+  /* -- motion ------------------------------------------------------------ */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* -------------------------------------------------------------- chrome -- */
+@layer chrome {
+
+  /* The side gutter is set ONCE, here, and vertical padding uses
+     padding-block so the sides can never be zeroed (CLAUDE.md §C). */
+  .wrap {
+    width: 100%;
+    max-width: calc(var(--content-max-width) + (var(--page-margin) * 2));
+    margin-inline: auto;
+    padding-inline: var(--page-margin);
+  }
+
+  .section { padding-block: var(--section-padding); }
+  .section + .section { margin-block-start: var(--section-gutter); }
+
+  /* -- skip link --------------------------------------------------------- */
+  .skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    z-index: 100;
+    background: var(--rvu-slate-deep);
+    color: var(--rvu-white);            /* #ffffff on #1a242b · 15.78:1 */
+    padding: var(--pill-padding) 20px;
+    border-radius: var(--pill-radius);
+    text-decoration: none;
+    font-weight: var(--weight-label);
+  }
+  .skip-link:focus-visible {
+    left: var(--page-margin);
+    top: 12px;
+    outline-color: var(--rvu-ink);      /* #04070a on #faf7f1 · 18.89:1 against the page */
+  }
+
+  /* -- crop marks · decorative, aria-hidden, gone below 768px ------------ */
+  .crop-marks { position: fixed; inset: 0; pointer-events: none; z-index: 1; }
+  .crop-marks span {
+    position: absolute;
+    width: var(--crop-arm);
+    height: var(--crop-arm);
+    opacity: var(--crop-opacity);
+    border-color: var(--rvu-gold);      /* rule, not text — no contrast floor */
+    border-style: solid;
+    border-width: 0;
+  }
+  .crop-marks span:nth-child(1) { top: var(--crop-inset);    left: var(--crop-inset);
+                                  border-top-width: 1px; border-left-width: 1px; }
+  .crop-marks span:nth-child(2) { top: var(--crop-inset);    right: var(--crop-inset);
+                                  border-top-width: 1px; border-right-width: 1px; }
+  .crop-marks span:nth-child(3) { bottom: var(--crop-inset); left: var(--crop-inset);
+                                  border-bottom-width: 1px; border-left-width: 1px; }
+  .crop-marks span:nth-child(4) { bottom: var(--crop-inset); right: var(--crop-inset);
+                                  border-bottom-width: 1px; border-right-width: 1px; }
+  @media (max-width: 768px) { .crop-marks { display: none; } }
+
+  /* -- header ------------------------------------------------------------ */
+  .site-header {
+    position: relative;
+    z-index: 2;
+    background: var(--ground-page);
+    border-block-end: var(--rule-divide);
+  }
+  .site-header__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--module-gutter);
+    padding-block: 20px;
+  }
+
+  .site-mark {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 10px;
+    min-height: var(--tap-target-min);
+    align-content: center;
+    text-decoration: none;
+    color: var(--text-display);          /* #04070a on #faf7f1 · 18.89:1 */
+  }
+  .site-mark__name {
+    font-family: var(--font-display);
+    font-weight: var(--weight-display);
+    font-size: 21px;
+    letter-spacing: -0.01em;
+  }
+  .site-mark__section {
+    font-family: var(--font-body);
+    font-weight: var(--weight-label);
+    font-size: var(--type-label);
+    letter-spacing: var(--track-label);
+    text-transform: uppercase;
+    color: var(--text-accent);           /* #866c40 on #faf7f1 · 4.64:1 */
+  }
+
+  /* -- audience switcher · persistent, three targets, gold underline ----- */
+  .audience-switcher { margin: 0; }
+  .audience-switcher__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .audience-switcher__link {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap-target-min);
+    padding-inline: 14px;
+    font-family: var(--font-body);
+    font-weight: var(--weight-label);
+    font-size: var(--type-label);
+    letter-spacing: var(--track-label);
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--text-body);             /* #233039 on #faf7f1 · 12.64:1 */
+    border-block-end: 2px solid transparent;
+  }
+  .audience-switcher__link:hover { border-block-end-color: var(--rvu-gold); }
+
+  /* You are here: gold underline as the mark, ink as the text — the state is
+     never carried by colour alone (underline + weight + aria-current). */
+  .audience-switcher__link[aria-current="page"] {
+    color: var(--text-display);          /* #04070a on #faf7f1 · 18.89:1 */
+    border-block-end-color: var(--rvu-gold);
+  }
+
+  /* -- main -------------------------------------------------------------- */
+  .site-main { flex: 1 0 auto; position: relative; z-index: 2; }
+
+  /* -- footer ------------------------------------------------------------ */
+  .site-footer {
+    position: relative;
+    z-index: 2;
+    background: var(--ground-inverse);   /* #1a242b */
+    color: var(--text-inverse);          /* #ffffff on #1a242b · 15.78:1 */
+    margin-block-start: var(--section-gutter);
+    border-block-start: var(--rule-open);
+  }
+  .site-footer__inner {
+    padding-block: var(--section-padding);
+    display: grid;
+    gap: var(--module-gutter);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .site-footer h2,
+  .site-footer h3 { color: var(--text-inverse); }        /* 15.78:1 */
+  .site-footer .eyebrow { color: var(--text-inverse-accent); } /* #d0a863 on #1a242b · 7.11:1 */
+  .site-footer a { color: var(--text-inverse); }         /* 15.78:1 */
+  .site-footer__stamp {
+    grid-column: 1 / -1;
+    padding-block-start: 20px;
+    border-block-start: 1px solid color-mix(in srgb, var(--rvu-white) 22%, transparent);
+    color: var(--text-inverse);                          /* 15.78:1 */
+  }
+  .site-footer__list { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+  .site-footer__list a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap-target-min);
+  }
+
+  /* Every multi-column row collapses to one column at 640px. */
+  @media (max-width: 640px) {
+    .site-footer__inner  { grid-template-columns: 1fr; }
+    .site-header__inner  { gap: 12px; }
+  }
+}
+
+/* ----------------------------------------------------------- utilities -- */
+@layer utilities {
+  .visually-hidden:not(:focus):not(:active) {
+    position: absolute !important;
+    width: 1px; height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  /* Tables and wide blocks scroll inside themselves, never the body. */
+  .scroll-x { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+  .stack > * + * { margin-block-start: var(--row-gutter-vertical); }
+}
