@@ -24,6 +24,7 @@ RVU's gold is a light colour. On the paper ground it measures **2.08:1**. It fai
 | Display headings and figures | `#04070a` (`--rvu-ink`) · 18.89:1 |
 | Button label on gold fill | `#04070a` (9.10:1) or `#233039` (6.09:1) |
 | Text on dark grounds | `#ffffff` on `#233039` · 13.52:1 |
+| Gold text on the panel fill | **banned.** `#866c40` on `#ecf1f5` (`--rvu-panel`) measures **4.36:1** — it fails the 4.5:1 body floor. On `--rvu-panel`, eyebrows, labels and links take `#233039` (`--rvu-slate`) · 11.89:1 |
 
 If you introduce a pair not in this table, measure it and record the ratio in a comment beside the declaration. No unmeasured pair ships.
 
