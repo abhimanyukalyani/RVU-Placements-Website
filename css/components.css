@@ -487,6 +487,14 @@
   color: var(--rvu-slate);                /* #233039 on #ecf1f5 · 11.89:1 */
 }
 .start-here .eyebrow { color: var(--rvu-slate); }   /* NOT gold-text: 4.36:1 fails */
+
+/* Links on the panel ground take slate, not the default gold-text link colour:
+   #866c40 on #ecf1f5 is 4.36:1 and fails the body floor (CLAUDE.md §A).
+   #233039 on #ecf1f5 is 11.89:1. They stay underlined, so the link is still
+   marked by something other than colour. */
+.start-here a,
+.denominator a,
+.match a { color: var(--rvu-slate); }
 .start-here__title {
   font-family: var(--font-display);
   font-weight: var(--weight-display);
@@ -663,10 +671,14 @@
   padding-inline-start: 10px;
 }
 
-.field select:disabled {
+/* Kept for any future disabled control: without the text-fill override the
+   user agent paints its own grey, which is outside the nine and measured
+   3.47:1 on the panel ground. */
+.field select:disabled,
+.field input:disabled {
   background: var(--rvu-panel);
   color: var(--rvu-slate);                /* #233039 on #ecf1f5 · 11.89:1 */
-  -webkit-text-fill-color: var(--rvu-slate);   /* Safari dims disabled text */
+  -webkit-text-fill-color: var(--rvu-slate);
   opacity: 1;
 }
 
@@ -1166,3 +1178,13 @@ legend {
   color: var(--rvu-gold-text);            /* #866c40 on #faf7f1 · 4.64:1 */
   vertical-align: middle;
 }
+
+/* A "pending" select is inert but never greyed by the user agent: the UA's
+   disabled grey measured 3.47:1 on the panel ground and is not one of the
+   nine. Slate on white is 13.52:1. */
+.field__select--pending {
+  color: var(--rvu-slate);                /* #233039 on #ffffff · 13.52:1 */
+  background: var(--rvu-panel);           /* #233039 on #ecf1f5 · 11.89:1 */
+  cursor: default;
+}
+.field__select--pending option { color: var(--rvu-slate); }

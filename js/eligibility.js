@@ -344,12 +344,20 @@
     var list = (school && school.programmes) || [];
     var o = doc.createElement("option");
     if (!list.length) {
+      /* No disabled select here: a browser greys a disabled control's text to
+         its own colour — measured at 3.47:1 on the panel ground — which is
+         outside the nine and below the body floor. A readonly, single-option
+         select keeps the token colour and is still inert. */
       o.value = ""; o.textContent = "Programme list pending — this does not affect your result";
       sel.appendChild(o);
-      sel.disabled = true;
+      sel.disabled = false;
+      sel.setAttribute("aria-readonly", "true");
+      sel.classList.add("field__select--pending");
       return;
     }
     sel.disabled = false;
+    sel.removeAttribute("aria-readonly");
+    sel.classList.remove("field__select--pending");
     o.value = ""; o.textContent = "Choose your programme";
     sel.appendChild(o);
     for (var i = 0; i < list.length; i++) {
