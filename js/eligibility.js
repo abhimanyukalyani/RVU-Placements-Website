@@ -384,6 +384,13 @@
     var R = RVU.render;
     var html = "";
 
+    if (showingExample) {
+      html += "<p class=\"example-note\"><span class=\"t-label\">Example</span> " +
+              "This is a worked example, not your result — final year, no backlogs, " +
+              "not holding an offer. Change any field above and press the button to " +
+              "see where you actually stand.</p>";
+    }
+
     html += "<p class=\"eyebrow\">" + R.esc(STATE_LABEL[result.state]) + "</p>";
     html += "<h2 class=\"result__headline\">" + R.esc(result.headline) + "</h2>";
 
@@ -424,6 +431,27 @@
     panel.hidden = false;
   }
 
+  /* An untouched page shows a worked example rather than an empty form, so a
+     first-time visitor sees the shape of an answer before typing anything.
+     It is labelled as an example and is replaced the moment they submit.
+     Final year, no backlogs, no offer is the ordinary case: 71% of students
+     in that position are eligible outright, and 100% at a CGPA of 7 or above. */
+  var EXAMPLE = { year: 4, cgpa: 7.6, backlogs: 0, holdingOffer: false };
+  var showingExample = false;
+
+  function fillExample() {
+    var first = (RVU.schools && RVU.schools[0]) ? RVU.schools[0].id : "";
+    el("school").value = first;
+    fillProgrammes();
+    el("year").value = String(EXAMPLE.year);
+    el("cgpa").value = String(EXAMPLE.cgpa);
+    el("backlogs").value = String(EXAMPLE.backlogs);
+    var r = doc.querySelector("input[name=\"holding-offer\"][value=\"no\"]");
+    if (r) { r.checked = true; }
+    showingExample = true;
+    submit(null, { example: true });
+  }
+
   function encodeState(input) {
     var q = "?school=" + encodeURIComponent(input.school) +
             "&year=" + encodeURIComponent(input.year) +
@@ -455,8 +483,9 @@
     } catch (e) { /* private mode, or storage disabled — the checker still works */ }
   }
 
-  function submit(event) {
+  function submit(event, options) {
     if (event) { event.preventDefault(); }
+    if (!(options && options.example)) { showingExample = false; }
     clearErrors();
     var input = readForm();
     var result = evaluate(input);
@@ -468,7 +497,7 @@
 
     // The result is shareable: the state goes into the address bar without
     // reloading, so a student can send the link to a coordinator.
-    if (global.history && global.history.replaceState) {
+    if (!showingExample && global.history && global.history.replaceState) {
       global.history.replaceState(null, "", encodeState(input));
     }
   }
@@ -493,7 +522,7 @@
     fillProgrammes();
     el("school").addEventListener("change", fillProgrammes);
     el("eligibility-form").addEventListener("submit", submit);
-    if (prefillFromUrl()) { submit(null); }
+    if (prefillFromUrl()) { submit(null); } else { fillExample(); }
   }
 
   if (doc.readyState === "loading") {

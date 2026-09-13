@@ -92,6 +92,22 @@
         "</div>");
     }
 
+    if (doc.querySelector("[data-classification-table]")) {
+      R.mount("[data-classification-table]", R.classificationTable(RVU.placements.cohort));
+    }
+    if (doc.querySelector("[data-deviations]")) {
+      R.mount("[data-deviations]", R.deviationsTable(RVU.meta));
+    }
+    if (doc.querySelector("[data-archive]")) {
+      R.mount("[data-archive]", R.archiveTable(RVU.meta));
+    }
+    if (doc.querySelector("[data-school-index]")) {
+      R.mount("[data-school-index]", R.schoolIndex(RVU.schools));
+    }
+    if (doc.querySelector("[data-schools]")) {
+      R.mount("[data-schools]", R.schoolSections(RVU.schools, RVU.placements.distribution));
+    }
+
     if (doc.querySelector("[data-closing]")) {
       var closing = [];
       for (var i = 0; i < RVU.drives.length; i++) {
@@ -109,6 +125,7 @@
     markCurrentAudience();
     mountDataBlocks();
     R.fillSlots();          // last: the mounted blocks may carry slots of their own
+    R.checkViews();         // §E.2 and §E.3, over every view on the page
   }
 
   if (doc.readyState === "loading") {

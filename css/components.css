@@ -984,3 +984,129 @@ legend {
   .progress { display: grid; grid-template-columns: 1fr; }
   .progress__item { margin-inline-end: 0; }
 }
+
+/* --------------------------------------------------------- example note */
+/* The checker's untouched state shows a worked example. It has to be
+   unmistakably not-your-result, so it is ruled in gold and labelled. */
+
+.example-note {
+  border-inline-start: 3px solid var(--rvu-gold);
+  padding: 12px 0 12px 14px;
+  margin-block-end: 20px;
+  max-width: var(--measure-prose);
+  color: var(--rvu-slate);                /* #233039 on #faf7f1 · 12.64:1 */
+}
+.example-note .t-label {
+  display: block;
+  color: var(--rvu-gold-text);            /* #866c40 on #faf7f1 · 4.64:1 */
+  margin-block-end: 4px;
+}
+
+/* ============================================================ PHASE 5 =====
+   Segmented cohort bar, outcomes headline, school sections.
+   The segmented bar needs five distinguishable bands from a palette with one
+   graphic colour, so it uses gold at five opacities over the paper ground —
+   a graphic use of gold, never text. Each band is also labelled in the key
+   with its own count, so the bar never carries meaning by colour alone.
+   ========================================================================= */
+
+.segbar {
+  display: flex;
+  width: 100%;
+  height: 44px;
+  border: 1px solid var(--rvu-slate);
+  margin-block-end: 20px;
+}
+.segbar__seg { display: block; height: 100%; background: var(--rvu-gold); }
+.segbar__seg + .segbar__seg { border-inline-start: 1px solid var(--rvu-slate); }
+.segbar__seg--1 { opacity: 1;    }
+.segbar__seg--2 { opacity: 0.78; }
+.segbar__seg--3 { opacity: 0.58; }
+.segbar__seg--4 { opacity: 0.40; }
+.segbar__seg--5 { opacity: 0.24; }
+
+.segkey { margin: 0; padding: 0; list-style: none; }
+.segkey__item {
+  display: grid;
+  grid-template-columns: 16px 1fr auto;
+  gap: 14px;
+  align-items: center;
+  padding-block: 12px;
+  border-block-start: var(--rule-divide);
+  color: var(--rvu-slate);                /* #233039 on #faf7f1 · 12.64:1 */
+}
+.segkey__swatch { display: block; width: 16px; height: 16px; background: var(--rvu-gold); }
+.segkey__swatch--1 { opacity: 1;    }
+.segkey__swatch--2 { opacity: 0.78; }
+.segkey__swatch--3 { opacity: 0.58; }
+.segkey__swatch--4 { opacity: 0.40; }
+.segkey__swatch--5 { opacity: 0.24; }
+.segkey__count { font-variant-numeric: tabular-nums; font-weight: var(--weight-label);
+                 color: var(--rvu-ink); } /* 18.89:1 */
+.segkey__total {
+  margin-block-start: 16px;
+  padding-block-start: 16px;
+  border-block-start: var(--rule-close);
+  max-width: var(--measure-prose);
+  color: var(--rvu-slate);                /* 12.64:1 */
+}
+.segkey__total .t-label { color: var(--rvu-slate); }   /* 12.64:1 */
+.segkey__total b { color: var(--rvu-ink); }            /* 18.89:1 */
+
+.headline__read {
+  margin-block-start: 20px;
+  max-width: var(--measure-prose);
+  color: var(--rvu-slate);                /* 12.64:1 */
+}
+.headline__read b { color: var(--rvu-ink); font-variant-numeric: tabular-nums; }
+
+/* Outside the middle-80 band: an outline instead of a fill. Graphic, not hue. */
+.distribution__bar--outside {
+  background: transparent;
+  border: 1px solid var(--rvu-gold);
+}
+.distribution__flag { color: var(--rvu-slate); }       /* 12.64:1 */
+.distribution__note { margin-block-start: 16px; max-width: var(--measure-prose);
+                      color: var(--rvu-slate); }
+
+/* ------------------------------------------------------- school sections */
+
+.school { border-block-start: var(--rule-close); padding-block: 40px; }
+.school__name {
+  font-family: var(--font-display);
+  font-weight: var(--weight-display);
+  font-size: var(--type-display-m);
+  line-height: calc(var(--lh-display-m) / var(--type-display-m));
+  color: var(--rvu-ink);                  /* 18.89:1 */
+  margin: 0 0 8px;
+  text-wrap: balance;
+}
+.school__meta { color: var(--rvu-slate); margin-block-end: 20px; }   /* 12.64:1 */
+.school__sub {
+  font-family: var(--font-body);
+  font-weight: var(--weight-label);
+  font-size: var(--type-label);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--rvu-gold-text);            /* #866c40 · 4.64:1 */
+  margin-block: 28px 12px;
+}
+.school__todo {
+  border-inline-start: 3px solid var(--rvu-gold);
+  padding: 10px 0 10px 14px;
+  margin-block-start: 16px;
+  color: var(--rvu-slate);                /* 12.64:1 */
+  max-width: var(--measure-prose);
+}
+.school-index { display: flex; flex-wrap: wrap; gap: 8px; margin-block-start: 20px; }
+
+/* --------------------------------------------------------------- tables */
+
+.deviation-table td:first-child,
+.deviation-table th:first-child { width: 34%; }
+
+@media (max-width: 640px) {
+  .segbar { height: 64px; }
+  .segkey__item { grid-template-columns: 16px 1fr; row-gap: 4px; }
+  .segkey__count { grid-column: 2; text-align: left; }
+}

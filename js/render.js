@@ -925,3 +925,252 @@
   R.glossary = glossary;
 
 }(typeof window !== "undefined" ? window : globalThis));
+
+/* ===========================================================================
+   render.js · part 6 — the two view-level guards, enforced not asserted.
+
+   §E.2 and §E.3 are properties of a VIEW, not of a single call, so they
+   cannot be enforced by fig() or pct() alone. These two functions run over
+   the DOM of each view and throw if a view breaks either rule.
+
+   A page marks a view with data-view. Inside it:
+     data-package-figure   this element states a package figure
+     data-percentage       this element states a percentage
+     data-denominator-for  this element supplies the denominator
+   The guards then check reachability within that same view.
+   =========================================================================== */
+(function (global) {
+  "use strict";
+
+  var RVU = global.RVU = global.RVU || {};
+  var R = RVU.render;
+  var doc = global.document;
+
+  /* §E.2 — wherever a package figure appears, the full distribution is
+     reachable in the same view. Reachable means: rendered inside the view, or
+     linked to by an in-view anchor whose target is inside the view. */
+  function assertSpreadReachable(view) {
+    var packages = view.querySelectorAll("[data-package-figure]");
+    if (!packages.length) { return; }
+
+    if (view.querySelector(".distribution")) { return; }
+
+    var links = view.querySelectorAll("a[href^='#']");
+    for (var i = 0; i < links.length; i++) {
+      var id = links[i].getAttribute("href").slice(1);
+      var target = id && doc.getElementById(id);
+      if (target && target.querySelector && target.querySelector(".distribution")) { return; }
+    }
+
+    throw new Error(
+      "View \"" + (view.getAttribute("data-view") || "(unnamed)") + "\" states a package " +
+      "figure but no distribution is reachable in the same view. Wherever a package " +
+      "figure appears, the spread appears with it (CLAUDE.md §E.2)."
+    );
+  }
+
+  /* §E.3 — no percentage without its cohort size in the same view. pct() already
+     refuses to compute one without a denominator; this catches the other route,
+     where a percentage is placed in a view whose denominator is elsewhere. */
+  function assertDenominatorPresent(view) {
+    var pcts = view.querySelectorAll("[data-percentage]");
+    if (!pcts.length) { return; }
+
+    for (var i = 0; i < pcts.length; i++) {
+      var needs = pcts[i].getAttribute("data-percentage");
+      var supplied = view.querySelector("[data-denominator-for~='" + needs + "']");
+      if (!supplied || !String(supplied.textContent).trim()) {
+        throw new Error(
+          "View \"" + (view.getAttribute("data-view") || "(unnamed)") + "\" states the " +
+          "percentage \"" + needs + "\" with no denominator in the same view. " +
+          "No percentage without its cohort size (CLAUDE.md §E.3)."
+        );
+      }
+    }
+  }
+
+  /* Run over every view on the page. Called after each render, so a view that
+     is rebuilt by a tab or a toggle is re-checked, not just the first one. */
+  function checkViews(root) {
+    root = root || doc;
+    var views = root.querySelectorAll("[data-view]");
+    for (var i = 0; i < views.length; i++) {
+      assertSpreadReachable(views[i]);
+      assertDenominatorPresent(views[i]);
+    }
+    return views.length;
+  }
+
+  R.assertSpreadReachable = assertSpreadReachable;
+  R.assertDenominatorPresent = assertDenominatorPresent;
+  R.checkViews = checkViews;
+
+}(typeof window !== "undefined" ? window : globalThis));
+
+/* ===========================================================================
+   render.js · part 7 — methodology and schools blocks.
+   =========================================================================== */
+(function (global) {
+  "use strict";
+  var RVU = global.RVU = global.RVU || {};
+  var R = RVU.render;
+  var esc = function (s) { return R.esc(s); };
+
+  var BUCKET_ROWS = [
+    ["seeking_through_university",          "Seeking placement through the university",
+     "Registered with the office and applying to drives in this cycle."],
+    ["continuing_further_study",            "Continuing to further study",
+     "Holding a confirmed place on a postgraduate or professional programme."],
+    ["entrepreneurship_or_family_business", "Entrepreneurship or family business",
+     "Working on their own venture, or joining a family business."],
+    ["placed_independently",                "Placed independently",
+     "Took a role they found themselves, outside the university's drives."],
+    ["postponing_search",                   "Postponing the search",
+     "Not seeking work in this cycle, for any reason, including health and family."]
+  ];
+
+  /* The classification table reconciles in public: the buckets are summed in
+     the footer row and compared with total_graduates, which is a check rather
+     than a claim. */
+  function classificationTable(cohort) {
+    var rows = [], sum = 0;
+    for (var i = 0; i < BUCKET_ROWS.length; i++) {
+      var key = BUCKET_ROWS[i][0];
+      sum += cohort[key];
+      rows.push([BUCKET_ROWS[i][1], BUCKET_ROWS[i][2], R.fig(cohort[key])]);
+    }
+    rows.push(["Total", "Every graduate appears in exactly one group.", R.fig(sum)]);
+    rows.push(["Graduating class", "The figure the groups must reconcile to.",
+               R.fig(cohort.total_graduates)]);
+
+    return R.dataTable({
+      caption: "Cohort classification, reconciling to the graduating class",
+      columns: ["Group", "Who is in it", "Students"],
+      rows: rows
+    }) +
+    "<p class=\"t-caption distribution__note\">" +
+      (sum === cohort.total_graduates
+        ? "The groups sum to the graduating class. This page recomputes that every time it loads."
+        : "These groups do NOT sum to the graduating class — the data is inconsistent and must be fixed.") +
+    "</p>";
+  }
+
+  function deviationsTable(meta) {
+    return R.dataTable({
+      caption: "Where this reporting departs from the IPRS pattern",
+      columns: ["Requirement", "Our position", "Status"],
+      rows: [
+        ["External audit of the figures",
+         meta.audited_by ? meta.audited_by : "No external audit yet. Adoption planned.",
+         meta.audited_by ? "Adopted" : "Not yet"],
+        ["Published figures are placeholders",
+         meta.status === "placeholder"
+           ? "Every figure on this site is a placeholder pending the placement sheet."
+           : "Figures are live from the placement sheet.",
+         meta.status === "placeholder" ? "Placeholder" : "Live"],
+        ["Non-rupee offers converted and adjusted",
+         meta.currency_note, "Adopted"],
+        ["Record date three months after graduation",
+         "Recorded " + R.fig(meta.record_date, "date") + ".", "Adopted"],
+        ["Raw data retained",
+         R.fig(meta.retention_months) + " months.", "Adopted"],
+        ["Prior cohort archives",
+         "Earlier cohorts are not yet published on this site.", "Pending"]
+      ]
+    });
+  }
+
+  function archiveTable(meta) {
+    return R.dataTable({
+      caption: "Outcomes by cohort year",
+      columns: ["Cohort", "Recorded", "Published", "Report"],
+      rows: [
+        [meta.cohort_year, R.fig(meta.record_date, "date"),
+         R.fig(meta.publish_date, "date"), R.fig(null, "text")],
+        [R.fig(null, "text"), R.fig(null, "date"), R.fig(null, "date"), R.fig(null, "text")],
+        [R.fig(null, "text"), R.fig(null, "date"), R.fig(null, "date"), R.fig(null, "text")]
+      ]
+    }) +
+    "<p class=\"t-caption distribution__note\">Prior cohorts are listed as pending rather " +
+      "than omitted: a missing year should be visible, not invisible.</p>";
+  }
+
+  /* Each school section: figures, distribution in the same view, recruiters,
+     and the TODO markers kept visible rather than hidden in the source. */
+  function schoolSections(schools, distribution) {
+    var html = "";
+    for (var i = 0; i < schools.length; i++) {
+      var s = schools[i];
+      var sal = s.salary_inr_lpa;
+
+      html += "<section class=\"school\" id=\"" + esc(s.id) + "\" data-view=\"school-" +
+                esc(s.id) + "\">" +
+        "<h2 class=\"school__name\">" + esc(s.name) + "</h2>" +
+        "<p class=\"school__meta\">" +
+          esc(R.fig(s.cohort.total_graduates)) + " graduating &middot; " +
+          esc(R.fig(s.cohort.seeking_through_university)) + " seeking placement through the " +
+          "university &middot; available " + esc(s.availability_window) +
+        "</p>" +
+
+        "<div class=\"figure-row\" data-package-figure>" +
+          "<div class=\"figure-block figure-block--median\">" +
+            "<span class=\"figure-block__value\">" + esc(R.fig(sal.median, "inr_lpa")) + "</span>" +
+            "<span class=\"figure-block__max\">Highest " + esc(R.fig(sal.max, "inr_lpa")) + "</span>" +
+            "<span class=\"figure-block__caption t-label\">Median package</span>" +
+          "</div>" +
+          "<div class=\"figure-block\">" +
+            "<span class=\"figure-block__value\">" + esc(R.fig(s.cohort.students_placed)) + "</span>" +
+            "<span class=\"figure-block__caption t-label\">Students placed</span>" +
+          "</div>" +
+          "<div class=\"figure-block\">" +
+            "<span class=\"figure-block__value\">" + esc(R.fig(sal.n)) + "</span>" +
+            "<span class=\"figure-block__caption t-label\">Offers behind these figures</span>" +
+          "</div>" +
+        "</div>" +
+        "<p class=\"cohort-stamp t-caption\">" + esc(R.stamp()) + "</p>" +
+
+        "<h3 class=\"school__sub\">Programmes</h3>" +
+        (s.programmes.length
+          ? "<p>" + esc(s.programmes.join(", ")) + "</p>"
+          : "<p class=\"school__todo\">Programme list " + esc(R.fig(null, "text")) +
+            " — to be confirmed against rvu.edu.in before this page ships. " +
+            "An invented programme list would be worse than a visibly pending one.</p>") +
+
+        "<h3 class=\"school__sub\">Top recruiters</h3>" +
+        (s.top_recruiters.length
+          ? "<p>" + esc(s.top_recruiters.join(", ")) + "</p>"
+          : "<p class=\"school__todo\">Recruiter list " + esc(R.fig(null, "text")) +
+            " — to be confirmed against the placement sheet.</p>") +
+
+        "<h3 class=\"school__sub\" id=\"spread-" + esc(s.id) + "\">The spread across the university</h3>" +
+        R.distributionRow(distribution) +
+        "<p class=\"t-caption distribution__note\">This distribution is the whole " +
+          "university's, not this school's alone: per-school distributions are not in the " +
+          "placement sheet yet. It is shown here because a median must never appear " +
+          "without a spread beside it.</p>" +
+
+        "<p class=\"hero__actions\">" +
+          "<a class=\"pill pill--quiet\" href=\"drives.html?school=" + esc(s.id) + "\">" +
+            "See drives open to this school</a>" +
+        "</p>" +
+      "</section>";
+    }
+    return html;
+  }
+
+  function schoolIndex(schools) {
+    var html = "<div class=\"school-index\">";
+    for (var i = 0; i < schools.length; i++) {
+      html += "<a class=\"chip\" href=\"#" + esc(schools[i].id) + "\">" +
+              esc(schools[i].name) + "</a>";
+    }
+    return html + "</div>";
+  }
+
+  R.classificationTable = classificationTable;
+  R.deviationsTable = deviationsTable;
+  R.archiveTable = archiveTable;
+  R.schoolSections = schoolSections;
+  R.schoolIndex = schoolIndex;
+
+}(typeof window !== "undefined" ? window : globalThis));
