@@ -1,16 +1,16 @@
 /* intake-fields.js — the recruiter intake form's field definitions.
    Four steps: stage, role, cohort match, you. "Information only" never sees
-   a form. Submit logs a JSON payload shaped as the office's sheet expects.
+   a form. Submit logs a structured JSON payload.
 
-   TODO: reconcile against the 20-field Corporate Relations sheet.
-   Every `sheet_column` below is a guess until that reconciliation happens.
-   This is the difference between a plausible form and one the office could
-   use on Monday — see PLAN.md §12.2. */
+   Every `sheet_column` below is ILLUSTRATIVE. None has been reconciled with
+   the office's existing working sheet, and none should be presented as
+   matching it: they show the shape of a handover, not its field names.
+   TODO: reconcile these column names with the office's working sheet. */
 window.RVU = window.RVU || {};
 
 RVU.intakeFields = {
 
-  // TODO: reconcile against the 20-field Corporate Relations sheet
+  // TODO: reconcile these column names with the office's working sheet
   sheet_reconciled: false,
 
   steps: [

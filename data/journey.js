@@ -43,7 +43,7 @@ RVU.journey = {
            "Book a mock interview before your first round"],
       office_offers: ["Full-time drives through the cycle",
                       "Mock interviews with feedback",
-                      "A named coordinator for your school"] }
+                      "A placement coordinator for your school"] }
   ],
 
   // Year 1 to final year. Deadlines that have passed render muted; the next
@@ -74,7 +74,7 @@ RVU.journey = {
       do: ["Register for the placement cycle",
            "Check the drives ledger weekly",
            "Book a mock interview before your first round"],
-      office_offers: ["Full-time drives", "Mock interviews", "A named coordinator"],
+      office_offers: ["Full-time drives", "Mock interviews", "A placement coordinator for your school"],
       deadline: { label: "Placement cycle registration closes", date: "2026-10-31" } }
   ]
 };

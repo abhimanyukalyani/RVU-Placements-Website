@@ -1234,19 +1234,28 @@
   var R = RVU.render;
   var esc = function (s) { return R.esc(s); };
 
-  function people(list) {
+  /* Roles, not people. A role plus a working route is real information; a
+     name we cannot verify is not, and a column of [pending] names reads as an
+     unfinished page rather than a deliberate one. If the office later supplies
+     names, a `name` field on each role renders here without a redesign. */
+  function roles(list) {
     var html = "";
     for (var i = 0; i < list.length; i++) {
-      var p = list[i];
+      var r = list[i];
       html += "<div class=\"person\">" +
-        "<h3 class=\"person__role\">" + esc(p.role) + "</h3>" +
-        "<p class=\"person__name\">" + esc(p.name ? p.name : R.fig(null, "text")) +
-          (p.verified ? "" : " <span class=\"t-label person__flag\">unverified</span>") + "</p>" +
-        "<p class=\"person__remit\">" + esc(p.remit) + "</p>" +
+        "<span class=\"person__scope t-label\">" + esc(r.scope) + "</span>" +
+        "<h3 class=\"person__role\">" + esc(r.role) + "</h3>" +
+        (r.name ? "<p class=\"person__name\">" + esc(r.name) + "</p>" : "") +
+        "<ul class=\"person__handles\">";
+      for (var j = 0; j < r.handles.length; j++) {
+        html += "<li>" + esc(r.handles[j]) + "</li>";
+      }
+      html += "</ul>" +
         "<p class=\"person__contact\">" +
-          "<a href=\"mailto:" + esc(p.email) + "\">" + esc(p.email) + "</a>" +
-          " &middot; " + esc(p.phone ? p.phone : R.fig(null, "text")) +
+          "<a href=\"mailto:" + esc(r.route) + "\">" + esc(r.route) + "</a>" +
+          " &middot; direct line " + esc(R.fig(r.direct_line, "text")) +
         "</p>" +
+        "<p class=\"person__note t-caption\">" + esc(r.route_note) + "</p>" +
       "</div>";
     }
     return html;
@@ -1278,7 +1287,7 @@
     return html + "</ul>";
   }
 
-  R.people = people;
+  R.roles = roles;
   R.calendar = calendar;
   R.startHere = startHere;
 }(typeof window !== "undefined" ? window : globalThis));

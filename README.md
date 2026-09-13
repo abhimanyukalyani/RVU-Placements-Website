@@ -38,6 +38,24 @@ Unpopulated values render as `[XXX]`, `₹[XX.X] LPA` or `[pending]` — never a
 specific failure of the current live page, and this build is constructed so it
 cannot reproduce it.
 
+### The convention
+
+Where the placement sheet or the office has not supplied something, it renders
+in brackets — `[XXX]`, `₹[XX.X] LPA`, `[pending]` — rather than being filled
+with a plausible guess. That applies to figures and to everything else. Nothing
+in this build was invented to fill a space, and an empty statistic box is
+unreachable by construction.
+
+One consequence is deliberate: **the site names no members of staff.** The
+office page is organised by role and route instead — what each role handles and
+the address that reaches it. A role plus a working address is information a
+reader can act on; an unverified name is not, and a page of bracketed names
+would read as unfinished rather than as honest. If the office supplies names,
+they become a field on each role and render without a redesign.
+
+Everything below resolves from the placement sheet and from the office. None of
+it resolves from the design.
+
 ### Verified
 
 | What | Source |
@@ -45,9 +63,9 @@ cannot reproduce it.
 | The eight school names | Confirmed against rvu.edu.in |
 | Which six schools are in the placement cohort | Confirmed; the two exclusions are published on `methodology.html` |
 
-### Not verified — every item, and what each needs
+### Unverified — every item
 
-**Figures — all of them.** Every number on every page:
+**1. All figures.** Every number on every page:
 
 | Figure | File |
 |---|---|
@@ -60,27 +78,33 @@ cannot reproduce it.
 | Drive packages, windows and CGPA floors | `data/drives.js` |
 | Cohort year, record date, publication date | `data/meta.js` |
 
-**Office names and contacts.** `data/office.js`. The office lead is recorded as
-**Sivakumar S, Senior Manager — Placements and Alumni Affairs** and is marked
-`verified: false`. The other four roles have `name: null` and render as
-`[pending]`. No direct phone number is known for anyone; all five entries
-currently point at the shared address. Roles are rendered before names so the
-page never presents a guessed name as a confirmed one. **Needs: confirmation of
-every name, title and direct line with the office.**
+*Resolves from: the Corporate & Alumni Relations placement sheet.*
 
-**The Corporate Relations intake field list.** `data/intake-fields.js` carries
-`sheet_reconciled: false`, and every `sheet_column` value is a guess:
+**2. Office contacts.** `data/office.js` holds three roles — Placements and
+Alumni Affairs, placement coordination by school, and corporate relations —
+with what each handles. No personal names appear anywhere on the site. No
+direct line is known for any role; each renders as `[pending]`, and all three
+currently route to the shared address. Whether `recruit@rvu.edu.in` can be
+published as a real address is itself undecided.
+
+*Resolves from: the office.*
+
+**3. Intake column names.** `data/intake-fields.js` carries
+`sheet_reconciled: false`. Every `sheet_column` value is illustrative and none
+has been checked against the office's working sheet:
 
 `Enquiry type` · `Function` · `Sector` · `Headcount` · `Location` ·
 `Engagement type` · `Start date` · `CTC band` · `Company name` ·
 `Contact person` · `Designation` · `Email` · `Phone` · `Website` · `Mode` ·
 `Notes`
 
-That is 16 fields against a working sheet said to have 20. **Needs:
-reconciliation against the actual 20-field Corporate Relations sheet.** This is
-the difference between a plausible form and one the office could use on Monday.
+The form logs a structured record on submit and says on screen that the column
+names are placeholders to be reconciled. It does not claim to match the
+office's sheet.
 
-**Everything else outstanding:**
+*Resolves from: the office's existing working sheet.*
+
+**4. Everything else outstanding:**
 
 | What | Where | Needs |
 |---|---|---|
@@ -91,7 +115,6 @@ the difference between a plausible form and one the office could use on Monday.
 | Eligibility thresholds and the one-offer policy | `data/eligibility.js` | Confirming with the office |
 | Academic-year calendar and deadline dates | `data/journey.js`, `data/office.js` | The academic calendar |
 | Target service levels | `data/intake-fields.js` | Agreeing them with the office before publishing |
-| Whether `recruit@rvu.edu.in` can be a real address | Site-wide | A decision by the office |
 
 **What is real** is the structure: the information architecture, the data
 spine, the four interactive modules, the contrast and accessibility work, and

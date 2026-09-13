@@ -111,8 +111,11 @@
       R.mount("[data-schools]", R.schoolSections(RVU.schools, RVU.placements.distribution));
     }
 
-    if (doc.querySelector("[data-people]")) {
-      R.mount("[data-people]", R.people(RVU.office.people));
+    if (doc.querySelector("[data-roles]")) {
+      R.mount("[data-roles]", R.roles(RVU.office.roles));
+    }
+    if (doc.querySelector("[data-office-convention]")) {
+      doc.querySelector("[data-office-convention]").textContent = RVU.office.convention;
     }
     if (doc.querySelector("[data-calendar]")) {
       R.mount("[data-calendar]", R.calendar(RVU.office.calendar));

@@ -1188,3 +1188,18 @@ legend {
   cursor: default;
 }
 .field__select--pending option { color: var(--rvu-slate); }
+
+.person__scope {
+  display: block;
+  color: var(--rvu-gold-text);            /* #866c40 on #faf7f1 · 4.64:1 */
+  margin-block-end: 6px;
+}
+.person__handles {
+  margin-block: 10px 0;
+  padding-inline-start: 18px;
+  list-style: disc;
+  color: var(--rvu-slate);                /* 12.64:1 */
+  max-width: var(--measure-prose);
+}
+.person__handles li { margin-block-start: 5px; }
+.person__note { margin-block-start: 8px; color: var(--rvu-slate); max-width: var(--measure-prose); }

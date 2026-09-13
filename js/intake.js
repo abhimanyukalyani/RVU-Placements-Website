@@ -306,8 +306,10 @@
     if (h) { h.focus(); }
   }
 
-  /* The payload is keyed by the sheet columns, so the office can paste it
-     straight into the working sheet. */
+  /* The payload is keyed by the column names in data/intake-fields.js. Those
+     names are ILLUSTRATIVE and have not been reconciled with the office's own
+     working sheet, so this demonstrates the shape of a handover rather than a
+     drop-in import. Reconciling them is a conversation with the office. */
   function payload() {
     var out = { submitted_at: new Date().toISOString(), source: "rvu-placements-site" };
     for (var s = 0; s < F.steps.length; s++) {
@@ -331,7 +333,9 @@
 
     var p = payload();
     if (global.console) {
-      console.info("RVU hiring request — payload shaped for the Corporate Relations sheet:");
+      console.info("RVU hiring request \u2014 illustrative payload. The column names below " +
+                   "are placeholders, to be reconciled with the office's existing " +
+                   "working sheet.");
       console.info(JSON.stringify(p, null, 2));
     }
 
@@ -355,8 +359,9 @@
         R.esc(RVU.meta.contact_email) + "</a></p>" +
       "<p class=\"cohort-stamp t-caption\">" + R.esc(R.stamp()) + "</p>" +
       "<p class=\"t-caption result__note\">These are target service levels, not a contract. " +
-        "Nothing was sent anywhere: this build has no server, and your answers were written " +
-        "to the browser console in the shape the office's sheet expects.</p>" +
+        "Nothing was sent anywhere: this build has no server. Your answers were written to " +
+        "the browser console as a structured record whose column names are illustrative, " +
+        "to be reconciled with the office's existing working sheet.</p>" +
       "<p class=\"hero__actions\"><a class=\"pill\" href=\"recruiters.html\">Back to recruiter information</a></p>";
 
     doc.getElementById("intake-step").innerHTML = html;
