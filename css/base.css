@@ -80,6 +80,8 @@
   .measure { max-width: var(--measure-prose); }
 
   .prose > * + * { margin-block-start: var(--lh-body-l); }
+  .prose li + li { margin-block-start: 9px; }   /* 7px of ink at a 24px
+                                                   line-height reads as a wall */
 
   /* -- named type styles ------------------------------------------------- */
   .t-body-l  { font-size: var(--type-body-l);
@@ -160,8 +162,19 @@
     padding-inline: var(--page-margin);
   }
 
-  .section { padding-block: var(--section-padding); }
-  .section + .section { margin-block-start: var(--section-gutter); }
+  /* Section rhythm is ONE value, not two. Previously .section carried
+     --section-padding on both edges AND a --section-gutter margin between
+     siblings, so two adjacent sections were separated by 56 + 60 + 56 = 172px
+     of structure before any heading margin — measured at 255px of actual
+     whitespace between the last line of one section and the first of the next.
+     --section-padding stays what its name says: padding INSIDE a section that
+     has a fill (.denominator, .start-here, .match). Sections without a fill
+     need no padding, only the gutter between them.
+
+     The gutter is set on every top-level block in <main>, not on .section
+     alone, because some sections are wrapped in a bare .wrap div. */
+  .section { padding-block: 0; }
+  .site-main > * + * { margin-block-start: var(--section-gutter); }
 
   /* -- skip link --------------------------------------------------------- */
   .skip-link {

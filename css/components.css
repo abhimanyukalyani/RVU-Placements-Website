@@ -211,7 +211,7 @@
    median's size in CSS so the rule cannot drift (CLAUDE.md §E.1). */
 .figure-block__max {
   display: block;
-  margin-block-start: 8px;
+  margin-block-start: 12px;
   font-family: var(--font-display);
   font-weight: var(--weight-display);
   font-size: calc(var(--type-figure) * 0.6);
@@ -396,9 +396,21 @@
 
 /* ------------------------------------------------------------- section head */
 
+/* An eyebrow sits close to the title it labels; the title then needs real
+   separation from whatever follows it, which was measured at 3px. */
 .section-head { margin-block-end: 24px; }
-.section-head__title { margin-block-start: 8px; }
-.section-head__aside { margin-block-start: 8px; max-width: var(--measure-prose); }
+
+/* A title needs real air under it — measured at 3px against its own body copy.
+   The exception is when its own aside follows, which is a pair and stays close;
+   the aside then carries the separation for both. */
+.section-head__title { margin-block: 8px 20px; }
+.section-head__title:has(+ .section-head__aside) { margin-block-end: 8px; }
+.section-head__aside { margin-block: 0 24px; max-width: var(--measure-prose); }
+
+/* Two blocks that alternate inside a section need the same separation a
+   heading gets; they were landing 6px apart. */
+.stack + .prose,
+.prose + .stack { margin-block-start: 24px; }
 
 /* ---------------------------------------------------------------- noscript */
 /* Nothing on this page is JS-gated content typed into markup: every figure
@@ -540,7 +552,7 @@
   list-style: disc;                       /* base.css strips markers from any
                                              ul[class]; content lists keep them */
 }
-.stage__list li { margin-block-start: 6px; }
+.stage__list li { margin-block-start: 9px; }
 .stage__sublabel {
   display: block;
   margin-block-start: 16px;
@@ -552,7 +564,7 @@
    colour: the palette has nine values and none of them is a grey. Both
    states keep slate or ink, both far past the body floor. */
 
-.year { border-block-start: var(--rule-divide); padding-block: 28px; }
+.year { border-block-start: var(--rule-divide); padding-block: 24px; }
 .year:first-child { border-block-start: 0; }
 
 .year__head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 16px; }
@@ -582,7 +594,7 @@
   margin-block-end: 8px;
 }
 .year__cols ul { padding-inline-start: 18px; color: var(--rvu-slate); }
-.year__cols li { margin-block-start: 6px; }
+.year__cols li { margin-block-start: 9px; }
 
 .deadline {
   margin-block-start: 18px;
@@ -625,7 +637,9 @@
 /* ----------------------------------------------------------------- forms */
 
 .form { max-width: 640px; }
-.form__grid { display: grid; gap: var(--row-gutter-vertical); }
+.form__grid { display: grid; gap: 26px; }   /* not --row-gutter-vertical: 40px
+       is a page rhythm, and between two labelled fields with hint text it
+       measured 105px of whitespace */
 
 .field { display: grid; gap: 8px; }
 .field__label {
@@ -708,7 +722,7 @@ legend {
 
 .result[hidden] { display: none; }
 .result {
-  margin-block-start: var(--section-gutter);
+  margin-block-start: 40px;
   border-block-start: var(--rule-open);
   padding-block-start: 24px;
 }
@@ -739,7 +753,7 @@ legend {
   max-width: var(--measure-prose);
   list-style: disc;                       /* see .stage__list */
 }
-.result__actions li { margin-block-start: 8px; }
+.result__actions li { margin-block-start: 10px; }
 .result__note { margin-block-start: 12px; max-width: var(--measure-prose); color: var(--rvu-slate); }
 
 /* ------------------------------------------------------------ filter bar */
@@ -795,7 +809,7 @@ legend {
   margin-block-end: 10px;
 }
 .resource-group ul { padding-inline-start: 18px; color: var(--rvu-slate); }
-.resource-group li { margin-block-start: 6px; }
+.resource-group li { margin-block-start: 9px; }
 
 /* ============================================================= responsive */
 
@@ -972,7 +986,12 @@ legend {
 /* ------------------------------------------------------------- questions */
 /* The parents' page spine: three plain questions. */
 
-.question { border-block-start: var(--rule-close); padding-block: 32px; }
+.question {
+  border-block-start: var(--rule-close);
+  padding-block: 26px 0;                  /* the rule needs air beneath it; the
+                                             space above comes from the section
+                                             gutter, not from padding here too */
+}
 .question__q {
   font-family: var(--font-display);
   font-weight: var(--weight-display);
@@ -1089,7 +1108,7 @@ legend {
 
 /* ------------------------------------------------------- school sections */
 
-.school { border-block-start: var(--rule-close); padding-block: 40px; }
+.school { border-block-start: var(--rule-close); padding-block: 24px 0; }
 .school__name {
   font-family: var(--font-display);
   font-weight: var(--weight-display);
@@ -1112,7 +1131,7 @@ legend {
 .school__todo {
   border-inline-start: 3px solid var(--rvu-gold);
   padding: 10px 0 10px 14px;
-  margin-block-start: 16px;
+  margin-block: 16px;
   color: var(--rvu-slate);                /* 12.64:1 */
   max-width: var(--measure-prose);
 }
@@ -1161,7 +1180,7 @@ legend {
   margin-block-end: 10px;
 }
 .term__list { padding-inline-start: 18px; color: var(--rvu-slate); list-style: disc; }
-.term__list li { margin-block-start: 6px; }
+.term__list li { margin-block-start: 9px; }
 
 .calendar-grid {
   display: grid;
@@ -1192,7 +1211,7 @@ legend {
 .person__scope {
   display: block;
   color: var(--rvu-gold-text);            /* #866c40 on #faf7f1 · 4.64:1 */
-  margin-block-end: 6px;
+  margin-block-end: 10px;
 }
 .person__handles {
   margin-block: 10px 0;
@@ -1201,5 +1220,23 @@ legend {
   color: var(--rvu-slate);                /* 12.64:1 */
   max-width: var(--measure-prose);
 }
-.person__handles li { margin-block-start: 5px; }
+.person__handles li { margin-block-start: 9px; }
 .person__note { margin-block-start: 8px; color: var(--rvu-slate); max-width: var(--measure-prose); }
+
+/* -------------------------------------------------- stack, self-spaced blocks
+   .stack adds --row-gutter-vertical between children. Blocks that already
+   carry their own opening rule and padding — a role, a school, a year, a term,
+   a resource group, a disclosure — do not also need it: that is the same
+   double-count as the section gutter, one level down, and it read as 88px
+   between two role blocks on office.html. */
+.stack > .person + .person,
+.stack > .school + .school,
+.stack > .year + .year,
+.stack > .term + .term,
+.stack > .resource-group + .resource-group,
+.stack > .disclosure + .disclosure { margin-block-start: 0; }
+
+/* A grid that is also a .stack must take none of it, or the per-child margin
+   pushes each item down inside its own grid row and the rows stop aligning —
+   which is what made the four calendar terms sit on four different baselines. */
+.calendar-grid > * { margin-block-start: 0; }
