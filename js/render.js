@@ -202,8 +202,25 @@
       }
     }
 
-    /* 6 · schools reconcile to the university figures, bucket by bucket */
-    var schools = RVU.schools || [];
+    /* 6 · schools reconcile to the university figures, bucket by bucket.
+       Only the schools in the placement cohort are counted: two of the eight
+       are excluded by design, and their exclusion is published rather than
+       silent (see methodology.html). */
+    var allSchools = RVU.schools || [];
+    var schools = [];
+    for (var si0 = 0; si0 < allSchools.length; si0++) {
+      if (allSchools[si0].in_placement_cohort) { schools.push(allSchools[si0]); }
+    }
+
+    assert("every excluded school states why it is excluded",
+           (function () {
+             for (var i = 0; i < allSchools.length; i++) {
+               if (!allSchools[i].in_placement_cohort && !allSchools[i].exclusion_reason) {
+                 return false;
+               }
+             }
+             return true;
+           }()), "a school outside the cohort must carry an exclusion_reason");
     if (schools.length) {
       var fields = ["total_graduates", "seeking_through_university",
                     "continuing_further_study", "entrepreneurship_or_family_business",
@@ -242,7 +259,7 @@
     var drives = RVU.drives || [];
     var validStatus = { open: 1, closing: 1, closed: 1, offers_out: 1 };
     var ids = {};
-    for (var si = 0; si < schools.length; si++) { ids[schools[si].id] = true; }
+    for (var si = 0; si < allSchools.length; si++) { ids[allSchools[si].id] = true; }
     for (var d = 0; d < drives.length; d++) {
       var dr = drives[d];
       assert("drive " + dr.id + ": status is one of open|closing|closed|offers_out",
@@ -858,17 +875,30 @@
   }
 
   /* Cohort table: a recruiter matches a role to a cohort without emailing. */
+  /* All eight schools appear. The two outside the placement cohort are listed
+     with their reason rather than dropped, because a school missing from a
+     placement table reads as a school that did badly. */
   function schoolsTable(schools) {
     var rows = [];
     for (var i = 0; i < schools.length; i++) {
       var s = schools[i];
-      rows.push([
-        s.name,
-        s.programmes.length ? s.programmes.join(", ") : R.fig(null, "text"),
-        R.fig(s.cohort.seeking_through_university),
-        R.fig(s.cohort.total_graduates),
-        s.availability_window
-      ]);
+      if (s.in_placement_cohort) {
+        rows.push([
+          s.name + " (" + s.abbr + ")",
+          s.programmes.length ? s.programmes.join(", ") : R.fig(null, "text"),
+          R.fig(s.cohort.seeking_through_university),
+          R.fig(s.cohort.total_graduates),
+          s.availability_window
+        ]);
+      } else {
+        rows.push([
+          s.name + " (" + s.abbr + ")",
+          s.programmes.length ? s.programmes.join(", ") : R.fig(null, "text"),
+          "Not in the placement cohort",
+          R.fig(null, "text"),
+          s.exclusion_reason
+        ]);
+      }
     }
     return R.dataTable({
       caption: "Cohort size and availability by school",
@@ -1101,11 +1131,29 @@
     var html = "";
     for (var i = 0; i < schools.length; i++) {
       var s = schools[i];
+
+      /* A school outside the placement cohort gets a section of its own with
+         the reason in it. It is never quietly omitted: a silent exclusion is
+         exactly the criticism the audit makes of Plaksha's reporting. */
+      if (!s.in_placement_cohort) {
+        html += "<section class=\"school\" id=\"" + esc(s.id) + "\">" +
+          "<h2 class=\"school__name\">" + esc(s.name) + " <span class=\"school__abbr\">" +
+            esc(s.abbr) + "</span></h2>" +
+          "<p class=\"school__todo\"><strong>Not part of the graduating placement " +
+            "cohort.</strong> " + esc(s.exclusion_reason) + " No figure on this site " +
+            "includes its students, in the numerator or the denominator. " +
+            "<a href=\"methodology.html#cohort-scope\">Which schools are counted</a> " +
+            "sets out the scope in full.</p>" +
+        "</section>";
+        continue;
+      }
+
       var sal = s.salary_inr_lpa;
 
       html += "<section class=\"school\" id=\"" + esc(s.id) + "\" data-view=\"school-" +
                 esc(s.id) + "\">" +
-        "<h2 class=\"school__name\">" + esc(s.name) + "</h2>" +
+        "<h2 class=\"school__name\">" + esc(s.name) + " <span class=\"school__abbr\">" +
+          esc(s.abbr) + "</span></h2>" +
         "<p class=\"school__meta\">" +
           esc(R.fig(s.cohort.total_graduates)) + " graduating &middot; " +
           esc(R.fig(s.cohort.seeking_through_university)) + " seeking placement through the " +
@@ -1233,4 +1281,31 @@
   R.people = people;
   R.calendar = calendar;
   R.startHere = startHere;
+}(typeof window !== "undefined" ? window : globalThis));
+
+/* Scope table: all eight schools, six counted and two not, with the reason. */
+(function (global) {
+  "use strict";
+  var RVU = global.RVU = global.RVU || {};
+  var R = RVU.render;
+  function scopeTable(schools) {
+    var rows = [];
+    for (var i = 0; i < schools.length; i++) {
+      var s = schools[i];
+      rows.push([
+        s.name + " (" + s.abbr + ")",
+        s.in_placement_cohort ? "Counted" : "Not counted",
+        s.in_placement_cohort
+          ? R.fig(s.cohort.total_graduates) + " graduating, " +
+            R.fig(s.cohort.seeking_through_university) + " seeking placement"
+          : s.exclusion_reason
+      ]);
+    }
+    return R.dataTable({
+      caption: "Which schools are in the placement cohort",
+      columns: ["School", "In the figures", "Detail"],
+      rows: rows
+    });
+  }
+  R.scopeTable = scopeTable;
 }(typeof window !== "undefined" ? window : globalThis));

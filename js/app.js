@@ -92,6 +92,9 @@
         "</div>");
     }
 
+    if (doc.querySelector("[data-scope-table]")) {
+      R.mount("[data-scope-table]", R.scopeTable(RVU.schools));
+    }
     if (doc.querySelector("[data-classification-table]")) {
       R.mount("[data-classification-table]", R.classificationTable(RVU.placements.cohort));
     }

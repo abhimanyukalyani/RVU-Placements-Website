@@ -31,13 +31,14 @@
       if (sector && d.sector !== sector) { continue; }
       for (j = 0; j < d.eligible_schools.length; j++) { ids[d.eligible_schools[j]] = true; }
     }
+    var placement = RVU.placementSchools();
     var out = [];
-    for (i = 0; i < RVU.schools.length; i++) {
-      if (ids[RVU.schools[i].id]) { out.push(RVU.schools[i]); }
+    for (i = 0; i < placement.length; i++) {
+      if (ids[placement[i].id]) { out.push(placement[i]); }
     }
     /* A sector nobody has recruited in yet is not a dead end: the whole
-       cohort is available, and the page says so. */
-    return out.length ? out : RVU.schools.slice();
+       placement cohort is available, and the page says so. */
+    return out.length ? out : placement.slice();
   }
 
   function cohortSize(schools) {

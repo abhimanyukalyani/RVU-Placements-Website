@@ -188,9 +188,10 @@
 
   function buildControls() {
     var schoolSel = doc.getElementById("filter-school");
-    for (var i = 0; i < RVU.schools.length; i++) {
+    var placement = RVU.placementSchools();
+    for (var i = 0; i < placement.length; i++) {
       var o = doc.createElement("option");
-      o.value = RVU.schools[i].id; o.textContent = RVU.schools[i].name;
+      o.value = placement[i].id; o.textContent = placement[i].name;
       schoolSel.appendChild(o);
     }
     var sectorSel = doc.getElementById("filter-sector");

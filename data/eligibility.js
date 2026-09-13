@@ -44,13 +44,15 @@ RVU.eligibility = {
   ],
 
   // Per-school overrides. null means "the university default applies".
+  // Only the six schools in the graduating placement cohort. SoAHP and SCEPS
+  // are not in the cohort, so the checker does not offer them.
   criteria_by_school: {
-    "engineering":  { min_cgpa: 7.0, max_backlogs: 1, notes: null },
-    "design":       { min_cgpa: 6.5, max_backlogs: 1, notes: "Portfolio review replaces the aptitude round for most design drives." },
-    "business":     { min_cgpa: 7.0, max_backlogs: 1, notes: null },
-    "liberal-arts": { min_cgpa: 6.5, max_backlogs: 1, notes: null },
-    "law":          { min_cgpa: 7.0, max_backlogs: 0, notes: "Bar-council registration timelines affect start dates for litigation roles." },
-    "sciences":     { min_cgpa: 6.5, max_backlogs: 1, notes: null }
+    "socse":  { min_cgpa: 7.0, max_backlogs: 1, notes: null },
+    "solas":  { min_cgpa: 6.5, max_backlogs: 1, notes: null },
+    "soeb":   { min_cgpa: 7.0, max_backlogs: 1, notes: null },
+    "sdi":    { min_cgpa: 6.5, max_backlogs: 1, notes: "Portfolio review replaces the aptitude round for most design drives." },
+    "sol":    { min_cgpa: 7.0, max_backlogs: 0, notes: "Bar-council registration timelines affect start dates for litigation roles." },
+    "sofmca": { min_cgpa: 6.5, max_backlogs: 1, notes: "Showreel review replaces the aptitude round for most studio drives." }
   },
 
   one_offer_policy: {

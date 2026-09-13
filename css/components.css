@@ -1157,3 +1157,12 @@ legend {
   gap: 0 var(--module-gutter);
 }
 @media (max-width: 640px) { .calendar-grid { grid-template-columns: 1fr; } }
+
+.school__abbr {
+  font-family: var(--font-body);
+  font-weight: var(--weight-label);
+  font-size: var(--type-label);
+  letter-spacing: var(--track-label);
+  color: var(--rvu-gold-text);            /* #866c40 on #faf7f1 · 4.64:1 */
+  vertical-align: middle;
+}

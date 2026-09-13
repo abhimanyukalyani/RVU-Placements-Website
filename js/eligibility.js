@@ -321,8 +321,12 @@
     };
   }
 
+  /* Only the six schools in the graduating placement cohort. SoAHP has no
+     graduating cohort yet and SCEPS is continuing education; offering either
+     here would produce a result the office could not act on. Both exclusions
+     are stated on methodology.html rather than left silent. */
   function fillSchools() {
-    var sel = el("school"), all = RVU.schools || [];
+    var sel = el("school"), all = RVU.placementSchools();
     for (var i = 0; i < all.length; i++) {
       var o = doc.createElement("option");
       o.value = all[i].id; o.textContent = all[i].name;
@@ -440,7 +444,8 @@
   var showingExample = false;
 
   function fillExample() {
-    var first = (RVU.schools && RVU.schools[0]) ? RVU.schools[0].id : "";
+    var placement = RVU.placementSchools();
+    var first = placement.length ? placement[0].id : "";
     el("school").value = first;
     fillProgrammes();
     el("year").value = String(EXAMPLE.year);
