@@ -829,3 +829,99 @@
   R.yearTimeline = yearTimeline;
 
 }(typeof window !== "undefined" ? window : globalThis));
+
+/* ===========================================================================
+   render.js · part 5 — the recruiter and parent blocks.
+   All data-driven: service levels, the schools table, work terms, the
+   glossary, and the two plain-English figure blocks on the parents' page.
+   =========================================================================== */
+(function (global) {
+  "use strict";
+
+  var RVU = global.RVU = global.RVU || {};
+  var R = RVU.render;
+  var esc = function (s) { return R.esc(s); };
+
+  /* Target service levels, from intake-fields.js. */
+  function serviceLevels(levels) {
+    var html = "<ol class=\"ledger\">" +
+      "<div class=\"ledger__head t-label\" style=\"grid-template-columns:2.6fr 1fr\">" +
+        "<span>What happens</span><span>Within</span></div>";
+    for (var i = 0; i < levels.length; i++) {
+      html += "<li class=\"ledger__row\" style=\"grid-template-columns:2.6fr 1fr\">" +
+                "<span class=\"ledger__company\" data-label=\"What happens\">" +
+                  esc(levels[i].what) + "</span>" +
+                "<span data-label=\"Within\">" + esc(levels[i].within) + "</span>" +
+              "</li>";
+    }
+    return html + "</ol>";
+  }
+
+  /* Cohort table: a recruiter matches a role to a cohort without emailing. */
+  function schoolsTable(schools) {
+    var rows = [];
+    for (var i = 0; i < schools.length; i++) {
+      var s = schools[i];
+      rows.push([
+        s.name,
+        s.programmes.length ? s.programmes.join(", ") : R.fig(null, "text"),
+        R.fig(s.cohort.seeking_through_university),
+        R.fig(s.cohort.total_graduates),
+        s.availability_window
+      ]);
+    }
+    return R.dataTable({
+      caption: "Cohort size and availability by school",
+      columns: ["School", "Programmes", "Seeking placement", "Graduating class", "Available"],
+      rows: rows
+    });
+  }
+
+  /* Work terms and windows, in plain numbers, from the same records the
+     office schedules against. */
+  function workTerms(fields, schools) {
+    var termField = null, i;
+    for (i = 0; i < fields.steps.length; i++) {
+      var fs = fields.steps[i].fields || [];
+      for (var j = 0; j < fs.length; j++) {
+        if (fs[j].name === "work_term") { termField = fs[j]; }
+      }
+    }
+    var html = "<ul class=\"match__list\">";
+    if (termField) {
+      for (i = 0; i < termField.options.length; i++) {
+        html += "<li class=\"match__school\"><span>" + esc(termField.options[i].label) +
+                "</span><span class=\"match__window\">Work term</span></li>";
+      }
+    }
+    for (i = 0; i < schools.length; i++) {
+      html += "<li class=\"match__school\"><span>" + esc(schools[i].name) +
+              "</span><span class=\"match__window\">" +
+              esc(schools[i].availability_window) + "</span></li>";
+    }
+    return html + "</ul>";
+  }
+
+  /* Glossary, as native disclosure. No JS accordion. */
+  function glossary(entries) {
+    var html = "";
+    for (var i = 0; i < entries.length; i++) {
+      var e = entries[i];
+      var summary = e.term + (e.expansion ? " — " + e.expansion : "");
+      html += "<details class=\"disclosure\">" +
+                "<summary class=\"disclosure__summary\">" + esc(summary) + "</summary>" +
+                "<div class=\"disclosure__body\">" +
+                  "<p>" + esc(e.plain_english) + "</p>" +
+                  "<p class=\"glossary__example t-caption\">" + esc(e.example) + "</p>" +
+                "</div>" +
+              "</details>";
+    }
+    return html;
+  }
+
+  R.serviceLevels = serviceLevels;
+  R.schoolsTable = schoolsTable;
+  R.workTerms = workTerms;
+  R.glossary = glossary;
+
+}(typeof window !== "undefined" ? window : globalThis));

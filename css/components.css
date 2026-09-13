@@ -794,3 +794,193 @@ legend {
   .filters .field select { min-width: 0; width: 100%; }
   .filters { align-items: stretch; }
 }
+
+/* ============================================================ PHASE 4 =====
+   Intent router, progress, cohort-match panel, action cards, glossary.
+   ========================================================================= */
+
+/* ------------------------------------------------------------ intent router */
+/* First thing on the recruiter page, in the employer's own words. */
+
+.router {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--module-gutter);
+}
+
+.router__target {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 96px;
+  padding: 24px 0 24px;
+  border-block-start: var(--rule-open);
+  text-decoration: none;
+  color: var(--rvu-slate);                /* #233039 on #faf7f1 · 12.64:1 */
+}
+.router__label {
+  font-family: var(--font-display);
+  font-weight: var(--weight-display);
+  font-size: var(--type-heading);
+  line-height: calc(var(--lh-heading) / var(--type-heading));
+  color: var(--rvu-ink);                  /* 18.89:1 */
+  text-wrap: balance;
+}
+.router__note { color: var(--rvu-slate); }  /* 12.64:1 */
+.router__go {
+  margin-block-start: auto;
+  font-weight: var(--weight-label);
+  font-size: var(--type-label);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--rvu-gold-text);            /* #866c40 · 4.64:1 */
+}
+.router__target:hover .router__go { border-block-end: 1px solid currentColor; }
+
+/* -------------------------------------------------------------- progress */
+
+.progress {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  margin: 0 0 var(--row-gutter-vertical);
+  padding: 0;
+  list-style: none;
+  counter-reset: step;
+}
+.progress__item {
+  counter-increment: step;
+  padding: 10px 18px 10px 0;
+  margin-inline-end: 18px;
+  border-block-start: var(--rule-divide);
+  font-family: var(--font-body);
+  font-weight: var(--weight-body);
+  font-size: var(--type-label);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--rvu-slate);                /* 12.64:1 */
+  flex: 1 1 auto;
+}
+.progress__item::before { content: counter(step) " · "; }
+.progress__item--current {
+  border-block-start: var(--rule-open);
+  color: var(--rvu-ink);                  /* 18.89:1 */
+  font-weight: var(--weight-label);
+}
+
+/* ---------------------------------------------------------- match panel */
+/* Step 3: the form gives before it takes. */
+
+.match {
+  background: var(--rvu-panel);
+  padding: 28px var(--section-padding);
+  margin-block: var(--row-gutter-vertical);
+  color: var(--rvu-slate);                /* #233039 on #ecf1f5 · 11.89:1 */
+}
+.match .eyebrow { color: var(--rvu-slate); }   /* NOT gold-text: 4.36:1 fails */
+.match__title {
+  font-family: var(--font-display);
+  font-weight: var(--weight-display);
+  font-size: var(--type-display-m);
+  line-height: calc(var(--lh-display-m) / var(--type-display-m));
+  color: var(--rvu-ink);                  /* #04070a on #ecf1f5 · 17.76:1 */
+  margin-block: 8px 12px;
+  text-wrap: balance;
+}
+.match__lead { max-width: var(--measure-prose); }
+.match .figure-row { margin-block-start: 20px; }
+.match .figure-block__value--date { font-size: var(--type-display-m); }
+.match__list { margin-block-start: 20px; padding: 0; list-style: none; }
+.match__school {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 16px;
+  padding-block: 12px;
+  border-block-start: var(--rule-divide);
+}
+.match__window {
+  font-weight: var(--weight-label);
+  font-size: var(--type-label);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--rvu-slate);                /* 11.89:1 on panel */
+}
+.match__note { margin-block-start: 16px; max-width: var(--measure-prose); }
+
+.radio-set--stack { flex-direction: column; gap: 0; }
+.result__actions--ordered { list-style: decimal; }
+
+/* ---------------------------------------------------------- action cards */
+/* Parents get a job, not a photograph. Each card is a real action. */
+
+.actions-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--module-gutter);
+}
+.action-card {
+  display: flex;
+  flex-direction: column;
+  border-block-start: var(--rule-open);
+  padding-block-start: 20px;
+}
+.action-card__title {
+  font-family: var(--font-display);
+  font-weight: var(--weight-display);
+  font-size: var(--type-heading);
+  line-height: calc(var(--lh-heading) / var(--type-heading));
+  color: var(--rvu-ink);                  /* 18.89:1 */
+  margin: 0 0 10px;
+  text-wrap: balance;
+}
+.action-card__body { color: var(--rvu-slate); flex: 1 0 auto; }   /* 12.64:1 */
+.action-card__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: var(--tap-target-min);
+  margin-block-start: 14px;
+  align-self: flex-start;
+  font-weight: var(--weight-label);
+  font-size: var(--type-label);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--rvu-gold-text);            /* 4.64:1 */
+  text-decoration: none;
+  border-block-end: 1px solid currentColor;
+}
+
+/* ------------------------------------------------------------- questions */
+/* The parents' page spine: three plain questions. */
+
+.question { border-block-start: var(--rule-close); padding-block: 32px; }
+.question__q {
+  font-family: var(--font-display);
+  font-weight: var(--weight-display);
+  font-size: var(--type-display-l);
+  line-height: calc(var(--lh-display-l) / var(--type-display-l));
+  letter-spacing: var(--track-display-l);
+  color: var(--rvu-ink);                  /* 18.89:1 */
+  margin: 0 0 16px;
+  text-wrap: balance;
+}
+
+/* --------------------------------------------------------------- glossary */
+
+.glossary { margin-block-start: 20px; }
+.glossary__term { font-weight: var(--weight-label); }
+.glossary__example { margin-block-start: 8px; }
+
+/* ============================================================= responsive */
+
+@media (max-width: 900px) {
+  .actions-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 640px) {
+  .router { grid-template-columns: 1fr; }
+  .match  { padding-inline: 20px; }
+  .progress { display: grid; grid-template-columns: 1fr; }
+  .progress__item { margin-inline-end: 0; }
+}

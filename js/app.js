@@ -46,6 +46,52 @@
       R.mount("[data-timeline]", R.yearTimeline(RVU.journey.years));
     }
 
+    if (doc.querySelector("[data-service-levels]")) {
+      R.mount("[data-service-levels]", R.serviceLevels(RVU.intakeFields.service_levels));
+    }
+
+    if (doc.querySelector("[data-schools-table]")) {
+      R.mount("[data-schools-table]", R.schoolsTable(RVU.schools));
+    }
+
+    if (doc.querySelector("[data-work-terms]")) {
+      R.mount("[data-work-terms]", R.workTerms(RVU.intakeFields, RVU.schools));
+    }
+
+    if (doc.querySelector("[data-glossary]")) {
+      R.mount("[data-glossary]", R.glossary(RVU.glossary));
+    }
+
+    /* The parents' page states the same two figures the hub does, but in
+       words a first-time reader can act on. Same source, same stamp. */
+    if (doc.querySelector("[data-parent-figures]")) {
+      var basic = RVU.placements.salary_inr_lpa.basic;
+      R.mount("[data-parent-figures]",
+        "<div class=\"figure-row\">" +
+          "<div class=\"figure-block figure-block--median\">" +
+            "<span class=\"figure-block__value\">" + R.esc(R.fig(basic.median, "inr_lpa")) + "</span>" +
+            "<span class=\"figure-block__max\">Highest " + R.esc(R.fig(basic.max, "inr_lpa")) + "</span>" +
+            "<span class=\"figure-block__caption t-label\">Median package, last cohort</span>" +
+          "</div>" +
+        "</div>");
+    }
+
+    if (doc.querySelector("[data-denominator-plain]")) {
+      var c = RVU.placements.cohort;
+      R.mount("[data-denominator-plain]",
+        "<div class=\"denominator\">" +
+          "<p class=\"eyebrow\">The same figure, with its denominator</p>" +
+          "<p class=\"denominator__text\">" +
+            "<b>" + R.esc(R.fig(c.students_placed)) + "</b> of the <b>" +
+            R.esc(R.fig(c.seeking_through_university)) + "</b> students who were looking " +
+            "for a placement through the university received an offer. That is <b>" +
+            R.esc(R.pct(c.students_placed, c.seeking_through_university, { bare: true })) +
+            "</b> of them &mdash; and the two numbers it is made from are printed beside it, " +
+            "every time it appears." +
+          "</p>" +
+        "</div>");
+    }
+
     if (doc.querySelector("[data-closing]")) {
       var closing = [];
       for (var i = 0; i < RVU.drives.length; i++) {

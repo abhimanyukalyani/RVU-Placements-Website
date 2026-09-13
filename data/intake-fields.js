@@ -28,7 +28,12 @@ RVU.intakeFields = {
 
     { id: "role", order: 2, legend: "The role",
       fields: [
-        { name: "function",   label: "Function",             type: "select", required: true,  sheet_column: "Function" },          // TODO: confirm
+        { name: "function",   label: "Function",             type: "select", required: true,  sheet_column: "Function",            // TODO: confirm
+          options_from: "placements.by_function" },   // the function list is derived from the
+                                                      // cohort's own outcome data, never retyped
+        { name: "sector",     label: "Your sector",          type: "select", required: true,  sheet_column: "Sector",              // TODO: confirm
+          options_from: "drives.sector" },            // step 3 matches on sector, because sector is
+                                                      // what the drive records actually carry
         { name: "positions",  label: "Number of positions",  type: "number", required: true,  sheet_column: "Headcount" },         // TODO: confirm
         { name: "location",   label: "Location",             type: "text",   required: true,  sheet_column: "Location" },          // TODO: confirm
         { name: "work_term",  label: "Work term",            type: "select", required: true,  sheet_column: "Engagement type",     // TODO: confirm
