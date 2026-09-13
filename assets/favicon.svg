@@ -1,5 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="RV University">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="RV University Placements">
+  <!-- gold mark on slate: --rvu-gold #d0a863 on --rvu-slate-deep #1a242b (7.11:1) -->
   <rect width="32" height="32" fill="#1a242b"/>
-  <path d="M8 24V8h9a5 5 0 0 1 0 10h-4l6 6" fill="none" stroke="#d0a863"
-        stroke-width="2.5" stroke-linecap="square" stroke-linejoin="miter"/>
+  <path d="M7 25V7h8.5a5.25 5.25 0 0 1 0 10.5H11" fill="none" stroke="#d0a863"
+        stroke-width="2.6" stroke-linecap="square"/>
+  <path d="M15 17.5 21 25" fill="none" stroke="#d0a863" stroke-width="2.6" stroke-linecap="square"/>
+  <path d="M23 7v6" fill="none" stroke="#d0a863" stroke-width="2.6" stroke-linecap="square" opacity="0.55"/>
 </svg>

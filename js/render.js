@@ -1174,3 +1174,63 @@
   R.schoolIndex = schoolIndex;
 
 }(typeof window !== "undefined" ? window : globalThis));
+
+/* ===========================================================================
+   render.js · part 8 — the office.
+   Unverified people render with the role first and the name bracketed, so the
+   page never presents a guessed name as a confirmed one.
+   =========================================================================== */
+(function (global) {
+  "use strict";
+  var RVU = global.RVU = global.RVU || {};
+  var R = RVU.render;
+  var esc = function (s) { return R.esc(s); };
+
+  function people(list) {
+    var html = "";
+    for (var i = 0; i < list.length; i++) {
+      var p = list[i];
+      html += "<div class=\"person\">" +
+        "<h3 class=\"person__role\">" + esc(p.role) + "</h3>" +
+        "<p class=\"person__name\">" + esc(p.name ? p.name : R.fig(null, "text")) +
+          (p.verified ? "" : " <span class=\"t-label person__flag\">unverified</span>") + "</p>" +
+        "<p class=\"person__remit\">" + esc(p.remit) + "</p>" +
+        "<p class=\"person__contact\">" +
+          "<a href=\"mailto:" + esc(p.email) + "\">" + esc(p.email) + "</a>" +
+          " &middot; " + esc(p.phone ? p.phone : R.fig(null, "text")) +
+        "</p>" +
+      "</div>";
+    }
+    return html;
+  }
+
+  function calendar(terms) {
+    var html = "";
+    for (var i = 0; i < terms.length; i++) {
+      html += "<section class=\"term\">" +
+        "<h3 class=\"term__name\">" + esc(terms[i].term) + "</h3><ul class=\"term__list\">";
+      for (var j = 0; j < terms[i].activity.length; j++) {
+        html += "<li>" + esc(terms[i].activity[j]) + "</li>";
+      }
+      html += "</ul></section>";
+    }
+    return html;
+  }
+
+  function startHere(rows) {
+    var html = "<ul class=\"match__list\">";
+    for (var i = 0; i < rows.length; i++) {
+      html += "<li class=\"match__school\">" +
+                "<span><strong>" + esc(rows[i].audience) + "</strong> — " +
+                  esc(rows[i].line) + "</span>" +
+                "<a class=\"match__window\" href=\"" + esc(rows[i].href) + "\">" +
+                  esc(rows[i].label) + "</a>" +
+              "</li>";
+    }
+    return html + "</ul>";
+  }
+
+  R.people = people;
+  R.calendar = calendar;
+  R.startHere = startHere;
+}(typeof window !== "undefined" ? window : globalThis));

@@ -420,7 +420,13 @@
 }
 
 @media (max-width: 640px) {
-  .door { grid-column: span 12; }
+  /* Collapse the track list itself rather than leaving twelve 2px columns
+     under a full-width span — same result, but nothing to go wrong. */
+  .doors { grid-template-columns: 1fr; }
+  .door,
+  .doors > .door:last-child { grid-column: auto; }   /* reset the 900px spans,
+                                                        which would otherwise
+                                                        create implicit columns */
 
   .figure-row { grid-template-columns: 1fr; }
   .figure-block {
@@ -1110,3 +1116,44 @@ legend {
   .segkey__item { grid-template-columns: 16px 1fr; row-gap: 4px; }
   .segkey__count { grid-column: 2; text-align: left; }
 }
+
+/* ============================================================ PHASE 6 ===== */
+
+.person { border-block-start: var(--rule-divide); padding-block: 24px; }
+.person__role {
+  font-family: var(--font-display);
+  font-weight: var(--weight-display);
+  font-size: var(--type-heading);
+  line-height: calc(var(--lh-heading) / var(--type-heading));
+  color: var(--rvu-ink);                  /* #04070a on #faf7f1 · 18.89:1 */
+  margin: 0 0 6px;
+  text-wrap: balance;
+}
+.person__name {
+  font-weight: var(--weight-label);
+  color: var(--rvu-slate);                /* 12.64:1 */
+  margin-block-end: 8px;
+}
+.person__flag { color: var(--rvu-gold-text); }   /* #866c40 · 4.64:1 */
+.person__remit { color: var(--rvu-slate); max-width: var(--measure-prose); }
+.person__contact { margin-block-start: 10px; color: var(--rvu-slate); }
+
+.term { border-block-start: var(--rule-open); padding-block: 20px; }
+.term__name {
+  font-family: var(--font-body);
+  font-weight: var(--weight-label);
+  font-size: var(--type-label);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--rvu-gold-text);            /* 4.64:1 */
+  margin-block-end: 10px;
+}
+.term__list { padding-inline-start: 18px; color: var(--rvu-slate); list-style: disc; }
+.term__list li { margin-block-start: 6px; }
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 var(--module-gutter);
+}
+@media (max-width: 640px) { .calendar-grid { grid-template-columns: 1fr; } }

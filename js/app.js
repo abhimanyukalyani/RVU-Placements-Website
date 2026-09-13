@@ -108,6 +108,16 @@
       R.mount("[data-schools]", R.schoolSections(RVU.schools, RVU.placements.distribution));
     }
 
+    if (doc.querySelector("[data-people]")) {
+      R.mount("[data-people]", R.people(RVU.office.people));
+    }
+    if (doc.querySelector("[data-calendar]")) {
+      R.mount("[data-calendar]", R.calendar(RVU.office.calendar));
+    }
+    if (doc.querySelector("[data-start-here]")) {
+      R.mount("[data-start-here]", R.startHere(RVU.office.start_here));
+    }
+
     if (doc.querySelector("[data-closing]")) {
       var closing = [];
       for (var i = 0; i < RVU.drives.length; i++) {

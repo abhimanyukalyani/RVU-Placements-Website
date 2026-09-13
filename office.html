@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Hiring request &middot; RVU Placements</title>
-<meta name="description" content="Send a hiring request to RV University. Four steps, with your cohort match shown before you submit.">
+<title>The office &middot; RVU Placements</title>
+<meta name="description" content="Who runs placements at RV University, the academic-year calendar, and where each audience should start.">
 
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,7 +16,7 @@
 <link rel="stylesheet" href="css/base.css">
 <link rel="stylesheet" href="css/components.css">
 </head>
-<body data-audience="recruiters">
+<body>
 
 <!-- ▼ partials/header.html ------------------------------------------------ -->
 <a class="skip-link" href="#main">Skip to the main content</a>
@@ -46,31 +46,47 @@
 <main class="site-main" id="main">
 
   <section class="wrap hero" aria-labelledby="page-title">
-    <p class="eyebrow">02 &middot; For recruiters</p>
-    <h1 class="hero__title" id="page-title">Hiring request</h1>
-    <p class="hero__subhead">Four steps. The third one tells you which schools match, how
-      many students that is, and when the next window closes &mdash; before you send
-      anything.</p>
+    <p class="eyebrow">The office</p>
+    <h1 class="hero__title" id="page-title">The office</h1>
+    <p class="hero__subhead">Corporate &amp; Alumni Relations runs placements at RV
+      University and maintains every figure on this site. One address reaches the whole
+      team: <a href="mailto:recruit@rvu.edu.in">recruit@rvu.edu.in</a>.</p>
   </section>
 
-  <section class="wrap section" aria-labelledby="form-title">
-    <h2 class="visually-hidden" id="form-title">Your hiring request</h2>
-    <form class="form" id="intake-form" novalidate>
-      <div id="intake-step" role="group" aria-live="polite"></div>
-    </form>
+  <section class="wrap section" aria-labelledby="start-title">
+    <p class="eyebrow">Where to start</p>
+    <h2 class="section-head__title" id="start-title">One line each</h2>
+    <div class="stack" data-start-here></div>
+  </section>
+
+  <section class="wrap section" aria-labelledby="people-title">
+    <p class="eyebrow">Who does what</p>
+    <h2 class="section-head__title" id="people-title">Named people, not a form</h2>
+    <p class="section-head__aside">Roles are listed first and names second, because the
+      names below are unverified placeholders. Anything marked unverified has not yet been
+      confirmed with the office, and anything reading <strong>[pending]</strong> is a
+      detail we do not have rather than one we have omitted.</p>
+    <div class="stack" data-people></div>
+  </section>
+
+  <section class="wrap section" aria-labelledby="calendar-title">
+    <p class="eyebrow">The year</p>
+    <h2 class="section-head__title" id="calendar-title">Academic-year placement calendar</h2>
+    <p class="section-head__aside">What the office is doing each term, so a student or a
+      recruiter can work out when to get in touch. Dates for individual drives are on
+      <a href="drives.html">the live ledger</a>.</p>
+    <div class="stack calendar-grid" data-calendar></div>
   </section>
 
   <noscript>
     <div class="wrap section">
       <div class="noscript-note">
-        <p><strong>The hiring request form is switched off.</strong> Step three computes
-        your cohort match from the schools&rsquo; current numbers and the drives already
-        scheduled, which it can only do with JavaScript running. A static form would ask
-        for your details and tell you nothing in return.</p>
-        <p>Write to <a href="mailto:recruit@rvu.edu.in">recruit@rvu.edu.in</a> with your
-        role, your start date and how many positions, and a coordinator will reply within
-        one working day. <a href="recruiters.html#how-it-works">How hiring here works</a>
-        sets out the whole process.</p>
+        <p><strong>The people list and calendar are switched off.</strong> Both read from a
+        single record when the page opens, so that a changed phone number or a moved
+        deadline is corrected in one place rather than on nine pages.</p>
+        <p>Write to <a href="mailto:recruit@rvu.edu.in">recruit@rvu.edu.in</a>, which reaches
+        the whole team. <a href="methodology.html">How we report</a> explains why the site is
+        built this way.</p>
       </div>
     </div>
   </noscript>
@@ -128,7 +144,6 @@
 <script src="data/office.js"></script>
 <script src="js/render.js"></script>
 <script src="js/app.js"></script>
-<script src="js/intake.js"></script>
 
 </body>
 </html>
