@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en-IN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Live drives &middot; RVU Placements</title>
+<meta name="description" content="Every placement drive at RV University, with its window, package and eligibility.">
+
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Cantarell:wght@400;700&display=swap">
+
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/components.css">
+</head>
+<body data-audience="students">
+
+<!-- ▼ partials/header.html ------------------------------------------------ -->
+<a class="skip-link" href="#main">Skip to the main content</a>
+
+<div class="crop-marks" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+
+<header class="site-header">
+  <div class="wrap site-header__inner">
+
+    <a class="site-mark" href="index.html">
+      <span class="site-mark__name">RV University</span>
+      <span class="site-mark__section">Placements</span>
+    </a>
+
+    <nav class="audience-switcher" aria-label="Choose your audience">
+      <ul class="audience-switcher__list">
+        <li><a class="audience-switcher__link" href="students.html">For students</a></li>
+        <li><a class="audience-switcher__link" href="recruiters.html">For recruiters</a></li>
+        <li><a class="audience-switcher__link" href="parents.html">For parents</a></li>
+      </ul>
+    </nav>
+
+  </div>
+</header>
+<!-- ▲ partials/header.html ------------------------------------------------ -->
+
+<main class="site-main" id="main">
+
+  <section class="wrap hero" aria-labelledby="page-title">
+    <p class="eyebrow">01 &middot; For students</p>
+    <h1 class="hero__title" id="page-title">Live drives</h1>
+    <p class="hero__subhead">Every drive the office is running, with its window and its
+      CGPA floor. Filter it down to the ones open to you, and check it weekly &mdash;
+      floors differ drive by drive.</p>
+  </section>
+
+  <section class="wrap section" aria-labelledby="ledger-title">
+    <h2 class="section-head__title" id="ledger-title">The ledger</h2>
+    <p class="section-head__aside" id="eligible-note"></p>
+
+    <div class="filters" id="filters" tabindex="-1">
+
+      <div class="filter-chips">
+        <button type="button" class="chip" id="chip-eligible" aria-pressed="false">Eligible to me</button>
+        <button type="button" class="chip" id="chip-closing" aria-pressed="false">Closing this week</button>
+      </div>
+
+      <div class="field">
+        <label class="field__label" for="filter-school">School</label>
+        <select id="filter-school"><option value="all">Every school</option></select>
+      </div>
+
+      <div class="field">
+        <label class="field__label" for="filter-sector">Sector</label>
+        <select id="filter-sector"><option value="all">Every sector</option></select>
+      </div>
+
+      <div class="field">
+        <label class="field__label" for="filter-status">Status</label>
+        <select id="filter-status"><option value="all">Every status</option></select>
+      </div>
+
+      <div class="field">
+        <label class="field__label" for="filter-sort">Sort by</label>
+        <select id="filter-sort">
+          <option value="closes">Closing date</option>
+          <option value="ctc">Package</option>
+          <option value="company">Organisation</option>
+        </select>
+      </div>
+
+    </div>
+
+    <p class="ledger-status" id="ledger-count" role="status" aria-live="polite"></p>
+
+    <div class="scroll-x" id="ledger-output"></div>
+
+    <p class="cohort-stamp t-caption" data-stamp></p>
+  </section>
+
+  <noscript>
+    <div class="wrap section">
+      <div class="noscript-note">
+        <p><strong>The drives ledger is switched off.</strong> Every row &mdash; the
+        window, the package, the CGPA floor &mdash; is read from the placement sheet when
+        the page opens. A drive list typed into this page would be out of date within a
+        week, which is the failure this site is built to avoid.</p>
+        <p>Turn JavaScript on to see the ledger, or write to
+        <a href="mailto:recruit@rvu.edu.in">recruit@rvu.edu.in</a> for the current list.
+        <a href="methodology.html">How we report</a> explains why the page is built this
+        way.</p>
+      </div>
+    </div>
+  </noscript>
+
+</main>
+
+<!-- ▼ partials/footer.html ------------------------------------------------ -->
+<footer class="site-footer on-inverse">
+  <div class="wrap site-footer__inner">
+
+    <section>
+      <h2 class="eyebrow">The office</h2>
+      <ul class="site-footer__list">
+        <li>Corporate &amp; Alumni Relations, RV University</li>
+        <li><a href="office.html">Who to contact</a></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2 class="eyebrow">Recruiting</h2>
+      <ul class="site-footer__list">
+        <li><a href="mailto:recruit@rvu.edu.in">recruit@rvu.edu.in</a></li>
+        <li><a href="hire.html">Start a hiring request</a></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2 class="eyebrow">The numbers</h2>
+      <ul class="site-footer__list">
+        <li><a href="outcomes.html">See the outcomes</a></li>
+        <li><a href="methodology.html">How we report</a></li>
+      </ul>
+    </section>
+
+    <p class="site-footer__stamp t-caption" data-stamp>
+      Cohort [XXXX–XX] · recorded [DD MMM YYYY] · updated [DD MMM YYYY] ·
+      maintained by Corporate &amp; Alumni Relations
+    </p>
+
+  </div>
+</footer>
+<!-- ▲ partials/footer.html ------------------------------------------------ -->
+
+<!-- Data spine first, then the renderers, then boot. Classic scripts: this
+     page opens by double-clicking it, with no server. -->
+<script src="data/meta.js"></script>
+<script src="data/placements.js"></script>
+<script src="data/schools.js"></script>
+<script src="data/drives.js"></script>
+<script src="data/recruiters.js"></script>
+<script src="data/eligibility.js"></script>
+<script src="data/journey.js"></script>
+<script src="data/glossary.js"></script>
+<script src="data/intake-fields.js"></script>
+<script src="data/office.js"></script>
+<script src="js/render.js"></script>
+<script src="js/app.js"></script>
+<script src="js/eligibility.js"></script>
+<script src="js/drives.js"></script>
+
+</body>
+</html>

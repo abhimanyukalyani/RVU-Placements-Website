@@ -1,0 +1,258 @@
+/* ===========================================================================
+   deck.css — the submission deck, designed for print.
+
+   A4 landscape, one section per page. Same nine colours, same two faces, same
+   type scale as the site: the deck is an argument about the design, so it is
+   built out of the design.
+
+   Print to PDF from a browser at A4 landscape with background graphics on.
+   =========================================================================== */
+
+@page {
+  size: A4 landscape;
+  margin: 0;
+}
+
+@media print {
+  html, body { background: var(--rvu-paper); }
+  .deck__hint { display: none !important; }
+  .slide { page-break-after: always; break-after: page; }
+  .slide:last-child { page-break-after: auto; break-after: auto; }
+  a { text-decoration: none; }
+}
+
+body.deck {
+  background: color-mix(in srgb, var(--rvu-slate) 12%, var(--rvu-paper));
+  color: var(--text-body);
+  print-color-adjust: exact;
+  -webkit-print-color-adjust: exact;
+}
+
+/* On screen the slides stack with a gap so the deck can be read before it is
+   printed. In print the gap and the shadow disappear. */
+.deck__hint {
+  max-width: 297mm;
+  margin: 24px auto 0;
+  padding: 16px 20px;
+  background: var(--rvu-slate-deep);
+  color: var(--rvu-white);                /* #ffffff on #1a242b · 15.78:1 */
+  font-family: var(--font-body);
+  font-size: var(--type-body);
+  line-height: calc(var(--lh-body) / var(--type-body));
+}
+.deck__hint b { color: var(--rvu-gold); } /* #d0a863 on #1a242b · 7.11:1 */
+
+.slide {
+  position: relative;
+  box-sizing: border-box;
+  width: 297mm;
+  height: 210mm;
+  margin: 24px auto;
+  padding: 18mm 20mm 16mm;
+  background: var(--rvu-paper);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+@media print { .slide { margin: 0; } }
+
+.slide__num {
+  position: absolute;
+  top: 18mm; right: 20mm;
+  font-family: var(--font-body);
+  font-weight: var(--weight-label);
+  font-size: var(--type-label);
+  letter-spacing: var(--track-label);
+  color: var(--rvu-gold-text);            /* #866c40 on #faf7f1 · 4.64:1 */
+}
+.slide__foot {
+  position: absolute;
+  bottom: 10mm; left: 20mm; right: 20mm;
+  padding-block-start: 6px;
+  border-block-start: 1px solid color-mix(in srgb, var(--rvu-slate) 16%, transparent);
+  font-size: var(--type-caption);
+  font-style: italic;
+  color: var(--rvu-slate);                /* 12.64:1 */
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.slide__eyebrow {
+  font-family: var(--font-body);
+  font-weight: var(--weight-label);
+  font-size: var(--type-label);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--rvu-gold-text);            /* 4.64:1 */
+  border-block-start: 1px solid var(--rvu-gold);
+  padding-block-start: 10px;
+  margin-block-end: 14px;
+}
+.slide__title {
+  font-family: var(--font-display);
+  font-weight: var(--weight-display);
+  font-size: 40px;
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+  color: var(--rvu-ink);                  /* 18.89:1 */
+  margin: 0 0 12px;
+  text-wrap: balance;
+  max-width: 24ch;
+}
+.slide__lead {
+  font-size: var(--type-body-l);
+  line-height: calc(var(--lh-body-l) / var(--type-body-l));
+  color: var(--rvu-slate);                /* 12.64:1 */
+  max-width: 62ch;
+  margin-block-end: 16px;
+}
+.slide__body { flex: 1 1 auto; min-height: 0; }
+
+/* --- cover ---------------------------------------------------------------- */
+.slide--cover { justify-content: center; background: var(--rvu-slate-deep); }
+.slide--cover .slide__num { color: var(--rvu-gold); }   /* 7.11:1 on slate-deep */
+.slide--cover h1 {
+  font-size: 104px; line-height: 0.98; letter-spacing: -0.02em;
+  color: var(--rvu-white);                /* #ffffff on #1a242b · 15.78:1 */
+  margin: 0 0 20px; max-width: 18ch;
+}
+.slide--cover .cover__thesis {
+  font-size: 21px; line-height: 1.45;
+  color: var(--rvu-white);                /* 15.78:1 */
+  max-width: 62ch; margin-block-end: 24px;
+}
+.slide--cover .cover__meta {
+  font-size: var(--type-caption); font-style: italic;
+  color: var(--rvu-gold);                 /* #d0a863 on #1a242b · 7.11:1 */
+}
+.slide--cover .slide__foot { border-block-start-color:
+  color-mix(in srgb, var(--rvu-white) 22%, transparent); color: var(--rvu-white); }
+
+/* --- columns -------------------------------------------------------------- */
+.cols { display: grid; gap: 22px; }
+.cols--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.cols--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.cols--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+.block { border-block-start: 1px solid var(--rvu-gold); padding-block-start: 10px; }
+.block__label {
+  font-family: var(--font-body); font-weight: var(--weight-label);
+  font-size: var(--type-label); letter-spacing: var(--track-label);
+  text-transform: uppercase; color: var(--rvu-gold-text);   /* 4.64:1 */
+  display: block; margin-block-end: 6px;
+}
+.block__title {
+  font-family: var(--font-display); font-weight: var(--weight-display);
+  font-size: 19px; line-height: 1.2; color: var(--rvu-ink);  /* 18.89:1 */
+  margin: 0 0 6px; text-wrap: balance;
+}
+.block p { font-size: 14px; line-height: 1.45; color: var(--rvu-slate); }  /* 12.64:1 */
+
+/* --- deck tables ---------------------------------------------------------- */
+.dtable { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+.dtable th, .dtable td {
+  text-align: left; padding: 7px 12px 7px 0; vertical-align: top;
+  color: var(--rvu-slate);                /* 12.64:1 */
+  font-variant-numeric: tabular-nums;
+}
+.dtable thead th {
+  font-family: var(--font-body); font-weight: var(--weight-label);
+  font-size: var(--type-label); letter-spacing: var(--track-label);
+  text-transform: uppercase; color: var(--rvu-slate);
+  border-block-end: 2px solid var(--rvu-slate);
+}
+.dtable tbody tr { border-block-end: 1px solid color-mix(in srgb, var(--rvu-slate) 16%, transparent); }
+.dtable .is-rvu { background: var(--rvu-panel); }
+.dtable .is-rvu td { color: var(--rvu-ink); font-weight: var(--weight-label); }  /* 17.76:1 */
+.dtable .mark { font-weight: var(--weight-label); color: var(--rvu-ink); }
+
+/* --- quadrant ------------------------------------------------------------- */
+.quad { display: grid; grid-template-columns: 92px 1fr 1fr; grid-template-rows: 22px 1fr 1fr;
+        gap: 0; height: 100%; max-height: 108mm; }
+.quad__cell { border: 1px solid color-mix(in srgb, var(--rvu-slate) 28%, transparent);
+              padding: 12px 14px; }
+.quad__cell--empty { background: var(--rvu-panel); border-color: var(--rvu-gold); border-width: 2px; }
+.quad__axis { display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-body); font-weight: var(--weight-label);
+  font-size: var(--type-label); letter-spacing: var(--track-label);
+  text-transform: uppercase; color: var(--rvu-slate); }   /* 12.64:1 */
+.quad__axis--v { writing-mode: vertical-rl; transform: rotate(180deg); }
+.quad__who { font-size: 13px; line-height: 1.4; color: var(--rvu-slate); }
+.quad__label {
+  font-family: var(--font-display); font-weight: var(--weight-display);
+  font-size: 17px; color: var(--rvu-ink); margin: 0 0 6px;   /* 18.89:1 */
+}
+.quad__cell--empty .quad__label { color: var(--rvu-ink); }   /* on panel · 17.76:1 */
+.quad__cell--empty .quad__who   { color: var(--rvu-slate); } /* on panel · 11.89:1 */
+
+/* --- figure strip --------------------------------------------------------- */
+.figs { display: grid; grid-template-columns: repeat(4, minmax(0,1fr));
+        border-block: 1px solid color-mix(in srgb, var(--rvu-slate) 16%, transparent); }
+.figs__item { padding: 14px 18px; border-inline-start: 1px solid color-mix(in srgb, var(--rvu-slate) 16%, transparent); }
+.figs__item:first-child { border-inline-start: 0; padding-inline-start: 0; }
+.figs__val {
+  font-family: var(--font-display); font-weight: var(--weight-display);
+  font-size: 40px; line-height: 1; font-variant-numeric: tabular-nums;
+  color: var(--rvu-ink); display: block;   /* 18.89:1 */
+}
+.figs__cap {
+  display: block; margin-block-start: 8px;
+  font-family: var(--font-body); font-weight: var(--weight-label);
+  font-size: var(--type-label); letter-spacing: var(--track-label);
+  text-transform: uppercase; color: var(--rvu-slate);   /* 12.64:1 */
+}
+
+/* --- code / rule sample --------------------------------------------------- */
+.sample {
+  background: var(--rvu-slate-deep);
+  color: var(--rvu-white);                /* 15.78:1 */
+  padding: 14px 16px;
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 12.5px; line-height: 1.55;
+  white-space: pre-wrap;
+}
+.sample b { color: var(--rvu-gold); font-weight: 400; }   /* 7.11:1 on slate-deep */
+
+.list-tight { margin: 0; padding-inline-start: 18px; }
+.list-tight li { font-size: 14px; line-height: 1.45; color: var(--rvu-slate); margin-block-start: 5px; }
+.list-none { list-style: none; padding: 0; margin: 0; }
+
+.callout {
+  border-inline-start: 3px solid var(--rvu-gold);
+  padding: 10px 0 10px 14px;
+  font-size: 14.5px; line-height: 1.5;
+  color: var(--rvu-slate);                /* 12.64:1 */
+  max-width: 68ch;
+}
+.callout b { color: var(--rvu-ink); }     /* 18.89:1 */
+
+/* Screen-only convenience so the deck is readable before printing. */
+@media screen and (max-width: 1120px) {
+  .slide { width: 100%; height: auto; min-height: 0; padding: 24px; }
+  .slide--cover h1 { font-size: 52px; }
+  .quad { max-height: none; }
+}
+
+/* --- density modifiers ----------------------------------------------------
+   Two slides carry more rows than the A4 page allows at the default rhythm.
+   Rather than cutting the content, tighten the leading on those two only. */
+.slide--dense .dtable { font-size: 12.5px; }
+.slide--dense .dtable th,
+.slide--dense .dtable td { padding: 4.5px 12px 4.5px 0; }
+.slide--dense .slide__lead { margin-block-end: 10px; }
+.slide--dense .slide__title { margin-block-end: 8px; }
+
+.slide--tight .slide__lead { margin-block-end: 10px; }
+.slide--tight .sample { font-size: 11.8px; line-height: 1.5; padding: 12px 14px; }
+.slide--tight .dtable { font-size: 12.8px; }
+.slide--tight .dtable th,
+.slide--tight .dtable td { padding: 5px 12px 5px 0; }
+.slide--tight .figs__val { font-size: 34px; }
+
+/* base.css strips markers from any ul[class]; deck content lists keep them. */
+.list-tight { list-style: disc; }
+.list-none  { list-style: none; }
+
+/* Lift the slide number clear of the eyebrow rule. */
+.slide__num { top: 12mm; }

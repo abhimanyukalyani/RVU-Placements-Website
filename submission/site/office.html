@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en-IN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The office &middot; RVU Placements</title>
+<meta name="description" content="Who runs placements at RV University, the academic-year calendar, and where each audience should start.">
+
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Cantarell:wght@400;700&display=swap">
+
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+
+<!-- ▼ partials/header.html ------------------------------------------------ -->
+<a class="skip-link" href="#main">Skip to the main content</a>
+
+<div class="crop-marks" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+
+<header class="site-header">
+  <div class="wrap site-header__inner">
+
+    <a class="site-mark" href="index.html">
+      <span class="site-mark__name">RV University</span>
+      <span class="site-mark__section">Placements</span>
+    </a>
+
+    <nav class="audience-switcher" aria-label="Choose your audience">
+      <ul class="audience-switcher__list">
+        <li><a class="audience-switcher__link" href="students.html">For students</a></li>
+        <li><a class="audience-switcher__link" href="recruiters.html">For recruiters</a></li>
+        <li><a class="audience-switcher__link" href="parents.html">For parents</a></li>
+      </ul>
+    </nav>
+
+  </div>
+</header>
+<!-- ▲ partials/header.html ------------------------------------------------ -->
+
+<main class="site-main" id="main">
+
+  <section class="wrap hero" aria-labelledby="page-title">
+    <p class="eyebrow">The office</p>
+    <h1 class="hero__title" id="page-title">The office</h1>
+    <p class="hero__subhead">Corporate &amp; Alumni Relations runs placements at RV
+      University and maintains every figure on this site. One address reaches all three
+      roles below: <a href="mailto:recruit@rvu.edu.in">recruit@rvu.edu.in</a>.</p>
+  </section>
+
+  <section class="wrap section" aria-labelledby="start-title">
+    <p class="eyebrow">Where to start</p>
+    <h2 class="section-head__title" id="start-title">One line each</h2>
+    <div class="stack" data-start-here></div>
+  </section>
+
+  <section class="wrap section" aria-labelledby="roles-title">
+    <p class="eyebrow">Who does what</p>
+    <h2 class="section-head__title" id="roles-title">Three roles, and the route to each</h2>
+    <p class="section-head__aside">The office is listed by role rather than by person.
+      A role and a working address are things you can act on today; the individual filling
+      a role changes, and a name we have not confirmed would be worse than none.</p>
+    <div class="stack" data-roles></div>
+    <p class="school__todo" data-office-convention></p>
+    <p class="section-head__aside t-caption">The same convention governs every figure on
+      this site &mdash; <a href="methodology.html">how we report</a> sets out where each
+      number comes from, and what happens to one that is not yet available.</p>
+  </section>
+
+  <section class="wrap section" aria-labelledby="calendar-title">
+    <p class="eyebrow">The year</p>
+    <h2 class="section-head__title" id="calendar-title">Academic-year placement calendar</h2>
+    <p class="section-head__aside">What the office is doing each term, so a student or a
+      recruiter can work out when to get in touch. Dates for individual drives are on
+      <a href="drives.html">the live ledger</a>.</p>
+    <div class="stack calendar-grid" data-calendar></div>
+  </section>
+
+  <noscript>
+    <div class="wrap section">
+      <div class="noscript-note">
+        <p><strong>The role list and calendar are switched off.</strong> Both read from a
+        single record when the page opens, so that a changed address or a moved deadline is
+        corrected in one place rather than on nine pages.</p>
+        <p>Write to <a href="mailto:recruit@rvu.edu.in">recruit@rvu.edu.in</a>, which reaches
+        the whole team. <a href="methodology.html">How we report</a> explains why the site is
+        built this way.</p>
+      </div>
+    </div>
+  </noscript>
+
+</main>
+
+<!-- ▼ partials/footer.html ------------------------------------------------ -->
+<footer class="site-footer on-inverse">
+  <div class="wrap site-footer__inner">
+
+    <section>
+      <h2 class="eyebrow">The office</h2>
+      <ul class="site-footer__list">
+        <li>Corporate &amp; Alumni Relations, RV University</li>
+        <li><a href="office.html">Who to contact</a></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2 class="eyebrow">Recruiting</h2>
+      <ul class="site-footer__list">
+        <li><a href="mailto:recruit@rvu.edu.in">recruit@rvu.edu.in</a></li>
+        <li><a href="hire.html">Start a hiring request</a></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2 class="eyebrow">The numbers</h2>
+      <ul class="site-footer__list">
+        <li><a href="outcomes.html">See the outcomes</a></li>
+        <li><a href="methodology.html">How we report</a></li>
+      </ul>
+    </section>
+
+    <p class="site-footer__stamp t-caption" data-stamp>
+      Cohort [XXXX–XX] · recorded [DD MMM YYYY] · updated [DD MMM YYYY] ·
+      maintained by Corporate &amp; Alumni Relations
+    </p>
+
+  </div>
+</footer>
+<!-- ▲ partials/footer.html ------------------------------------------------ -->
+
+<!-- Data spine first, then the renderers, then boot. Classic scripts: this
+     page opens by double-clicking it, with no server. -->
+<script src="data/meta.js"></script>
+<script src="data/placements.js"></script>
+<script src="data/schools.js"></script>
+<script src="data/drives.js"></script>
+<script src="data/recruiters.js"></script>
+<script src="data/eligibility.js"></script>
+<script src="data/journey.js"></script>
+<script src="data/glossary.js"></script>
+<script src="data/intake-fields.js"></script>
+<script src="data/office.js"></script>
+<script src="js/render.js"></script>
+<script src="js/app.js"></script>
+
+</body>
+</html>

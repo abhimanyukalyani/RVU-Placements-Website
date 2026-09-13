@@ -1,0 +1,1205 @@
+/* ===========================================================================
+   components.css — RVU Placements
+   Every component in PLAN.md §6, built once. Pages compose from these; no
+   page defines its own version of any block here.
+
+   Hairlines do the work that borders, fills and shadows usually do
+   (CLAUDE.md §D). Fill and radius are spent only on the pill, which is the
+   theme's own geometry.
+
+   Every text/ground pair carries its measured ratio beside the declaration.
+   =========================================================================== */
+
+@layer components;
+
+@layer components {
+
+/* --------------------------------------------------------------- hairline */
+/* 1px gold opens a section · 1px slate @16% divides rows · 2px slate closes */
+
+.hairline        { border: 0; border-block-start: var(--rule-divide); }
+.hairline--open  { border-block-start: var(--rule-open); }
+.hairline--close { border-block-start: var(--rule-close); }
+
+.section-open {
+  border-block-start: var(--rule-open);
+  padding-block-start: 20px;
+}
+
+/* ------------------------------------------------------------------- pill */
+/* Theme geometry: 800px radius, gold fill, ink label. 12px padding clears 44px. */
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: var(--tap-target-min);
+  padding: var(--pill-padding) 24px;
+  border-radius: var(--pill-radius);
+  border: 1px solid transparent;
+  background: var(--rvu-gold);
+  color: var(--rvu-ink);                  /* #04070a on #d0a863 · 9.10:1 */
+  font-family: var(--font-body);
+  font-weight: var(--weight-label);
+  font-size: var(--type-label);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color var(--motion-base) var(--motion-ease),
+              color var(--motion-base) var(--motion-ease);
+}
+.pill:hover {
+  background: var(--rvu-slate-deep);
+  color: var(--rvu-white);                /* #ffffff on #1a242b · 15.78:1 */
+}
+
+.pill--quiet {
+  background: transparent;
+  border-color: var(--rvu-slate);
+  color: var(--rvu-slate);                /* #233039 on #faf7f1 · 12.64:1 */
+}
+.pill--quiet:hover {
+  background: var(--rvu-slate);
+  color: var(--rvu-white);                /* #ffffff on #233039 · 13.52:1 */
+}
+
+/* ------------------------------------------------------------------- chip */
+/* Filters and status. Same geometry, smaller. Not used on the hub; defined
+   here so drives.html cannot invent a second version. */
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap-target-min);
+  padding: 8px 16px;
+  border-radius: var(--pill-radius);
+  border: 1px solid color-mix(in srgb, var(--rvu-slate) 30%, transparent);
+  background: transparent;
+  color: var(--rvu-slate);                /* #233039 on #faf7f1 · 12.64:1 */
+  font-family: var(--font-body);
+  font-weight: var(--weight-label);
+  font-size: var(--type-label);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.chip[aria-pressed="true"] {
+  background: var(--rvu-gold);
+  border-color: var(--rvu-gold);
+  color: var(--rvu-ink);                  /* #04070a on #d0a863 · 9.10:1 */
+}
+
+/* ------------------------------------------------------------------- hero */
+
+.hero { padding-block: var(--section-padding) 0; }
+
+.hero__title { margin-block: 8px 0; }
+
+.hero__subhead {
+  margin-block-start: 24px;
+  max-width: var(--measure-prose);
+  font-size: var(--type-body-l);
+  line-height: calc(var(--lh-body-l) / var(--type-body-l));
+  color: var(--rvu-slate);                /* #233039 on #faf7f1 · 12.64:1 */
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-block-start: 32px;
+}
+
+/* ------------------------------------------------------------- door-block */
+/* Gold rule above, numbered label, Playfair 27px title, paragraph, arrow link.
+   Numbering is permitted here only — three doors are an enumerated set. */
+
+.doors {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
+  gap: var(--module-gutter);
+}
+
+.door {
+  grid-column: span 4;                    /* three doors, 4 of 12 columns each */
+  display: flex;
+  flex-direction: column;
+  border-block-start: var(--rule-open);
+  padding-block-start: 20px;
+}
+
+.door__label {
+  display: block;
+  color: var(--rvu-gold-text);            /* #866c40 on #faf7f1 · 4.64:1 */
+  margin-block-end: 12px;
+}
+
+.door__title {
+  font-family: var(--font-display);
+  font-weight: var(--weight-display);
+  font-size: var(--type-heading);
+  line-height: calc(var(--lh-heading) / var(--type-heading));
+  color: var(--rvu-ink);                  /* #04070a on #faf7f1 · 18.89:1 */
+  text-wrap: balance;
+  margin: 0;
+}
+
+.door__body {
+  margin-block-start: 12px;
+  color: var(--rvu-slate);                /* #233039 on #faf7f1 · 12.64:1 */
+  flex: 1 0 auto;
+}
+
+/* The whole link is the tap target and clears 44px on its own. */
+.door__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: var(--tap-target-min);
+  margin-block-start: 16px;
+  font-weight: var(--weight-label);
+  font-size: var(--type-label);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--rvu-gold-text);            /* #866c40 on #faf7f1 · 4.64:1 */
+  text-decoration: none;
+  border-block-end: 1px solid currentColor;
+  align-self: flex-start;
+}
+.door__link:hover { border-block-end-width: 2px; }
+.door__arrow { width: 16px; height: 16px; flex: none; }
+
+/* ----------------------------------------------------------- figure-block */
+/* Playfair 58px tabular over a 10px uppercase caption. 1px vertical rules
+   between blocks; the row is bounded top and bottom by 1px slate @16%.
+   Medians take gold text; counts take ink. */
+
+.figure-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-block: var(--rule-divide);
+}
+
+.figure-block {
+  padding: 28px var(--module-gutter);
+  border-inline-start: var(--rule-divide);
+}
+.figure-block:first-child { border-inline-start: 0; padding-inline-start: 0; }
+
+.figure-block__value {
+  font-family: var(--font-display);
+  font-weight: var(--weight-display);
+  font-size: var(--type-figure);
+  line-height: calc(var(--lh-figure) / var(--type-figure));
+  font-variant-numeric: tabular-nums;
+  color: var(--rvu-ink);                  /* #04070a on #faf7f1 · 18.89:1 · counts */
+  display: block;
+}
+
+/* A median is the headline figure and takes gold. 4.64:1 — passes at any size. */
+.figure-block--median .figure-block__value { color: var(--rvu-gold-text); }
+
+.figure-block__caption {
+  display: block;
+  margin-block-start: 10px;
+  color: var(--rvu-slate);                /* #233039 on #faf7f1 · 12.64:1 */
+}
+
+/* Median first, and the maximum can never outgrow it: capped at 60% of the
+   median's size in CSS so the rule cannot drift (CLAUDE.md §E.1). */
+.figure-block__max {
+  display: block;
+  margin-block-start: 8px;
+  font-family: var(--font-display);
+  font-weight: var(--weight-display);
+  font-size: calc(var(--type-figure) * 0.6);
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+  color: var(--rvu-slate);                /* #233039 on #faf7f1 · 12.64:1 */
+}
+
+/* ----------------------------------------------------------- cohort-stamp */
+/* 13px italic: cohort year · record date · updated date · maintainer.
+   Rendered by every figure block. Almost no peer institution dates its
+   numbers, which is why this is never optional. */
+
+.cohort-stamp {
+  margin-block-start: 16px;
+  color: var(--rvu-slate);                /* #233039 on #faf7f1 · 12.64:1 */
+}
+
+/* -------------------------------------------------------- distribution-row */
+/* Label, CSS bar in gold, tabular count. Bars share a max. No axis furniture. */
+
+.distribution { display: grid; gap: 14px; }
+
+.distribution__item {
+  display: grid;
+  grid-template-columns: minmax(120px, 168px) 1fr minmax(48px, auto);
+  align-items: center;
+  gap: 16px;
+}
+
+.distribution__label { color: var(--rvu-slate); }     /* 12.64:1 on paper */
+
+.distribution__track {
+  display: block;                 /* a bare <span> is inline: the bar inside it
+                                     would take no height and no width         */
+  height: 14px;
+  background: color-mix(in srgb, var(--rvu-slate) 8%, transparent);
+}
+
+/* Bar, not text — a graphic use of gold, which is what gold is for. */
+.distribution__bar {
+  display: block;
+  height: 100%;
+  background: var(--rvu-gold);
+  min-width: 2px;
+}
+
+.distribution__count {
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  color: var(--rvu-ink);                  /* #04070a on #faf7f1 · 18.89:1 */
+  font-weight: var(--weight-label);
+}
+
+/* ---------------------------------------------------------- denominator */
+/* The cool callout. On --rvu-panel, eyebrows and labels take --rvu-slate:
+   --rvu-gold-text on --rvu-panel is 4.36:1 and fails the body floor
+   (CLAUDE.md §A, amended). */
+
+.denominator {
+  background: var(--rvu-panel);
+  padding: 28px var(--section-padding);
+  color: var(--rvu-slate);                /* #233039 on #ecf1f5 · 11.89:1 */
+}
+.denominator .eyebrow { color: var(--rvu-slate); }    /* NOT gold-text: 4.36:1 fails */
+.denominator__text {
+  margin-block-start: 12px;
+  max-width: var(--measure-prose);
+  font-size: var(--type-body-l);
+  line-height: calc(var(--lh-body-l) / var(--type-body-l));
+}
+.denominator__text b {
+  font-weight: var(--weight-label);
+  font-variant-numeric: tabular-nums;
+  color: var(--rvu-ink);                  /* #04070a on #ecf1f5 · 17.76:1 */
+}
+
+/* -------------------------------------------------------- recruiter-strip */
+/* Names as text, Cantarell 700 uppercase, hairline dividers. Not a logo wall:
+   nobody's mark is misused, and it reads as more editorial than a grid of
+   images. No <img>, by design. */
+
+.recruiter-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-block: var(--rule-divide);
+}
+
+.recruiter-strip__name {
+  padding: 14px 20px;
+  font-family: var(--font-body);
+  font-weight: var(--weight-label);
+  font-size: var(--type-label);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--rvu-slate);                /* #233039 on #faf7f1 · 12.64:1 */
+  border-inline-start: var(--rule-divide);
+}
+.recruiter-strip__name:first-child { border-inline-start: 0; padding-inline-start: 0; }
+
+/* ------------------------------------------------------------- ledger-row */
+/* Six columns, 19px vertical padding, 1px divider.
+   Status is the only coloured text in the row. */
+
+.ledger { display: grid; }
+
+.ledger__head,
+.ledger__row {
+  display: grid;
+  grid-template-columns: 1.6fr 1.8fr 1.2fr 0.8fr 0.9fr 0.9fr;
+  gap: 16px;
+  padding-block: 19px;
+  align-items: baseline;
+  border-block-end: var(--rule-divide);
+}
+
+.ledger__head {
+  border-block-end: var(--rule-close);
+  padding-block: 12px;
+  color: var(--rvu-slate);                /* #233039 on #faf7f1 · 12.64:1 */
+}
+
+.ledger__row { color: var(--rvu-slate); } /* 12.64:1 */
+
+.ledger__company {
+  font-weight: var(--weight-label);
+  color: var(--rvu-ink);                  /* #04070a on #faf7f1 · 18.89:1 */
+}
+
+.ledger__ctc,
+.ledger__closes { font-variant-numeric: tabular-nums; }
+
+/* The one coloured thing in the row. No red anywhere: a closed drive is
+   carried by weight and wording, never by hue. */
+.ledger__status { font-weight: var(--weight-label); }
+.ledger__status--closing   { color: var(--rvu-gold-text); }  /* #866c40 · 4.64:1 */
+.ledger__status--open,
+.ledger__status--offers_out,
+.ledger__status--closed    { color: var(--rvu-slate); }      /* 12.64:1 */
+
+/* ------------------------------------------------------------- data-table */
+
+.data-table { width: 100%; min-width: 640px; }
+.data-table th,
+.data-table td {
+  text-align: left;
+  padding: 14px 16px 14px 0;
+  font-variant-numeric: tabular-nums;
+  color: var(--rvu-slate);                /* 12.64:1 on paper */
+}
+.data-table thead th {
+  border-block-end: var(--rule-divide);
+  font-family: var(--font-body);
+  font-weight: var(--weight-label);
+  font-size: var(--type-label);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+}
+.data-table tbody tr { border-block-end: var(--rule-divide); }
+
+/* ------------------------------------------------------------- disclosure */
+/* Native <details>/<summary>. No hand-built accordion. */
+
+.disclosure { border-block-end: var(--rule-divide); }
+.disclosure__summary {
+  display: flex;
+  align-items: center;
+  min-height: var(--tap-target-min);
+  cursor: pointer;
+  font-weight: var(--weight-label);
+  color: var(--rvu-ink);                  /* #04070a on #faf7f1 · 18.89:1 */
+}
+.disclosure__body {
+  padding-block: 4px 16px;
+  max-width: var(--measure-prose);
+  color: var(--rvu-slate);                /* 12.64:1 */
+}
+
+/* ------------------------------------------------------------- section head */
+
+.section-head { margin-block-end: 24px; }
+.section-head__title { margin-block-start: 8px; }
+.section-head__aside { margin-block-start: 8px; max-width: var(--measure-prose); }
+
+/* ---------------------------------------------------------------- noscript */
+/* Nothing on this page is JS-gated content typed into markup: every figure
+   resolves from data/. With JS off the notice below is what remains. */
+
+.noscript-note {
+  border-block-start: var(--rule-open);
+  padding-block-start: 16px;
+  color: var(--rvu-slate);                /* 12.64:1 */
+  max-width: var(--measure-prose);
+}
+
+/* ============================================================== responsive */
+/* Every multi-column row collapses to one column at 640px (CLAUDE.md §C). */
+
+@media (max-width: 900px) {
+  .door { grid-column: span 6; }
+  .doors > .door:last-child { grid-column: span 12; }
+}
+
+@media (max-width: 640px) {
+  /* Collapse the track list itself rather than leaving twelve 2px columns
+     under a full-width span — same result, but nothing to go wrong. */
+  .doors { grid-template-columns: 1fr; }
+  .door,
+  .doors > .door:last-child { grid-column: auto; }   /* reset the 900px spans,
+                                                        which would otherwise
+                                                        create implicit columns */
+
+  .figure-row { grid-template-columns: 1fr; }
+  .figure-block {
+    border-inline-start: 0;
+    padding-inline: 0;
+    border-block-start: var(--rule-divide);
+  }
+  .figure-block:first-child { border-block-start: 0; padding-block-start: 0; }
+
+  .distribution__item {
+    grid-template-columns: 1fr auto;
+    gap: 6px 12px;
+  }
+  .distribution__track { grid-column: 1 / -1; }
+
+  .denominator { padding-inline: 20px; }
+
+  .recruiter-strip__name {
+    padding-inline: 0 16px;
+    border-inline-start: 0;
+  }
+
+  /* The ledger becomes a stack of labelled pairs rather than a squeezed grid.
+     Its own labels come from data-label, so no text is typed into markup. */
+  .ledger__head { display: none; }
+  .ledger__row {
+    grid-template-columns: 1fr;
+    gap: 4px;
+    padding-block: 16px;
+  }
+  .ledger__row > * { display: flex; justify-content: space-between; gap: 16px; }
+  .ledger__row > *[data-label]::before {
+    content: attr(data-label);
+    font-weight: var(--weight-label);
+    font-size: var(--type-label);
+    letter-spacing: var(--track-label);
+    text-transform: uppercase;
+    color: var(--rvu-slate);              /* 12.64:1 */
+    flex: none;
+  }
+  .ledger__company { font-size: var(--type-body-l); }
+}
+
+}
+
+/* ============================================================ PHASE 3 =====
+   Stage spine, timeline, forms, result panel, filter bar, empty states.
+   Same rules: hairlines over cards, and every text pair measured.
+   ========================================================================= */
+
+/* ------------------------------------------------------------ start-here */
+/* Pinned above the spine: a first-year student needs one obvious entry
+   point, not three menu levels. */
+
+.start-here {
+  background: var(--rvu-panel);
+  padding: 28px var(--section-padding);
+  color: var(--rvu-slate);                /* #233039 on #ecf1f5 · 11.89:1 */
+}
+.start-here .eyebrow { color: var(--rvu-slate); }   /* NOT gold-text: 4.36:1 fails */
+
+/* Links on the panel ground take slate, not the default gold-text link colour:
+   #866c40 on #ecf1f5 is 4.36:1 and fails the body floor (CLAUDE.md §A).
+   #233039 on #ecf1f5 is 11.89:1. They stay underlined, so the link is still
+   marked by something other than colour. */
+.start-here a,
+.denominator a,
+.match a { color: var(--rvu-slate); }
+.start-here__title {
+  font-family: var(--font-display);
+  font-weight: var(--weight-display);
+  font-size: var(--type-display-m);
+  line-height: calc(var(--lh-display-m) / var(--type-display-m));
+  color: var(--rvu-ink);                  /* #04070a on #ecf1f5 · 17.76:1 */
+  margin-block: 8px 12px;
+  text-wrap: balance;
+}
+.start-here__body { max-width: var(--measure-prose); }
+
+/* ----------------------------------------------------------- stage spine */
+/* Four stages as verbs, horizontal with a connecting hairline; stacked at
+   640px. Each stage is a door into its own content. */
+
+.spine {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--module-gutter);
+  position: relative;
+  padding-block-start: 28px;
+  border-block-start: var(--rule-open);
+}
+
+.stage__order {
+  display: block;
+  color: var(--rvu-gold-text);            /* #866c40 on #faf7f1 · 4.64:1 */
+  margin-block-end: 10px;
+}
+.stage__name {
+  font-family: var(--font-display);
+  font-weight: var(--weight-display);
+  font-size: var(--type-heading);
+  line-height: calc(var(--lh-heading) / var(--type-heading));
+  color: var(--rvu-ink);                  /* 18.89:1 on paper */
+  margin: 0 0 10px;
+}
+.stage__what { color: var(--rvu-slate); } /* 12.64:1 */
+.stage__list {
+  margin-block-start: 14px;
+  padding-inline-start: 18px;
+  color: var(--rvu-slate);                /* 12.64:1 */
+  list-style: disc;                       /* base.css strips markers from any
+                                             ul[class]; content lists keep them */
+}
+.stage__list li { margin-block-start: 6px; }
+.stage__sublabel {
+  display: block;
+  margin-block-start: 16px;
+  color: var(--rvu-slate);                /* 12.64:1 · not gold: this sits at 10px */
+}
+
+/* -------------------------------------------------------------- timeline */
+/* Passed deadlines are muted by WORDING AND WEIGHT, never by a lighter
+   colour: the palette has nine values and none of them is a grey. Both
+   states keep slate or ink, both far past the body floor. */
+
+.year { border-block-start: var(--rule-divide); padding-block: 28px; }
+.year:first-child { border-block-start: 0; }
+
+.year__head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 16px; }
+.year__name {
+  font-family: var(--font-display);
+  font-weight: var(--weight-display);
+  font-size: var(--type-display-m);
+  line-height: calc(var(--lh-display-m) / var(--type-display-m));
+  color: var(--rvu-ink);                  /* 18.89:1 */
+  margin: 0;
+}
+.year__stage { color: var(--rvu-gold-text); }  /* #866c40 · 4.64:1 */
+
+.year__cols {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--module-gutter);
+  margin-block-start: 16px;
+}
+.year__cols h4 {
+  font-family: var(--font-body);
+  font-weight: var(--weight-label);
+  font-size: var(--type-label);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--rvu-slate);                /* 12.64:1 */
+  margin-block-end: 8px;
+}
+.year__cols ul { padding-inline-start: 18px; color: var(--rvu-slate); }
+.year__cols li { margin-block-start: 6px; }
+
+.deadline {
+  margin-block-start: 18px;
+  padding-block-start: 14px;
+  border-block-start: var(--rule-divide);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  align-items: baseline;
+}
+.deadline__tag {
+  font-family: var(--font-body);
+  font-weight: var(--weight-label);
+  font-size: var(--type-label);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+}
+.deadline__date { font-variant-numeric: tabular-nums; }
+
+/* Next: a gold rule and ink text carry it. */
+.deadline--next {
+  border-block-start: var(--rule-open);
+}
+.deadline--next .deadline__tag,
+.deadline--next .deadline__date { color: var(--rvu-gold-text); }  /* 4.64:1 */
+.deadline--next .deadline__label {
+  color: var(--rvu-ink);                  /* 18.89:1 */
+  font-weight: var(--weight-label);
+}
+
+/* Passed: same colours, lighter weight, and the word "Passed" doing the work.
+   Muting by hue would need a tenth colour, and status is never hue here. */
+.deadline--passed .deadline__tag,
+.deadline--passed .deadline__label,
+.deadline--passed .deadline__date {
+  color: var(--rvu-slate);                /* 12.64:1 */
+  font-weight: var(--weight-body);
+}
+
+/* ----------------------------------------------------------------- forms */
+
+.form { max-width: 640px; }
+.form__grid { display: grid; gap: var(--row-gutter-vertical); }
+
+.field { display: grid; gap: 8px; }
+.field__label {
+  font-family: var(--font-body);
+  font-weight: var(--weight-label);
+  font-size: var(--type-label);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--rvu-slate);                /* 12.64:1 */
+}
+.field__hint { color: var(--rvu-slate); } /* 12.64:1 */
+
+.field input[type="text"],
+.field input[type="number"],
+.field input[type="date"],
+.field input[type="email"],
+.field input[type="tel"],
+.field input[type="url"],
+.field select,
+.field textarea {
+  min-height: var(--tap-target-min);
+  padding: 10px 12px;
+  background: var(--rvu-white);
+  color: var(--rvu-slate);                /* #233039 on #ffffff · 13.52:1 */
+  border: 1px solid color-mix(in srgb, var(--rvu-slate) 38%, transparent);
+  border-radius: 0;
+  width: 100%;
+}
+.field textarea { min-height: 120px; resize: vertical; }
+
+.field input[aria-invalid="true"],
+.field select[aria-invalid="true"] {
+  border-width: 2px;
+  border-color: var(--rvu-slate);         /* errors are slate at full weight
+                                             plus a gold rule — never red     */
+  border-inline-start: 3px solid var(--rvu-gold);
+}
+
+.field__error:not(:empty) {
+  color: var(--rvu-slate);                /* 12.64:1 · full weight, no red */
+  font-weight: var(--weight-label);
+  border-inline-start: 3px solid var(--rvu-gold);
+  padding-inline-start: 10px;
+}
+
+/* Kept for any future disabled control: without the text-fill override the
+   user agent paints its own grey, which is outside the nine and measured
+   3.47:1 on the panel ground. */
+.field select:disabled,
+.field input:disabled {
+  background: var(--rvu-panel);
+  color: var(--rvu-slate);                /* #233039 on #ecf1f5 · 11.89:1 */
+  -webkit-text-fill-color: var(--rvu-slate);
+  opacity: 1;
+}
+
+.radio-set { display: flex; flex-wrap: wrap; gap: 8px 24px; }
+.radio {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: var(--tap-target-min);
+  color: var(--rvu-slate);                /* 12.64:1 */
+}
+.radio input { width: 20px; height: 20px; accent-color: var(--rvu-slate); }
+
+fieldset { border: 0; padding: 0; margin: 0; }
+legend {
+  font-family: var(--font-body);
+  font-weight: var(--weight-label);
+  font-size: var(--type-label);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--rvu-slate);                /* 12.64:1 */
+  padding: 0;
+  margin-block-end: 8px;
+}
+
+/* --------------------------------------------------------- result panel */
+
+.result[hidden] { display: none; }
+.result {
+  margin-block-start: var(--section-gutter);
+  border-block-start: var(--rule-open);
+  padding-block-start: 24px;
+}
+.result__headline {
+  font-family: var(--font-display);
+  font-weight: var(--weight-display);
+  font-size: var(--type-display-m);
+  line-height: calc(var(--lh-display-m) / var(--type-display-m));
+  color: var(--rvu-ink);                  /* 18.89:1 */
+  margin-block: 8px 20px;
+  text-wrap: balance;
+  max-width: var(--measure-prose);
+}
+.result__line {
+  display: grid;
+  grid-template-columns: 132px 1fr;
+  gap: 16px;
+  padding-block: 12px;
+  border-block-start: var(--rule-divide);
+  color: var(--rvu-slate);                /* 12.64:1 */
+  max-width: 780px;
+}
+.result__key { color: var(--rvu-slate); } /* 12.64:1 */
+.result__actions {
+  margin-block-start: 20px;
+  padding-inline-start: 18px;
+  color: var(--rvu-slate);                /* 12.64:1 */
+  max-width: var(--measure-prose);
+  list-style: disc;                       /* see .stage__list */
+}
+.result__actions li { margin-block-start: 8px; }
+.result__note { margin-block-start: 12px; max-width: var(--measure-prose); color: var(--rvu-slate); }
+
+/* ------------------------------------------------------------ filter bar */
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 20px;
+  align-items: flex-end;
+  padding-block: 24px;
+  border-block: var(--rule-divide);
+}
+.filters:focus { outline: none; }
+.filters .field { gap: 6px; min-width: 172px; }
+.filters .field select { min-width: 172px; }
+.filter-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+
+.ledger-status {
+  padding-block: 16px;
+  color: var(--rvu-slate);                /* 12.64:1 */
+  font-weight: var(--weight-label);
+}
+
+/* ---------------------------------------------------------- empty state */
+/* Says what to change. The words "no results" appear nowhere on the site. */
+
+.empty-state {
+  border-block-start: var(--rule-open);
+  padding-block: 28px;
+  max-width: var(--measure-prose);
+}
+.empty-state__headline {
+  font-family: var(--font-display);
+  font-weight: var(--weight-display);
+  font-size: var(--type-heading);
+  line-height: calc(var(--lh-heading) / var(--type-heading));
+  color: var(--rvu-ink);                  /* 18.89:1 */
+  margin: 0 0 10px;
+  text-wrap: balance;
+}
+.empty-state__body { color: var(--rvu-slate); }   /* 12.64:1 */
+
+/* -------------------------------------------------------------- resources */
+
+.resource-group { border-block-start: var(--rule-divide); padding-block: 20px; }
+.resource-group h3 {
+  font-family: var(--font-body);
+  font-weight: var(--weight-label);
+  font-size: var(--type-label);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--rvu-gold-text);            /* #866c40 on #faf7f1 · 4.64:1 */
+  margin-block-end: 10px;
+}
+.resource-group ul { padding-inline-start: 18px; color: var(--rvu-slate); }
+.resource-group li { margin-block-start: 6px; }
+
+/* ============================================================= responsive */
+
+@media (max-width: 900px) {
+  .spine { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: var(--row-gutter-vertical); }
+}
+
+@media (max-width: 640px) {
+  .spine      { grid-template-columns: 1fr; }
+  .year__cols { grid-template-columns: 1fr; }
+  .result__line { grid-template-columns: 1fr; gap: 4px; }
+  .start-here { padding-inline: 20px; }
+  .filters .field,
+  .filters .field select { min-width: 0; width: 100%; }
+  .filters { align-items: stretch; }
+}
+
+/* ============================================================ PHASE 4 =====
+   Intent router, progress, cohort-match panel, action cards, glossary.
+   ========================================================================= */
+
+/* ------------------------------------------------------------ intent router */
+/* First thing on the recruiter page, in the employer's own words. */
+
+.router {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--module-gutter);
+}
+
+.router__target {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 96px;
+  padding: 24px 0 24px;
+  border-block-start: var(--rule-open);
+  text-decoration: none;
+  color: var(--rvu-slate);                /* #233039 on #faf7f1 · 12.64:1 */
+}
+.router__label {
+  font-family: var(--font-display);
+  font-weight: var(--weight-display);
+  font-size: var(--type-heading);
+  line-height: calc(var(--lh-heading) / var(--type-heading));
+  color: var(--rvu-ink);                  /* 18.89:1 */
+  text-wrap: balance;
+}
+.router__note { color: var(--rvu-slate); }  /* 12.64:1 */
+.router__go {
+  margin-block-start: auto;
+  font-weight: var(--weight-label);
+  font-size: var(--type-label);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--rvu-gold-text);            /* #866c40 · 4.64:1 */
+}
+.router__target:hover .router__go { border-block-end: 1px solid currentColor; }
+
+/* -------------------------------------------------------------- progress */
+
+.progress {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  margin: 0 0 var(--row-gutter-vertical);
+  padding: 0;
+  list-style: none;
+  counter-reset: step;
+}
+.progress__item {
+  counter-increment: step;
+  padding: 10px 18px 10px 0;
+  margin-inline-end: 18px;
+  border-block-start: var(--rule-divide);
+  font-family: var(--font-body);
+  font-weight: var(--weight-body);
+  font-size: var(--type-label);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--rvu-slate);                /* 12.64:1 */
+  flex: 1 1 auto;
+}
+.progress__item::before { content: counter(step) " · "; }
+.progress__item--current {
+  border-block-start: var(--rule-open);
+  color: var(--rvu-ink);                  /* 18.89:1 */
+  font-weight: var(--weight-label);
+}
+
+/* ---------------------------------------------------------- match panel */
+/* Step 3: the form gives before it takes. */
+
+.match {
+  background: var(--rvu-panel);
+  padding: 28px var(--section-padding);
+  margin-block: var(--row-gutter-vertical);
+  color: var(--rvu-slate);                /* #233039 on #ecf1f5 · 11.89:1 */
+}
+.match .eyebrow { color: var(--rvu-slate); }   /* NOT gold-text: 4.36:1 fails */
+.match__title {
+  font-family: var(--font-display);
+  font-weight: var(--weight-display);
+  font-size: var(--type-display-m);
+  line-height: calc(var(--lh-display-m) / var(--type-display-m));
+  color: var(--rvu-ink);                  /* #04070a on #ecf1f5 · 17.76:1 */
+  margin-block: 8px 12px;
+  text-wrap: balance;
+}
+.match__lead { max-width: var(--measure-prose); }
+.match .figure-row { margin-block-start: 20px; }
+.match .figure-block__value--date { font-size: var(--type-display-m); }
+.match__list { margin-block-start: 20px; padding: 0; list-style: none; }
+.match__school {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 16px;
+  padding-block: 12px;
+  border-block-start: var(--rule-divide);
+}
+.match__window {
+  font-weight: var(--weight-label);
+  font-size: var(--type-label);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--rvu-slate);                /* 11.89:1 on panel */
+}
+.match__note { margin-block-start: 16px; max-width: var(--measure-prose); }
+
+.radio-set--stack { flex-direction: column; gap: 0; }
+.result__actions--ordered { list-style: decimal; }
+
+/* ---------------------------------------------------------- action cards */
+/* Parents get a job, not a photograph. Each card is a real action. */
+
+.actions-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--module-gutter);
+}
+.action-card {
+  display: flex;
+  flex-direction: column;
+  border-block-start: var(--rule-open);
+  padding-block-start: 20px;
+}
+.action-card__title {
+  font-family: var(--font-display);
+  font-weight: var(--weight-display);
+  font-size: var(--type-heading);
+  line-height: calc(var(--lh-heading) / var(--type-heading));
+  color: var(--rvu-ink);                  /* 18.89:1 */
+  margin: 0 0 10px;
+  text-wrap: balance;
+}
+.action-card__body { color: var(--rvu-slate); flex: 1 0 auto; }   /* 12.64:1 */
+.action-card__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: var(--tap-target-min);
+  margin-block-start: 14px;
+  align-self: flex-start;
+  font-weight: var(--weight-label);
+  font-size: var(--type-label);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--rvu-gold-text);            /* 4.64:1 */
+  text-decoration: none;
+  border-block-end: 1px solid currentColor;
+}
+
+/* ------------------------------------------------------------- questions */
+/* The parents' page spine: three plain questions. */
+
+.question { border-block-start: var(--rule-close); padding-block: 32px; }
+.question__q {
+  font-family: var(--font-display);
+  font-weight: var(--weight-display);
+  font-size: var(--type-display-l);
+  line-height: calc(var(--lh-display-l) / var(--type-display-l));
+  letter-spacing: var(--track-display-l);
+  color: var(--rvu-ink);                  /* 18.89:1 */
+  margin: 0 0 16px;
+  text-wrap: balance;
+}
+
+/* --------------------------------------------------------------- glossary */
+
+.glossary { margin-block-start: 20px; }
+.glossary__term { font-weight: var(--weight-label); }
+.glossary__example { margin-block-start: 8px; }
+
+/* ============================================================= responsive */
+
+@media (max-width: 900px) {
+  .actions-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 640px) {
+  .router { grid-template-columns: 1fr; }
+  .match  { padding-inline: 20px; }
+  .progress { display: grid; grid-template-columns: 1fr; }
+  .progress__item { margin-inline-end: 0; }
+}
+
+/* --------------------------------------------------------- example note */
+/* The checker's untouched state shows a worked example. It has to be
+   unmistakably not-your-result, so it is ruled in gold and labelled. */
+
+.example-note {
+  border-inline-start: 3px solid var(--rvu-gold);
+  padding: 12px 0 12px 14px;
+  margin-block-end: 20px;
+  max-width: var(--measure-prose);
+  color: var(--rvu-slate);                /* #233039 on #faf7f1 · 12.64:1 */
+}
+.example-note .t-label {
+  display: block;
+  color: var(--rvu-gold-text);            /* #866c40 on #faf7f1 · 4.64:1 */
+  margin-block-end: 4px;
+}
+
+/* ============================================================ PHASE 5 =====
+   Segmented cohort bar, outcomes headline, school sections.
+   The segmented bar needs five distinguishable bands from a palette with one
+   graphic colour, so it uses gold at five opacities over the paper ground —
+   a graphic use of gold, never text. Each band is also labelled in the key
+   with its own count, so the bar never carries meaning by colour alone.
+   ========================================================================= */
+
+.segbar {
+  display: flex;
+  width: 100%;
+  height: 44px;
+  border: 1px solid var(--rvu-slate);
+  margin-block-end: 20px;
+}
+.segbar__seg { display: block; height: 100%; background: var(--rvu-gold); }
+.segbar__seg + .segbar__seg { border-inline-start: 1px solid var(--rvu-slate); }
+.segbar__seg--1 { opacity: 1;    }
+.segbar__seg--2 { opacity: 0.78; }
+.segbar__seg--3 { opacity: 0.58; }
+.segbar__seg--4 { opacity: 0.40; }
+.segbar__seg--5 { opacity: 0.24; }
+
+.segkey { margin: 0; padding: 0; list-style: none; }
+.segkey__item {
+  display: grid;
+  grid-template-columns: 16px 1fr auto;
+  gap: 14px;
+  align-items: center;
+  padding-block: 12px;
+  border-block-start: var(--rule-divide);
+  color: var(--rvu-slate);                /* #233039 on #faf7f1 · 12.64:1 */
+}
+.segkey__swatch { display: block; width: 16px; height: 16px; background: var(--rvu-gold); }
+.segkey__swatch--1 { opacity: 1;    }
+.segkey__swatch--2 { opacity: 0.78; }
+.segkey__swatch--3 { opacity: 0.58; }
+.segkey__swatch--4 { opacity: 0.40; }
+.segkey__swatch--5 { opacity: 0.24; }
+.segkey__count { font-variant-numeric: tabular-nums; font-weight: var(--weight-label);
+                 color: var(--rvu-ink); } /* 18.89:1 */
+.segkey__total {
+  margin-block-start: 16px;
+  padding-block-start: 16px;
+  border-block-start: var(--rule-close);
+  max-width: var(--measure-prose);
+  color: var(--rvu-slate);                /* 12.64:1 */
+}
+.segkey__total .t-label { color: var(--rvu-slate); }   /* 12.64:1 */
+.segkey__total b { color: var(--rvu-ink); }            /* 18.89:1 */
+
+.headline__read {
+  margin-block-start: 20px;
+  max-width: var(--measure-prose);
+  color: var(--rvu-slate);                /* 12.64:1 */
+}
+.headline__read b { color: var(--rvu-ink); font-variant-numeric: tabular-nums; }
+
+/* Outside the middle-80 band: an outline instead of a fill. Graphic, not hue. */
+.distribution__bar--outside {
+  background: transparent;
+  border: 1px solid var(--rvu-gold);
+}
+.distribution__flag { color: var(--rvu-slate); }       /* 12.64:1 */
+.distribution__note { margin-block-start: 16px; max-width: var(--measure-prose);
+                      color: var(--rvu-slate); }
+
+/* ------------------------------------------------------- school sections */
+
+.school { border-block-start: var(--rule-close); padding-block: 40px; }
+.school__name {
+  font-family: var(--font-display);
+  font-weight: var(--weight-display);
+  font-size: var(--type-display-m);
+  line-height: calc(var(--lh-display-m) / var(--type-display-m));
+  color: var(--rvu-ink);                  /* 18.89:1 */
+  margin: 0 0 8px;
+  text-wrap: balance;
+}
+.school__meta { color: var(--rvu-slate); margin-block-end: 20px; }   /* 12.64:1 */
+.school__sub {
+  font-family: var(--font-body);
+  font-weight: var(--weight-label);
+  font-size: var(--type-label);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--rvu-gold-text);            /* #866c40 · 4.64:1 */
+  margin-block: 28px 12px;
+}
+.school__todo {
+  border-inline-start: 3px solid var(--rvu-gold);
+  padding: 10px 0 10px 14px;
+  margin-block-start: 16px;
+  color: var(--rvu-slate);                /* 12.64:1 */
+  max-width: var(--measure-prose);
+}
+.school-index { display: flex; flex-wrap: wrap; gap: 8px; margin-block-start: 20px; }
+
+/* --------------------------------------------------------------- tables */
+
+.deviation-table td:first-child,
+.deviation-table th:first-child { width: 34%; }
+
+@media (max-width: 640px) {
+  .segbar { height: 64px; }
+  .segkey__item { grid-template-columns: 16px 1fr; row-gap: 4px; }
+  .segkey__count { grid-column: 2; text-align: left; }
+}
+
+/* ============================================================ PHASE 6 ===== */
+
+.person { border-block-start: var(--rule-divide); padding-block: 24px; }
+.person__role {
+  font-family: var(--font-display);
+  font-weight: var(--weight-display);
+  font-size: var(--type-heading);
+  line-height: calc(var(--lh-heading) / var(--type-heading));
+  color: var(--rvu-ink);                  /* #04070a on #faf7f1 · 18.89:1 */
+  margin: 0 0 6px;
+  text-wrap: balance;
+}
+.person__name {
+  font-weight: var(--weight-label);
+  color: var(--rvu-slate);                /* 12.64:1 */
+  margin-block-end: 8px;
+}
+.person__flag { color: var(--rvu-gold-text); }   /* #866c40 · 4.64:1 */
+.person__remit { color: var(--rvu-slate); max-width: var(--measure-prose); }
+.person__contact { margin-block-start: 10px; color: var(--rvu-slate); }
+
+.term { border-block-start: var(--rule-open); padding-block: 20px; }
+.term__name {
+  font-family: var(--font-body);
+  font-weight: var(--weight-label);
+  font-size: var(--type-label);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--rvu-gold-text);            /* 4.64:1 */
+  margin-block-end: 10px;
+}
+.term__list { padding-inline-start: 18px; color: var(--rvu-slate); list-style: disc; }
+.term__list li { margin-block-start: 6px; }
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 var(--module-gutter);
+}
+@media (max-width: 640px) { .calendar-grid { grid-template-columns: 1fr; } }
+
+.school__abbr {
+  font-family: var(--font-body);
+  font-weight: var(--weight-label);
+  font-size: var(--type-label);
+  letter-spacing: var(--track-label);
+  color: var(--rvu-gold-text);            /* #866c40 on #faf7f1 · 4.64:1 */
+  vertical-align: middle;
+}
+
+/* A "pending" select is inert but never greyed by the user agent: the UA's
+   disabled grey measured 3.47:1 on the panel ground and is not one of the
+   nine. Slate on white is 13.52:1. */
+.field__select--pending {
+  color: var(--rvu-slate);                /* #233039 on #ffffff · 13.52:1 */
+  background: var(--rvu-panel);           /* #233039 on #ecf1f5 · 11.89:1 */
+  cursor: default;
+}
+.field__select--pending option { color: var(--rvu-slate); }
+
+.person__scope {
+  display: block;
+  color: var(--rvu-gold-text);            /* #866c40 on #faf7f1 · 4.64:1 */
+  margin-block-end: 6px;
+}
+.person__handles {
+  margin-block: 10px 0;
+  padding-inline-start: 18px;
+  list-style: disc;
+  color: var(--rvu-slate);                /* 12.64:1 */
+  max-width: var(--measure-prose);
+}
+.person__handles li { margin-block-start: 5px; }
+.person__note { margin-block-start: 8px; color: var(--rvu-slate); max-width: var(--measure-prose); }

@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en-IN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Where you stand &middot; RVU Placements</title>
+<meta name="description" content="Check which placement drives are open to you today, and what would change it if none are.">
+
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Cantarell:wght@400;700&display=swap">
+
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/components.css">
+</head>
+<body data-audience="students">
+
+<!-- ▼ partials/header.html ------------------------------------------------ -->
+<a class="skip-link" href="#main">Skip to the main content</a>
+
+<div class="crop-marks" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+
+<header class="site-header">
+  <div class="wrap site-header__inner">
+
+    <a class="site-mark" href="index.html">
+      <span class="site-mark__name">RV University</span>
+      <span class="site-mark__section">Placements</span>
+    </a>
+
+    <nav class="audience-switcher" aria-label="Choose your audience">
+      <ul class="audience-switcher__list">
+        <li><a class="audience-switcher__link" href="students.html">For students</a></li>
+        <li><a class="audience-switcher__link" href="recruiters.html">For recruiters</a></li>
+        <li><a class="audience-switcher__link" href="parents.html">For parents</a></li>
+      </ul>
+    </nav>
+
+  </div>
+</header>
+<!-- ▲ partials/header.html ------------------------------------------------ -->
+
+<main class="site-main" id="main">
+
+  <section class="wrap hero" aria-labelledby="page-title">
+    <p class="eyebrow">01 &middot; For students</p>
+    <h1 class="hero__title" id="page-title">Where you stand</h1>
+    <p class="hero__subhead">Six questions. The answer tells you what you can apply to
+      today, or names the one thing in the way and what would change it. There is no
+      outcome here that leaves you with nothing to do.</p>
+  </section>
+
+  <section class="wrap section" aria-labelledby="form-title">
+    <h2 class="section-head__title" id="form-title">Tell us where you are</h2>
+
+    <form class="form" id="eligibility-form" novalidate>
+      <div class="form__grid">
+
+        <div class="field">
+          <label class="field__label" for="school">Your school</label>
+          <select id="school" name="school" required>
+            <option value="">Choose your school</option>
+          </select>
+          <p class="field__error" id="error-school" role="alert"></p>
+        </div>
+
+        <div class="field">
+          <label class="field__label" for="programme">Your programme</label>
+          <select id="programme" name="programme"></select>
+          <p class="field__hint t-caption">Programme lists are being confirmed with each
+            school. This field does not affect your result.</p>
+          <p class="field__error" id="error-programme" role="alert"></p>
+        </div>
+
+        <div class="field">
+          <label class="field__label" for="year">Your year of study</label>
+          <select id="year" name="year" required>
+            <option value="">Choose your year</option>
+            <option value="1">First year</option>
+            <option value="2">Second year</option>
+            <option value="3">Third year</option>
+            <option value="4">Final year</option>
+          </select>
+          <p class="field__error" id="error-year" role="alert"></p>
+        </div>
+
+        <div class="field">
+          <label class="field__label" for="cgpa">Your current CGPA</label>
+          <input type="number" id="cgpa" name="cgpa" min="0" max="10" step="0.01" required>
+          <p class="field__hint t-caption">Cumulative grade point average, from your
+            latest transcript, on a ten-point scale. Enter 0 if you do not have one yet.</p>
+          <p class="field__error" id="error-cgpa" role="alert"></p>
+        </div>
+
+        <div class="field">
+          <label class="field__label" for="backlogs">Active backlogs</label>
+          <input type="number" id="backlogs" name="backlogs" min="0" step="1" required>
+          <p class="field__hint t-caption">Papers you are still to clear. Enter 0 if you
+            have none.</p>
+          <p class="field__error" id="error-backlogs" role="alert"></p>
+        </div>
+
+        <fieldset class="field">
+          <legend>Are you holding an offer?</legend>
+          <div class="radio-set">
+            <label class="radio"><input type="radio" name="holding-offer" value="yes"> Yes</label>
+            <label class="radio"><input type="radio" name="holding-offer" value="no"> No</label>
+          </div>
+          <p class="field__hint t-caption">One offer at a time: holding one pauses you in
+            the pool, and declining puts you back the same day.</p>
+          <p class="field__error" id="error-holdingOffer" role="alert"></p>
+        </fieldset>
+
+        <p class="hero__actions">
+          <button type="submit" class="pill">Show me where I stand</button>
+        </p>
+
+      </div>
+    </form>
+
+    <div class="result" id="result" role="status" aria-live="polite" hidden></div>
+  </section>
+
+  <noscript>
+    <div class="wrap section">
+      <div class="noscript-note">
+        <p><strong>The eligibility check is switched off.</strong> It reads the live
+        drive list and each school&rsquo;s criteria when the page opens, so it can tell you
+        what is open to you today rather than what was true when the page was written.
+        A static version would restate criteria that are held in one place, which is
+        the thing this site is built to avoid.</p>
+        <p>Turn JavaScript on to run it, or write to
+        <a href="mailto:recruit@rvu.edu.in">recruit@rvu.edu.in</a> and a coordinator
+        will tell you where you stand. <a href="students.html#eligibility">How to stay
+        eligible</a> covers the rules in plain words, and
+        <a href="methodology.html">how we report</a> explains why the page is built
+        this way.</p>
+      </div>
+    </div>
+  </noscript>
+
+</main>
+
+<!-- ▼ partials/footer.html ------------------------------------------------ -->
+<footer class="site-footer on-inverse">
+  <div class="wrap site-footer__inner">
+
+    <section>
+      <h2 class="eyebrow">The office</h2>
+      <ul class="site-footer__list">
+        <li>Corporate &amp; Alumni Relations, RV University</li>
+        <li><a href="office.html">Who to contact</a></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2 class="eyebrow">Recruiting</h2>
+      <ul class="site-footer__list">
+        <li><a href="mailto:recruit@rvu.edu.in">recruit@rvu.edu.in</a></li>
+        <li><a href="hire.html">Start a hiring request</a></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2 class="eyebrow">The numbers</h2>
+      <ul class="site-footer__list">
+        <li><a href="outcomes.html">See the outcomes</a></li>
+        <li><a href="methodology.html">How we report</a></li>
+      </ul>
+    </section>
+
+    <p class="site-footer__stamp t-caption" data-stamp>
+      Cohort [XXXX–XX] · recorded [DD MMM YYYY] · updated [DD MMM YYYY] ·
+      maintained by Corporate &amp; Alumni Relations
+    </p>
+
+  </div>
+</footer>
+<!-- ▲ partials/footer.html ------------------------------------------------ -->
+
+<!-- Data spine first, then the renderers, then boot. Classic scripts: this
+     page opens by double-clicking it, with no server. -->
+<script src="data/meta.js"></script>
+<script src="data/placements.js"></script>
+<script src="data/schools.js"></script>
+<script src="data/drives.js"></script>
+<script src="data/recruiters.js"></script>
+<script src="data/eligibility.js"></script>
+<script src="data/journey.js"></script>
+<script src="data/glossary.js"></script>
+<script src="data/intake-fields.js"></script>
+<script src="data/office.js"></script>
+<script src="js/render.js"></script>
+<script src="js/app.js"></script>
+<script src="js/eligibility.js"></script>
+
+</body>
+</html>
