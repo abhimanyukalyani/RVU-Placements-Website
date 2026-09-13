@@ -195,7 +195,7 @@ The one page all three audiences land on. It must sort them in under three secon
 - **Denominator line.** One sentence in plain English: `287 of 318 students seeking placement through the university received an offer. 46 continued to further study; 21 to entrepreneurship or a family business; 19 placed independently.` No percentage appears anywhere without this.
 - **Recruiter strip.** Names as text, set in Cantarell 700 uppercase with hairline dividers — not a logo wall. Nobody's logo is misused and it looks more editorial than every peer site.
 - **Closing this week.** Three ledger rows pulled live from `drives.js` where `status === "closing"`, then `All live drives →`.
-- **Footer.** Office contact, single memorable recruiting address (`recruit@rvu.edu.in` — Northeastern's move), methodology link, last-updated stamp.
+- **Footer.** Office contact, single memorable recruiting address (`placements@rvu.edu.in` — Northeastern's move), methodology link, last-updated stamp.
 
 ### 02 · `students.html` — Your journey
 
@@ -229,7 +229,7 @@ Waterloo is the benchmark, and the audit calls this the single most winnable gap
 - **Drive windows, stated plainly.** Recruiting calendar by term, internship durations (8 / 12 / 24 weeks), final-placement window, PPO route. Waterloo states work terms in plain numbers; so do we.
 - **How to hire — step by step guide**, plus a `Write a job description that reaches the right cohort` helper (Waterloo's move, adapted).
 - **No pricing.** Instead: what the university provides at no cost — pre-screened shortlists, campus logistics, interview infrastructure, coordinator support.
-- **One address**, repeated: `recruit@rvu.edu.in`, plus a named contact and phone.
+- **One address**, repeated: `placements@rvu.edu.in`, plus a named contact and phone.
 
 ### 06 · `hire.html` — Hiring request `[interactive]`
 
@@ -347,7 +347,7 @@ Waterloo's structure: **classify by stage first, then route.**
 - **Step 2 — role.** Function, number of positions, location, work term (8 / 12 / 24 weeks or full-time), earliest start.
 - **Step 3 — cohort match.** The form **tells the recruiter something before they submit**: given function + work term, here are the eligible schools, approximate cohort size, and the next available drive window, computed from `schools.js` and `drives.js`. This is the whole point — the form gives before it takes.
 - **Step 4 — you.** Organisation, contact, designation, email, phone, website, preferred mode (campus / virtual / hybrid).
-- **Confirmation.** Restates what happens next with the service levels from `recruiters.html`, plus the named coordinator and `recruit@rvu.edu.in`.
+- **Confirmation.** Restates what happens next with the service levels from `recruiters.html`, plus the named coordinator and `placements@rvu.edu.in`.
 
 Fields are grouped to map onto the 20-field working sheet Corporate Relations already keeps — **field names must be reconciled against that sheet before ship**; until then they are placeholders and `data/intake-fields.js` carries a `TODO: confirm against CR sheet` note.
 
@@ -478,6 +478,6 @@ Answer these before Phase 1 so the placeholders don't have to be rewritten:
 
 1. **School names and programme lists** — confirm the six schools against rvu.edu.in.
 2. **The 20-field Corporate Relations sheet** — actual field names, to shape `intake.js`. This is the difference between a plausible form and one the office could use on Monday.
-3. **Office contacts** — names, titles, direct lines for `office.html`, and whether `recruit@rvu.edu.in` can be proposed as a real address.
+3. **Office contacts** — names, titles, direct lines for `office.html`. *(The address is settled: `placements@rvu.edu.in`, RV University's published placements address.)*
 4. **Placeholder vs. real figures** — current plan is clearly-labelled placeholders with a `status: "placeholder"` flag. Confirm that reads as honest rather than incomplete to the judges; the alternative is real published RVU figures where they exist and brackets elsewhere.
 5. **Hosting** — a live URL (GitHub Pages, Netlify) alongside the zip makes judging easier. Decide before Phase 8.

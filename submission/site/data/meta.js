@@ -10,7 +10,7 @@ RVU.meta = {
   updated: "2026-09-12",
   source: "Corporate & Alumni Relations placement sheet",
   maintainer: "Corporate & Alumni Relations, RV University",
-  contact_email: "recruit@rvu.edu.in",
+  contact_email: "placements@rvu.edu.in",
 
   // "placeholder" flips to "live" when real figures land. render.js reads this
   // to decide whether to show the placeholder notice; it does not change how

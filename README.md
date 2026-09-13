@@ -84,8 +84,9 @@ it resolves from the design.
 Alumni Affairs, placement coordination by school, and corporate relations —
 with what each handles. No personal names appear anywhere on the site. No
 direct line is known for any role; each renders as `[pending]`, and all three
-currently route to the shared address. Whether `recruit@rvu.edu.in` can be
-published as a real address is itself undecided.
+currently route to the shared address, `placements@rvu.edu.in`, which is RV
+University's published placements address and is the one detail on this page
+that is confirmed.
 
 *Resolves from: the office.*
 

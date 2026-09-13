@@ -9,8 +9,9 @@
    `direct_line: null` renders as brackets, the same convention every figure on
    the site follows. Nothing here is invented to fill a space.
 
-   TODO: confirm the role list, the direct lines, and whether
-   recruit@rvu.edu.in can be published as a real address. */
+   TODO: confirm the role list and the direct lines.
+   The address itself is settled: placements@rvu.edu.in is RV University's
+   published placements address. */
 window.RVU = window.RVU || {};
 
 RVU.office = {
@@ -18,7 +19,7 @@ RVU.office = {
   university: "RV University",
 
   /* The one address, repeated everywhere on the site rather than scattered. */
-  general_email: "recruit@rvu.edu.in",
+  general_email: "placements@rvu.edu.in",
 
   /* The convention, stated once and rendered on the page. */
   convention: "Where the placement sheet has not yet supplied a detail, this " +
@@ -35,7 +36,7 @@ RVU.office = {
         "Drive scheduling across the six schools in the placement cohort",
         "Anything a recruiter, student or parent could not get answered elsewhere"
       ],
-      route: "recruit@rvu.edu.in",
+      route: "placements@rvu.edu.in",
       route_note: "Write with your question; it reaches the office lead.",
       direct_line: null
     },
@@ -48,7 +49,7 @@ RVU.office = {
         "Applications, interview preparation and mock interviews",
         "Curriculum vitae review, returned within three working days"
       ],
-      route: "recruit@rvu.edu.in",
+      route: "placements@rvu.edu.in",
       route_note: "Name your school in the subject line and it is routed to that " +
                   "school's coordinator.",
       direct_line: null
@@ -62,7 +63,7 @@ RVU.office = {
         "Maintaining the placement sheet every figure on this site is read from",
         "Questions about how a figure was derived"
       ],
-      route: "recruit@rvu.edu.in",
+      route: "placements@rvu.edu.in",
       route_note: "Hiring requests can also be started from the recruiter page.",
       direct_line: null
     }
