@@ -28,28 +28,70 @@ blocked by tooling.
 **Every figure on this site is a placeholder.** Nothing here has been supplied
 by the placement office. The numbers are internally consistent — the cohort
 buckets sum to the graduating class, the distribution and all three breakdowns
-sum to the number placed, and `min ≤ median ≤ mean ≤ max` holds in every
-salary block — but they describe no real cohort. `data/meta.js` carries
-`status: "placeholder"`, and `methodology.html` says so in the deviations
-table.
+sum to the number placed, per-school cohorts reconcile to the university
+totals, and `min ≤ median ≤ mean ≤ max` holds in every salary block — but they
+describe no real cohort. `data/meta.js` carries `status: "placeholder"`, and
+`methodology.html` says so in its deviations table.
 
-Specifically **not yet confirmed**, each carrying a `TODO` in the data file:
+Unpopulated values render as `[XXX]`, `₹[XX.X] LPA` or `[pending]` — never as
+`0`, never as a dash, never as an empty box. An empty statistic box is the
+specific failure of the current live page, and this build is constructed so it
+cannot reproduce it.
+
+### Verified
+
+| What | Source |
+|---|---|
+| The eight school names | Confirmed against rvu.edu.in |
+| Which six schools are in the placement cohort | Confirmed; the two exclusions are published on `methodology.html` |
+
+### Not verified — every item, and what each needs
+
+**Figures — all of them.** Every number on every page:
+
+| Figure | File |
+|---|---|
+| Cohort size, classification, offers made, students placed | `data/placements.js` |
+| Salary min / max / mean / median, all three measures | `data/placements.js` |
+| Middle-80% band | `data/placements.js` |
+| The five distribution buckets | `data/placements.js` |
+| Breakdowns by sector, function and location | `data/placements.js` |
+| Per-school cohorts and packages | `data/schools.js` |
+| Drive packages, windows and CGPA floors | `data/drives.js` |
+| Cohort year, record date, publication date | `data/meta.js` |
+
+**Office names and contacts.** `data/office.js`. The office lead is recorded as
+**Sivakumar S, Senior Manager — Placements and Alumni Affairs** and is marked
+`verified: false`. The other four roles have `name: null` and render as
+`[pending]`. No direct phone number is known for anyone; all five entries
+currently point at the shared address. Roles are rendered before names so the
+page never presents a guessed name as a confirmed one. **Needs: confirmation of
+every name, title and direct line with the office.**
+
+**The Corporate Relations intake field list.** `data/intake-fields.js` carries
+`sheet_reconciled: false`, and every `sheet_column` value is a guess:
+
+`Enquiry type` · `Function` · `Sector` · `Headcount` · `Location` ·
+`Engagement type` · `Start date` · `CTC band` · `Company name` ·
+`Contact person` · `Designation` · `Email` · `Phone` · `Website` · `Mode` ·
+`Notes`
+
+That is 16 fields against a working sheet said to have 20. **Needs:
+reconciliation against the actual 20-field Corporate Relations sheet.** This is
+the difference between a plausible form and one the office could use on Monday.
+
+**Everything else outstanding:**
 
 | What | Where | Needs |
 |---|---|---|
-| The six school names | `data/schools.js` | Confirming against rvu.edu.in |
-| Programme lists | `data/schools.js` | Confirming; deliberately left empty rather than guessed |
-| Recruiting organisation names | `data/recruiters.js` | The placement sheet |
-| Drive calendar and packages | `data/drives.js` | The placement sheet |
-| Office names, titles, phone numbers | `data/office.js` | Confirming with the office |
-| Intake form field names | `data/intake-fields.js` | Reconciling against the 20-field Corporate Relations sheet |
-| Eligibility thresholds | `data/eligibility.js` | Confirming with the office |
-| Academic-year calendar dates | `data/journey.js`, `data/office.js` | The academic calendar |
-
-Unpopulated values render as `[XXX]`, `₹[XX.X] LPA` or `[pending]` — never as
-`0`, never as a dash, and never as an empty box. An empty stat box is the
-specific failure of the current live page, and this build is constructed so it
-cannot reproduce it.
+| Programme lists (all eight schools) | `data/schools.js` | Confirming; deliberately left empty rather than guessed |
+| Recruiting organisation names | `data/recruiters.js` | The placement sheet — currently `[Organisation 01]`…`[Organisation 20]` |
+| Per-school top recruiters | `data/schools.js` | The placement sheet |
+| Drive company names | `data/drives.js` | The placement sheet |
+| Eligibility thresholds and the one-offer policy | `data/eligibility.js` | Confirming with the office |
+| Academic-year calendar and deadline dates | `data/journey.js`, `data/office.js` | The academic calendar |
+| Target service levels | `data/intake-fields.js` | Agreeing them with the office before publishing |
+| Whether `recruit@rvu.edu.in` can be a real address | Site-wide | A decision by the office |
 
 **What is real** is the structure: the information architecture, the data
 spine, the four interactive modules, the contrast and accessibility work, and
@@ -70,8 +112,9 @@ outcomes.html       Outcomes explorer            [interactive]
 methodology.html    How we report — IPRS-pattern disclosure
 schools.html        Placement by school
 office.html         The office — people, calendar, contacts
+deck.html           Submission deck — print to PDF, A4 landscape
 
-css/    tokens · base · components
+css/    tokens · base · components · deck
 js/     app · render · eligibility · drives · outcomes · intake
 data/   meta · placements · schools · drives · recruiters ·
         eligibility · journey · glossary · intake-fields · office
@@ -79,6 +122,14 @@ data/   meta · placements · schools · drives · recruiters ·
 
 `CLAUDE.md` is the build constitution — palette, contrast law, type, spacing,
 components, data-display rules, voice. `PLAN.md` is the build plan.
+
+## The deck
+
+`deck.html` is the submission deck: ten sections, one per A4 landscape page,
+built from the same tokens and type scale as the site. To produce the PDF,
+open it and print — **A4, Landscape, Margins: None, Background graphics: on**.
+Printing from a browser is also what gives it the real Playfair Display and
+Cantarell.
 
 ## The one thing to know about the data
 

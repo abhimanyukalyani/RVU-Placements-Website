@@ -1,0 +1,467 @@
+<!doctype html>
+<html lang="en-IN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RVU Placements — submission deck</title>
+<meta name="description" content="The argument behind the RV University placements site revamp: what twelve placement pages get wrong, the five gaps, and a design that cannot go stale.">
+
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Cantarell:wght@400;700&display=swap">
+
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/deck.css">
+</head>
+<body class="deck">
+
+<p class="deck__hint">Ten sections, one per page. To make the PDF: <b>print this page
+  &rarr; A4 &rarr; Landscape &rarr; Margins: None &rarr; Background graphics: on</b>.
+  Printing from a browser is also the only way it picks up Playfair Display and
+  Cantarell, which the site and the university theme already use.</p>
+
+<!-- ============================================================ 01 · thesis -->
+<section class="slide slide--cover">
+  <span class="slide__num">01</span>
+  <h1>Placements</h1>
+  <p class="cover__thesis">The world&rsquo;s best careers services are excellent for
+    students and publish no outcome data. Indian institutions publish numbers and abandon
+    students. Nobody at all serves parents. <b>RV University does all three, from one
+    source of data, with a date on every figure.</b></p>
+  <p class="cover__meta">A revamp of the RV University placements page &middot; competition
+    submission &middot; September 2026</p>
+  <div class="slide__foot"><span>RV University &middot; Placements</span>
+    <span>Built on an audit of twelve placement pages</span></div>
+</section>
+
+<!-- ================================================== 02 · the scorecard ---- -->
+<section class="slide slide--dense">
+  <span class="slide__num">02</span>
+  <p class="slide__eyebrow">The audit</p>
+  <h2 class="slide__title">What twelve placement pages get wrong</h2>
+  <p class="slide__lead">Twelve careers and placement sites, scored on four things a
+    reader actually needs. Not one of the twelve does all four.</p>
+
+  <div class="slide__body">
+    <table class="dtable">
+      <thead><tr>
+        <th style="width:26%">Institution</th>
+        <th>Serves students</th>
+        <th>Publishes outcomes</th>
+        <th>Dates its figures</th>
+        <th>Serves parents</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>Oxford Careers Service</td><td class="mark">Yes</td><td>No</td><td>No</td><td>No</td></tr>
+        <tr><td>LSE Careers</td><td class="mark">Yes</td><td>Partial</td><td>No</td><td>No</td></tr>
+        <tr><td>MIT CAPD</td><td class="mark">Yes</td><td>Partial</td><td>Partial</td><td>No</td></tr>
+        <tr><td>Waterloo Co-operative Education</td><td class="mark">Yes</td><td>Partial</td><td>No</td><td>No</td></tr>
+        <tr><td>Northeastern Employer Engagement</td><td class="mark">Yes</td><td>Partial</td><td>No</td><td>No</td></tr>
+        <tr><td>Stanford BEAM</td><td class="mark">Yes</td><td>No</td><td>No</td><td class="mark">Yes</td></tr>
+        <tr><td>Indian Institutes of Technology</td><td>Partial</td><td class="mark">Yes</td><td>Partial</td><td>No</td></tr>
+        <tr><td>Indian Institutes of Management</td><td>No</td><td class="mark">Yes</td><td class="mark">Yes</td><td>No</td></tr>
+        <tr><td>Plaksha University</td><td>Partial</td><td class="mark">Yes</td><td>Partial</td><td>No</td></tr>
+        <tr><td>Ashoka University</td><td>Partial</td><td>Partial</td><td>No</td><td>No</td></tr>
+        <tr><td>Krea University</td><td>Partial</td><td>Partial</td><td>No</td><td>No</td></tr>
+        <tr><td>RV University, as it stands today</td><td>No</td><td>No</td><td>No</td><td>No</td></tr>
+        <tr class="is-rvu"><td>RV University, as proposed</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
+      </tbody>
+    </table>
+    <p class="callout" style="margin-top:14px">The live RV University placements page
+      carries empty statistic boxes, a hero addressed to recruiters on the page students
+      arrive at first, and <b>six school links that lead nowhere</b>. Those three faults
+      set the acceptance criteria for this build.</p>
+  </div>
+  <div class="slide__foot"><span>02 &middot; The scorecard</span><span>Twelve sites audited</span></div>
+</section>
+
+<!-- =================================================== 03 · the five gaps --- -->
+<section class="slide">
+  <span class="slide__num">03</span>
+  <p class="slide__eyebrow">The opportunity</p>
+  <h2 class="slide__title">Five gaps, and the empty quadrant</h2>
+  <p class="slide__lead">Excellence for students and honest outcome reporting are treated
+    as separate traditions. Nobody occupies the corner where both are true.</p>
+
+  <div class="slide__body cols cols--2" style="align-items:start">
+    <div class="quad">
+      <div></div>
+      <div class="quad__axis">No outcome data</div>
+      <div class="quad__axis">Publishes outcomes</div>
+
+      <div class="quad__axis quad__axis--v">Serves students</div>
+      <div class="quad__cell">
+        <p class="quad__label">Excellent, opaque</p>
+        <p class="quad__who">Oxford &middot; LSE &middot; MIT &middot; Waterloo &middot;
+          Northeastern &middot; Stanford</p>
+      </div>
+      <div class="quad__cell quad__cell--empty">
+        <p class="quad__label">Empty &mdash; RVU goes here</p>
+        <p class="quad__who">A careers service a student can use, and outcome reporting a
+          parent or a journalist can check. Nobody in the audit occupies it.</p>
+      </div>
+
+      <div class="quad__axis quad__axis--v">Thin for students</div>
+      <div class="quad__cell">
+        <p class="quad__label">Neither</p>
+        <p class="quad__who">RV University today &middot; Ashoka &middot; Krea</p>
+      </div>
+      <div class="quad__cell">
+        <p class="quad__label">Numbers, no service</p>
+        <p class="quad__who">IITs &middot; IIMs &middot; Plaksha</p>
+      </div>
+    </div>
+
+    <div>
+      <table class="dtable">
+        <thead><tr><th style="width:12%">Gap</th><th>What it is</th><th style="width:30%">Discharged by</th></tr></thead>
+        <tbody>
+          <tr><td class="mark">01</td><td>Be the site that does both</td><td>The whole information architecture</td></tr>
+          <tr><td class="mark">02</td><td>Adopt the IPRS pattern voluntarily</td><td>outcomes &middot; methodology</td></tr>
+          <tr><td class="mark">03</td><td>Give parents a job</td><td>parents</td></tr>
+          <tr><td class="mark">04</td><td>Sort recruiters by intent</td><td>recruiters &rarr; hire</td></tr>
+          <tr><td class="mark">05</td><td>Date every number</td><td>The cohort stamp, on every figure</td></tr>
+        </tbody>
+      </table>
+      <p class="callout" style="margin-top:14px">Each gap is assigned to a page, so none
+        can quietly go missing during the build.</p>
+    </div>
+  </div>
+  <div class="slide__foot"><span>03 &middot; The five gaps</span><span>The empty quadrant is the position</span></div>
+</section>
+
+<!-- ============================================================== 04 · IA --- -->
+<section class="slide">
+  <span class="slide__num">04</span>
+  <p class="slide__eyebrow">Information architecture</p>
+  <h2 class="slide__title">Three doors, two axes, eleven pages</h2>
+  <p class="slide__lead">One page all three audiences land on, and it sorts them in under
+    three seconds. The current hero addresses recruiters on the page students arrive at
+    first; that mistake is not repeated.</p>
+
+  <div class="slide__body">
+    <div class="cols cols--3">
+      <div class="block">
+        <span class="block__label">01 &middot; For students</span>
+        <h3 class="block__title">Know where you stand</h3>
+        <p>Journey &rarr; eligibility check &rarr; live drives. A four-stage spine, a
+          checker that never says only &ldquo;ineligible&rdquo;, and every open drive with
+          its window and its CGPA floor.</p>
+      </div>
+      <div class="block">
+        <span class="block__label">02 &middot; For recruiters</span>
+        <h3 class="block__title">Tell us your stage</h3>
+        <p>An intent router first, then an intake that computes your cohort match before
+          you submit. &ldquo;Information only&rdquo; never sees a form.</p>
+      </div>
+      <div class="block">
+        <span class="block__label">03 &middot; For parents</span>
+        <h3 class="block__title">Three questions, three jobs</h3>
+        <p>What the process is, what the numbers mean in plain English, and three actions
+          with a real route behind each.</p>
+      </div>
+    </div>
+
+    <p class="slide__lead" style="margin-top:18px">A persistent audience switcher in the
+      header is the first axis; task-based navigation within each path is the second. Every
+      page marks where you are.</p>
+
+    <table class="dtable">
+      <thead><tr><th>Students</th><th>Recruiters</th><th>Parents</th><th>Shared</th></tr></thead>
+      <tbody><tr>
+        <td>students &middot; eligibility &middot; drives</td>
+        <td>recruiters &middot; hire</td>
+        <td>parents</td>
+        <td>index &middot; outcomes &middot; methodology &middot; schools &middot; office</td>
+      </tr></tbody>
+    </table>
+  </div>
+  <div class="slide__foot"><span>04 &middot; The IA</span><span>Two-axis navigation, after MIT CAPD</span></div>
+</section>
+
+<!-- ======================================================= 05 · data spine -- -->
+<section class="slide slide--tight">
+  <span class="slide__num">05</span>
+  <p class="slide__eyebrow">The mechanism</p>
+  <h2 class="slide__title">One source, and empty boxes made impossible</h2>
+  <p class="slide__lead">No number is typed into any page. Every figure resolves from one
+    data file through one renderer, which enforces the display rules in code rather than
+    leaving them to whoever edits the page next.</p>
+
+  <div class="slide__body cols cols--2" style="align-items:start">
+    <div>
+      <div class="sample">data/placements.js
+  cohort: { total_graduates: <b>412</b>, … }
+
+index.html
+  &lt;span <b>data-fig</b>="placements.cohort.offers_made"&gt;&lt;/span&gt;
+
+js/render.js
+  <b>fig(null)</b>        &rarr; "[XXX]"      never 0, never a dash
+  <b>pct(n, null)</b>     &rarr; throws
+  <b>figure row</b>       &rarr; stamp inserted if absent
+  <b>max sans median</b>  &rarr; throws
+  <b>checkViews()</b>     &rarr; throws on a percentage with no
+                     denominator in the same view</div>
+      <p class="callout" style="margin-top:14px">The empty statistic box on the live page
+        is not styled away here. It is <b>unreachable</b>: there is no code path that
+        renders an unpopulated figure as a blank or a zero.</p>
+    </div>
+
+    <div>
+      <table class="dtable">
+        <thead><tr><th>Rule</th><th style="width:42%">Enforced by</th></tr></thead>
+        <tbody>
+          <tr><td>Median leads; the maximum never larger</td><td>CSS caps the max at 60% of the median</td></tr>
+          <tr><td>A package figure always shows its spread</td><td>checkViews() throws</td></tr>
+          <tr><td>No percentage without its denominator</td><td>pct() throws; checkViews() throws</td></tr>
+          <tr><td>Every graduate in exactly one group</td><td>98 consistency checks at load</td></tr>
+          <tr><td>Every figure dated</td><td>The stamp is inserted, not remembered</td></tr>
+          <tr><td>No figure typed into markup</td><td>grep returns nothing, and is meant to</td></tr>
+        </tbody>
+      </table>
+      <div class="figs" style="margin-top:16px">
+        <div class="figs__item"><span class="figs__val">98</span><span class="figs__cap">Consistency checks, run at load</span></div>
+        <div class="figs__item"><span class="figs__val">10</span><span class="figs__cap">Data files, one source each</span></div>
+        <div class="figs__item"><span class="figs__val">0</span><span class="figs__cap">Numbers typed into markup</span></div>
+        <div class="figs__item"><span class="figs__val">0</span><span class="figs__cap">Dead links, 152 checked</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="slide__foot"><span>05 &middot; The data spine</span><span>Change one file, the whole site updates</span></div>
+</section>
+
+<!-- ========================================================== 06 · students - -->
+<section class="slide">
+  <span class="slide__num">06</span>
+  <p class="slide__eyebrow">01 &middot; For students</p>
+  <h2 class="slide__title">A journey, and a checker with no dead ends</h2>
+  <p class="slide__lead">LSE&rsquo;s four-stage spine was the most portable finding in the
+    audit. Oxford&rsquo;s one weakness was that a first-year had to descend three menu
+    levels; a &ldquo;Start here&rdquo; block sits above the spine to fix that.</p>
+
+  <div class="slide__body cols cols--2" style="align-items:start">
+    <div>
+      <div class="cols cols--4" style="gap:10px">
+        <div class="block"><span class="block__label">Stage 1</span><h3 class="block__title">Understand</h3></div>
+        <div class="block"><span class="block__label">Stage 2</span><h3 class="block__title">Explore</h3></div>
+        <div class="block"><span class="block__label">Stage 3</span><h3 class="block__title">Experience</h3></div>
+        <div class="block"><span class="block__label">Stage 4</span><h3 class="block__title">Implement</h3></div>
+      </div>
+      <p class="callout" style="margin-top:14px">Eligibility is written throughout as
+        <b>how to stay eligible</b>, never as grounds for disqualification. Same facts,
+        opposite framing &mdash; and the same rule governs every error message on the site.</p>
+    </div>
+
+    <div>
+      <table class="dtable">
+        <thead><tr><th>Result state</th><th>What it always carries</th></tr></thead>
+        <tbody>
+          <tr><td class="mark">Eligible</td><td>What you can apply to today, linked and pre-filtered</td></tr>
+          <tr><td class="mark">Eligible, with something to know</td><td>The condition, what changes it, and by when</td></tr>
+          <tr><td class="mark">Paused &mdash; and the way back</td><td>The single blocking criterion and the route out of it</td></tr>
+        </tbody>
+      </table>
+      <p class="callout" style="margin-top:12px">The checker is a pure function, so its
+        whole input space can be enumerated: <b>1,536 combinations reach 7 branches, and
+        every one carries at least one link and one next action.</b> There is no
+        combination of answers that leaves a student with nothing to do.</p>
+      <p class="callout">No peer site in the audit publishes drive windows at all. The
+        ledger does, with each drive&rsquo;s CGPA floor beside it.</p>
+    </div>
+  </div>
+  <div class="slide__foot"><span>06 &middot; Students</span><span>Zero dead ends, proven by enumeration</span></div>
+</section>
+
+<!-- ========================================================= 07 · recruiters - -->
+<section class="slide">
+  <span class="slide__num">07</span>
+  <p class="slide__eyebrow">02 &middot; For recruiters</p>
+  <h2 class="slide__title">Sorted by intent, and told what happens next</h2>
+  <p class="slide__lead">The single most winnable gap in the brief. Waterloo is the
+    benchmark: classify by stage first, then route. No Indian site in the audit tells a
+    recruiter what happens after they submit.</p>
+
+  <div class="slide__body cols cols--2" style="align-items:start">
+    <div>
+      <div class="block"><span class="block__label">Router, first thing on the page</span>
+        <ul class="list-tight" style="margin-top:6px">
+          <li>We want to hire now</li>
+          <li>We are planning to hire later this year</li>
+          <li>We want to offer internships or projects</li>
+          <li>We just want information &mdash; <b>never sees a form</b></li>
+        </ul>
+      </div>
+      <p class="callout" style="margin-top:14px">The intake <b>gives before it takes</b>.
+        Step three takes no input: it tells the recruiter which schools match, how many
+        students that is, and when the next window closes &mdash; computed from the live
+        school and drive records, before anything is submitted.</p>
+      <p class="callout">No pricing. What the university provides at no charge is listed
+        instead: pre-screened shortlists, campus logistics, interview infrastructure, a
+        named coordinator.</p>
+    </div>
+
+    <div>
+      <table class="dtable">
+        <thead><tr><th>What happens</th><th style="width:34%">Within</th></tr></thead>
+        <tbody>
+          <tr><td>We acknowledge your request</td><td class="mark">1 working day</td></tr>
+          <tr><td>We send a cohort and eligibility shortlist</td><td class="mark">3 working days</td></tr>
+          <tr><td>We confirm your drive slot</td><td class="mark">5 working days</td></tr>
+          <tr><td>The drive runs</td><td class="mark">Your stated window</td></tr>
+        </tbody>
+      </table>
+      <p class="callout" style="margin-top:12px">Published as target service levels, so a
+        recruiter can hold the office to them. Stating them is the differentiator; nobody
+        else in the audit does.</p>
+      <p class="callout">On submit the form logs a payload keyed to the columns of the
+        working sheet Corporate Relations already keeps. <b>This form already speaks your
+        spreadsheet.</b></p>
+    </div>
+  </div>
+  <div class="slide__foot"><span>07 &middot; Recruiters</span><span>One address: recruit@rvu.edu.in</span></div>
+</section>
+
+<!-- ============================================================ 08 · parents - -->
+<section class="slide">
+  <span class="slide__num">08</span>
+  <p class="slide__eyebrow">03 &middot; For parents</p>
+  <h2 class="slide__title">Give parents a job, not a photograph</h2>
+  <p class="slide__lead">Stanford is the only model in twelve sites, and the instruction
+    from the audit is to copy the move rather than the page. A parent who is given
+    something to do is more useful than a parent who is reassured.</p>
+
+  <div class="slide__body">
+    <div class="cols cols--3">
+      <div class="block"><span class="block__label">Action one</span>
+        <h3 class="block__title">Refer a recruiter</h3>
+        <p>You know an organisation that hires people with your child&rsquo;s skills. Tell
+          us and we approach them. Routes into the same intake the recruiters use.</p></div>
+      <div class="block"><span class="block__label">Action two</span>
+        <h3 class="block__title">Offer half an hour</h3>
+        <p>An informational interview with a student in your field. No hiring, no
+          commitment beyond the thirty minutes.</p></div>
+      <div class="block"><span class="block__label">Action three</span>
+        <h3 class="block__title">Join the network</h3>
+        <p>A quarterly briefing, and first sight of drive outcomes as they are recorded
+          rather than months later.</p></div>
+    </div>
+
+    <div class="cols cols--2" style="margin-top:18px">
+      <p class="callout"><b>Zero unexplained abbreviations.</b> Lakh per annum, cost to
+        company, cumulative grade point average, pre-placement offer &mdash; each expanded
+        at first use and defined in a glossary. Every figure gets a sentence saying what it
+        means.</p>
+      <p class="callout">And an honest section no peer site attempts: <b>what placement does
+        not guarantee.</b> Not every student who wants a placement receives an offer. The
+        figures describe last year&rsquo;s market. Trust is the deliverable on this page,
+        and hedging would cost it.</p>
+    </div>
+
+    <p class="callout" style="margin-top:14px">The most quotable sentence on the site sits
+      here: <b>&ldquo;We lead with the median rather than the highest offer because one
+      exceptional offer tells you nothing about your child&rsquo;s likely outcome.&rdquo;</b>
+      The page then renders the maximum at 60% of the median&rsquo;s size, so the layout
+      makes the same argument the sentence does.</p>
+  </div>
+  <div class="slide__foot"><span>08 &middot; Parents</span><span>The audience nobody serves</span></div>
+</section>
+
+<!-- ============================================================= 09 · IPRS --- -->
+<section class="slide">
+  <span class="slide__num">09</span>
+  <p class="slide__eyebrow">Credibility</p>
+  <h2 class="slide__title">Voluntary disclosure, including where we fall short</h2>
+  <p class="slide__lead">RV University is not a business school and no regulator asks for
+    this. Reporting on the IPRS pattern voluntarily is the cheapest credibility available,
+    and publishing the deviations is what makes the rest believable.</p>
+
+  <div class="slide__body cols cols--2" style="align-items:start">
+    <div>
+      <table class="dtable">
+        <thead><tr><th>Published</th><th style="width:30%">Peers doing the same</th></tr></thead>
+        <tbody>
+          <tr><td>Every graduate in exactly one cohort group, reconciling in public</td><td>None in the audit</td></tr>
+          <tr><td>Median first, maximum never alone or larger</td><td>Rare</td></tr>
+          <tr><td>Full distribution beside every package figure</td><td>Rare</td></tr>
+          <tr><td>Middle 80%, top and bottom decile excluded</td><td>Almost nobody</td></tr>
+          <tr><td>Record date and update date on every figure</td><td>Almost nobody</td></tr>
+          <tr><td>A populated deviations table</td><td>None in the audit</td></tr>
+          <tr><td>Which schools are excluded, and why</td><td>None in the audit</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <p class="callout"><b>Eight schools, six counted.</b> The School of Allied and
+        Healthcare Professions has no graduating cohort yet; SCEPS is continuing education
+        for working professionals. Both appear on the site with the reason attached. A
+        school that is silently missing from a placement page is indistinguishable from one
+        that did badly &mdash; which is the specific criticism the audit makes of otherwise
+        strong reporting elsewhere.</p>
+      <p class="callout"><b>&ldquo;No external audit yet; adoption planned&rdquo;</b> is the
+        honest entry in the deviations table today, and a stronger signal than silence. An
+        empty deviations table would be the least believable thing on the site.</p>
+      <p class="callout">Recorded at three months post-graduation, published at six, raw
+        data retained twelve. Offers outside India converted and adjusted for purchasing
+        power, so one Singapore offer cannot distort a distribution.</p>
+    </div>
+  </div>
+  <div class="slide__foot"><span>09 &middot; Voluntary IPRS-pattern disclosure</span><span>Checkable, not trusted</span></div>
+</section>
+
+<!-- ========================================================= 10 · shipping --- -->
+<section class="slide">
+  <span class="slide__num">10</span>
+  <p class="slide__eyebrow">What it takes to ship</p>
+  <h2 class="slide__title">This design cannot go stale</h2>
+  <p class="slide__lead">The audit&rsquo;s central finding is that peer pages fail because
+    they are <b>unmaintained</b>, not because they are ugly. A redesign that looks better
+    and rots at the same rate has not solved the problem. So the question is not how this
+    looks on launch day — it is what it looks like in eighteen months.</p>
+
+  <div class="slide__body cols cols--2" style="align-items:start">
+    <div>
+      <table class="dtable">
+        <thead><tr><th>How placement pages rot</th><th style="width:46%">Why it cannot happen here</th></tr></thead>
+        <tbody>
+          <tr><td>Figures hard-coded into markup, updated by hand once a year</td><td>No number exists in any page. One file, and the whole site moves.</td></tr>
+          <tr><td>A statistic box empties when a value goes missing</td><td>A missing value renders <b>[XXX]</b>. There is no code path to a blank.</td></tr>
+          <tr><td>A percentage outlives the cohort it described</td><td>Every figure carries its record date, inserted by the renderer.</td></tr>
+          <tr><td>Links to brochures that were moved or deleted</td><td>Zero dead links is an acceptance criterion; 152 checked on every pass.</td></tr>
+          <tr><td>A new school launches and the page is never updated</td><td>Schools come from data, including the two not yet in the cohort.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div>
+      <div class="block">
+        <span class="block__label">Porting to rvu.edu.in</span>
+        <h3 class="block__title">A page template, not a rebuild</h3>
+        <ul class="list-tight" style="margin-top:8px">
+          <li><b>No new webfont.</b> Playfair Display and Cantarell are already enqueued by
+            the current theme.</li>
+          <li><b>No new colour.</b> The nine tokens mirror the theme&rsquo;s own
+            <span style="font-family:monospace">--gcid-*</span> custom properties.</li>
+          <li><b>No framework, no build step.</b> Plain CSS and classic scripts; it opens by
+            double-clicking a file.</li>
+          <li><b>Figures move to ACF fields</b> or a scheduled sync from the placement
+            sheet. Keeping every number in one place is what makes that a swap rather than a
+            rewrite &mdash; and it resolves the no-JavaScript fallback at the same time,
+            because the markup then arrives with the numbers already in it.</li>
+          <li><b>Semantic, shallow markup</b> that maps to clean blocks in the existing page
+            builder.</li>
+        </ul>
+      </div>
+      <p class="callout" style="margin-top:14px">The maintenance cost of this page after
+        launch is <b>editing one data file</b>. That is the argument, and it is the reason
+        the design will still be true in a year.</p>
+    </div>
+  </div>
+  <div class="slide__foot"><span>10 &middot; What it takes to ship</span><span>Unmaintainable is the real failure mode</span></div>
+</section>
+
+</body>
+</html>

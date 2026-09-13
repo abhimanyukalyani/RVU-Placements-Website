@@ -1,0 +1,41 @@
+# Publishes the site to GitHub Pages on every push to main.
+#
+# This workflow cannot turn Pages on by itself. Once, in the repository:
+#   Settings -> Pages -> Build and deployment -> Source: GitHub Actions
+# After that this runs on every push and the site is live at
+#   https://abhimanyukalyani.github.io/RVU-Placements-Website/
+#
+# There is no build step. The repository root is the site: it is plain HTML,
+# CSS and classic scripts, which is the same property that lets it open by
+# double-clicking index.html.
+
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+      - id: deployment
+        uses: actions/deploy-pages@v4
