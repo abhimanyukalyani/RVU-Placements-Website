@@ -38,6 +38,14 @@
       R.mount("[data-recruiters]", R.recruiterStrip(RVU.recruiters.sectors));
     }
 
+    if (doc.querySelector("[data-spine]")) {
+      R.mount("[data-spine]", R.stageSpine(RVU.journey.stages));
+    }
+
+    if (doc.querySelector("[data-timeline]")) {
+      R.mount("[data-timeline]", R.yearTimeline(RVU.journey.years));
+    }
+
     if (doc.querySelector("[data-closing]")) {
       var closing = [];
       for (var i = 0; i < RVU.drives.length; i++) {

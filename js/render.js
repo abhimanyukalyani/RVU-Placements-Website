@@ -743,3 +743,89 @@
   R.fillSlots = fillSlots;
 
 }(typeof window !== "undefined" ? window : globalThis));
+
+/* ===========================================================================
+   render.js · part 4 — the student-path blocks.
+   Both are driven entirely by journey.js: the stages and years are data, not
+   copy, so they belong in a renderer rather than in page markup.
+   =========================================================================== */
+(function (global) {
+  "use strict";
+
+  var RVU = global.RVU = global.RVU || {};
+  var R = RVU.render;
+
+  function esc(s) { return R.esc(s); }
+
+  function list(items, cls) {
+    var html = "<ul class=\"" + cls + "\">";
+    for (var i = 0; i < items.length; i++) { html += "<li>" + esc(items[i]) + "</li>"; }
+    return html + "</ul>";
+  }
+
+  /* Four stages as verbs, each a door into its own content. */
+  function stageSpine(stages) {
+    var html = "<div class=\"spine\">";
+    for (var i = 0; i < stages.length; i++) {
+      var s = stages[i];
+      html += "<section class=\"stage\" id=\"stage-" + esc(s.id) + "\">" +
+                "<span class=\"stage__order t-label\">Stage " + esc(s.order) + "</span>" +
+                "<h3 class=\"stage__name\">" + esc(s.label) + "</h3>" +
+                "<p class=\"stage__what\">" + esc(s.what_it_is) + "</p>" +
+                "<span class=\"stage__sublabel t-label\">What you do</span>" +
+                list(s.do, "stage__list") +
+                "<span class=\"stage__sublabel t-label\">What the office gives you</span>" +
+                list(s.office_offers, "stage__list") +
+              "</section>";
+    }
+    return html + "</div>";
+  }
+
+  /* Timeline by year. The next deadline is highlighted and every earlier one
+     reads as passed. Both states keep a full-contrast colour: the distinction
+     is carried by a gold rule, weight and the word itself, because the palette
+     has no grey to mute with. "Today" is RVU.meta.updated, so the page cannot
+     disagree with its own cohort stamp. */
+  function yearTimeline(years, todayISO) {
+    var today = todayISO || (RVU.meta && RVU.meta.updated);
+
+    var nextIndex = -1, i;
+    for (i = 0; i < years.length; i++) {
+      var d = years[i].deadline;
+      if (d && d.date >= today && (nextIndex === -1 || d.date < years[nextIndex].deadline.date)) {
+        nextIndex = i;
+      }
+    }
+
+    var html = "";
+    for (i = 0; i < years.length; i++) {
+      var y = years[i];
+      var passed = y.deadline && y.deadline.date < today;
+      var isNext = (i === nextIndex);
+
+      var cls = "deadline" + (isNext ? " deadline--next" : (passed ? " deadline--passed" : ""));
+      var tag = isNext ? "Next deadline" : (passed ? "Passed" : "Deadline");
+
+      html += "<section class=\"year\" id=\"year-" + esc(y.year) + "\">" +
+                "<div class=\"year__head\">" +
+                  "<h3 class=\"year__name\">" + esc(y.label) + "</h3>" +
+                  "<span class=\"year__stage t-label\">Stage: " + esc(y.stage) + "</span>" +
+                "</div>" +
+                "<div class=\"year__cols\">" +
+                  "<div><h4>What you do</h4>" + list(y.do, "") + "</div>" +
+                  "<div><h4>What the office gives you</h4>" + list(y.office_offers, "") + "</div>" +
+                "</div>" +
+                "<p class=\"" + cls + "\">" +
+                  "<span class=\"deadline__tag\">" + esc(tag) + "</span>" +
+                  "<span class=\"deadline__label\">" + esc(y.deadline.label) + "</span>" +
+                  "<span class=\"deadline__date\">" + esc(R.fig(y.deadline.date, "date")) + "</span>" +
+                "</p>" +
+              "</section>";
+    }
+    return html;
+  }
+
+  R.stageSpine = stageSpine;
+  R.yearTimeline = yearTimeline;
+
+}(typeof window !== "undefined" ? window : globalThis));

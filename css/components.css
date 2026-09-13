@@ -465,3 +465,332 @@
 }
 
 }
+
+/* ============================================================ PHASE 3 =====
+   Stage spine, timeline, forms, result panel, filter bar, empty states.
+   Same rules: hairlines over cards, and every text pair measured.
+   ========================================================================= */
+
+/* ------------------------------------------------------------ start-here */
+/* Pinned above the spine: a first-year student needs one obvious entry
+   point, not three menu levels. */
+
+.start-here {
+  background: var(--rvu-panel);
+  padding: 28px var(--section-padding);
+  color: var(--rvu-slate);                /* #233039 on #ecf1f5 · 11.89:1 */
+}
+.start-here .eyebrow { color: var(--rvu-slate); }   /* NOT gold-text: 4.36:1 fails */
+.start-here__title {
+  font-family: var(--font-display);
+  font-weight: var(--weight-display);
+  font-size: var(--type-display-m);
+  line-height: calc(var(--lh-display-m) / var(--type-display-m));
+  color: var(--rvu-ink);                  /* #04070a on #ecf1f5 · 17.76:1 */
+  margin-block: 8px 12px;
+  text-wrap: balance;
+}
+.start-here__body { max-width: var(--measure-prose); }
+
+/* ----------------------------------------------------------- stage spine */
+/* Four stages as verbs, horizontal with a connecting hairline; stacked at
+   640px. Each stage is a door into its own content. */
+
+.spine {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--module-gutter);
+  position: relative;
+  padding-block-start: 28px;
+  border-block-start: var(--rule-open);
+}
+
+.stage__order {
+  display: block;
+  color: var(--rvu-gold-text);            /* #866c40 on #faf7f1 · 4.64:1 */
+  margin-block-end: 10px;
+}
+.stage__name {
+  font-family: var(--font-display);
+  font-weight: var(--weight-display);
+  font-size: var(--type-heading);
+  line-height: calc(var(--lh-heading) / var(--type-heading));
+  color: var(--rvu-ink);                  /* 18.89:1 on paper */
+  margin: 0 0 10px;
+}
+.stage__what { color: var(--rvu-slate); } /* 12.64:1 */
+.stage__list {
+  margin-block-start: 14px;
+  padding-inline-start: 18px;
+  color: var(--rvu-slate);                /* 12.64:1 */
+  list-style: disc;                       /* base.css strips markers from any
+                                             ul[class]; content lists keep them */
+}
+.stage__list li { margin-block-start: 6px; }
+.stage__sublabel {
+  display: block;
+  margin-block-start: 16px;
+  color: var(--rvu-slate);                /* 12.64:1 · not gold: this sits at 10px */
+}
+
+/* -------------------------------------------------------------- timeline */
+/* Passed deadlines are muted by WORDING AND WEIGHT, never by a lighter
+   colour: the palette has nine values and none of them is a grey. Both
+   states keep slate or ink, both far past the body floor. */
+
+.year { border-block-start: var(--rule-divide); padding-block: 28px; }
+.year:first-child { border-block-start: 0; }
+
+.year__head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 16px; }
+.year__name {
+  font-family: var(--font-display);
+  font-weight: var(--weight-display);
+  font-size: var(--type-display-m);
+  line-height: calc(var(--lh-display-m) / var(--type-display-m));
+  color: var(--rvu-ink);                  /* 18.89:1 */
+  margin: 0;
+}
+.year__stage { color: var(--rvu-gold-text); }  /* #866c40 · 4.64:1 */
+
+.year__cols {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--module-gutter);
+  margin-block-start: 16px;
+}
+.year__cols h4 {
+  font-family: var(--font-body);
+  font-weight: var(--weight-label);
+  font-size: var(--type-label);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--rvu-slate);                /* 12.64:1 */
+  margin-block-end: 8px;
+}
+.year__cols ul { padding-inline-start: 18px; color: var(--rvu-slate); }
+.year__cols li { margin-block-start: 6px; }
+
+.deadline {
+  margin-block-start: 18px;
+  padding-block-start: 14px;
+  border-block-start: var(--rule-divide);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  align-items: baseline;
+}
+.deadline__tag {
+  font-family: var(--font-body);
+  font-weight: var(--weight-label);
+  font-size: var(--type-label);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+}
+.deadline__date { font-variant-numeric: tabular-nums; }
+
+/* Next: a gold rule and ink text carry it. */
+.deadline--next {
+  border-block-start: var(--rule-open);
+}
+.deadline--next .deadline__tag,
+.deadline--next .deadline__date { color: var(--rvu-gold-text); }  /* 4.64:1 */
+.deadline--next .deadline__label {
+  color: var(--rvu-ink);                  /* 18.89:1 */
+  font-weight: var(--weight-label);
+}
+
+/* Passed: same colours, lighter weight, and the word "Passed" doing the work.
+   Muting by hue would need a tenth colour, and status is never hue here. */
+.deadline--passed .deadline__tag,
+.deadline--passed .deadline__label,
+.deadline--passed .deadline__date {
+  color: var(--rvu-slate);                /* 12.64:1 */
+  font-weight: var(--weight-body);
+}
+
+/* ----------------------------------------------------------------- forms */
+
+.form { max-width: 640px; }
+.form__grid { display: grid; gap: var(--row-gutter-vertical); }
+
+.field { display: grid; gap: 8px; }
+.field__label {
+  font-family: var(--font-body);
+  font-weight: var(--weight-label);
+  font-size: var(--type-label);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--rvu-slate);                /* 12.64:1 */
+}
+.field__hint { color: var(--rvu-slate); } /* 12.64:1 */
+
+.field input[type="text"],
+.field input[type="number"],
+.field input[type="date"],
+.field input[type="email"],
+.field input[type="tel"],
+.field input[type="url"],
+.field select,
+.field textarea {
+  min-height: var(--tap-target-min);
+  padding: 10px 12px;
+  background: var(--rvu-white);
+  color: var(--rvu-slate);                /* #233039 on #ffffff · 13.52:1 */
+  border: 1px solid color-mix(in srgb, var(--rvu-slate) 38%, transparent);
+  border-radius: 0;
+  width: 100%;
+}
+.field textarea { min-height: 120px; resize: vertical; }
+
+.field input[aria-invalid="true"],
+.field select[aria-invalid="true"] {
+  border-width: 2px;
+  border-color: var(--rvu-slate);         /* errors are slate at full weight
+                                             plus a gold rule — never red     */
+  border-inline-start: 3px solid var(--rvu-gold);
+}
+
+.field__error:not(:empty) {
+  color: var(--rvu-slate);                /* 12.64:1 · full weight, no red */
+  font-weight: var(--weight-label);
+  border-inline-start: 3px solid var(--rvu-gold);
+  padding-inline-start: 10px;
+}
+
+.field select:disabled {
+  background: var(--rvu-panel);
+  color: var(--rvu-slate);                /* #233039 on #ecf1f5 · 11.89:1 */
+  -webkit-text-fill-color: var(--rvu-slate);   /* Safari dims disabled text */
+  opacity: 1;
+}
+
+.radio-set { display: flex; flex-wrap: wrap; gap: 8px 24px; }
+.radio {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: var(--tap-target-min);
+  color: var(--rvu-slate);                /* 12.64:1 */
+}
+.radio input { width: 20px; height: 20px; accent-color: var(--rvu-slate); }
+
+fieldset { border: 0; padding: 0; margin: 0; }
+legend {
+  font-family: var(--font-body);
+  font-weight: var(--weight-label);
+  font-size: var(--type-label);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--rvu-slate);                /* 12.64:1 */
+  padding: 0;
+  margin-block-end: 8px;
+}
+
+/* --------------------------------------------------------- result panel */
+
+.result[hidden] { display: none; }
+.result {
+  margin-block-start: var(--section-gutter);
+  border-block-start: var(--rule-open);
+  padding-block-start: 24px;
+}
+.result__headline {
+  font-family: var(--font-display);
+  font-weight: var(--weight-display);
+  font-size: var(--type-display-m);
+  line-height: calc(var(--lh-display-m) / var(--type-display-m));
+  color: var(--rvu-ink);                  /* 18.89:1 */
+  margin-block: 8px 20px;
+  text-wrap: balance;
+  max-width: var(--measure-prose);
+}
+.result__line {
+  display: grid;
+  grid-template-columns: 132px 1fr;
+  gap: 16px;
+  padding-block: 12px;
+  border-block-start: var(--rule-divide);
+  color: var(--rvu-slate);                /* 12.64:1 */
+  max-width: 780px;
+}
+.result__key { color: var(--rvu-slate); } /* 12.64:1 */
+.result__actions {
+  margin-block-start: 20px;
+  padding-inline-start: 18px;
+  color: var(--rvu-slate);                /* 12.64:1 */
+  max-width: var(--measure-prose);
+  list-style: disc;                       /* see .stage__list */
+}
+.result__actions li { margin-block-start: 8px; }
+.result__note { margin-block-start: 12px; max-width: var(--measure-prose); color: var(--rvu-slate); }
+
+/* ------------------------------------------------------------ filter bar */
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 20px;
+  align-items: flex-end;
+  padding-block: 24px;
+  border-block: var(--rule-divide);
+}
+.filters:focus { outline: none; }
+.filters .field { gap: 6px; min-width: 172px; }
+.filters .field select { min-width: 172px; }
+.filter-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+
+.ledger-status {
+  padding-block: 16px;
+  color: var(--rvu-slate);                /* 12.64:1 */
+  font-weight: var(--weight-label);
+}
+
+/* ---------------------------------------------------------- empty state */
+/* Says what to change. The words "no results" appear nowhere on the site. */
+
+.empty-state {
+  border-block-start: var(--rule-open);
+  padding-block: 28px;
+  max-width: var(--measure-prose);
+}
+.empty-state__headline {
+  font-family: var(--font-display);
+  font-weight: var(--weight-display);
+  font-size: var(--type-heading);
+  line-height: calc(var(--lh-heading) / var(--type-heading));
+  color: var(--rvu-ink);                  /* 18.89:1 */
+  margin: 0 0 10px;
+  text-wrap: balance;
+}
+.empty-state__body { color: var(--rvu-slate); }   /* 12.64:1 */
+
+/* -------------------------------------------------------------- resources */
+
+.resource-group { border-block-start: var(--rule-divide); padding-block: 20px; }
+.resource-group h3 {
+  font-family: var(--font-body);
+  font-weight: var(--weight-label);
+  font-size: var(--type-label);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--rvu-gold-text);            /* #866c40 on #faf7f1 · 4.64:1 */
+  margin-block-end: 10px;
+}
+.resource-group ul { padding-inline-start: 18px; color: var(--rvu-slate); }
+.resource-group li { margin-block-start: 6px; }
+
+/* ============================================================= responsive */
+
+@media (max-width: 900px) {
+  .spine { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: var(--row-gutter-vertical); }
+}
+
+@media (max-width: 640px) {
+  .spine      { grid-template-columns: 1fr; }
+  .year__cols { grid-template-columns: 1fr; }
+  .result__line { grid-template-columns: 1fr; gap: 4px; }
+  .start-here { padding-inline: 20px; }
+  .filters .field,
+  .filters .field select { min-width: 0; width: 100%; }
+  .filters { align-items: stretch; }
+}
