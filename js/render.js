@@ -484,7 +484,7 @@
       html += "<div class=\"distribution__item\">" +
                 "<span class=\"distribution__label\">" + esc(b.label) + "</span>" +
                 "<span class=\"distribution__track\" aria-hidden=\"true\">" +
-                  "<span class=\"distribution__bar\" style=\"width:" + width + "%\"></span>" +
+                  "<span class=\"distribution__bar\" data-fill-bar style=\"width:" + width + "%\"></span>" +
                 "</span>" +
                 "<span class=\"distribution__count\">" + esc(R.fig(b.count)) + "</span>" +
               "</div>";

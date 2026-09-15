@@ -135,6 +135,21 @@
     }
   }
 
+  /* Every top-level block below the hero reveals once on first entry. The hero
+     is deliberately excluded: it is above the fold on load, and content the
+     reader is already looking at should not move. The attribute is all this
+     does — motion.js decides whether anything animates, and under reduced
+     motion nothing does. */
+  function markReveals() {
+    var main = doc.querySelector(".site-main");
+    if (!main) { return; }
+    var kids = main.children;
+    for (var i = 1; i < kids.length; i++) {
+      if (kids[i].tagName === "NOSCRIPT") { continue; }
+      kids[i].setAttribute("data-reveal", "");
+    }
+  }
+
   function boot() {
     if (!R) {
       if (global.console) { console.error("RVU: render.js did not load."); }
@@ -144,6 +159,8 @@
     mountDataBlocks();
     R.fillSlots();          // last: the mounted blocks may carry slots of their own
     R.checkViews();         // §E.2 and §E.3, over every view on the page
+    markReveals();
+    if (RVU.motion) { RVU.motion.scan(); }   // bars and reveals mounted above
   }
 
   if (doc.readyState === "loading") {

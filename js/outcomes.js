@@ -42,7 +42,7 @@
     for (i = 0; i < BUCKETS.length; i++) {
       var v = c[BUCKETS[i].key];
       var w = (v / c.total_graduates) * 100;
-      segs += "<span class=\"segbar__seg segbar__seg--" + (i + 1) + "\" style=\"width:" +
+      segs += "<span class=\"segbar__seg segbar__seg--" + (i + 1) + "\" data-fill-bar style=\"width:" +
               (Math.round(w * 10) / 10) + "%\" aria-hidden=\"true\"></span>";
       rows += "<li class=\"segkey__item\">" +
                 "<span class=\"segkey__swatch segkey__swatch--" + (i + 1) + "\" aria-hidden=\"true\"></span>" +
@@ -123,7 +123,7 @@
                 "</span>" +
                 "<span class=\"distribution__track\" aria-hidden=\"true\">" +
                   "<span class=\"distribution__bar" + (outside ? " distribution__bar--outside" : "") +
-                    "\" style=\"width:" + w + "%\"></span>" +
+                    "\" data-fill-bar style=\"width:" + w + "%\"></span>" +
                 "</span>" +
                 "<span class=\"distribution__count\">" + R.esc(R.fig(b.count)) + "</span>" +
               "</div>";
@@ -208,6 +208,9 @@
 
     /* The rules are checked on every redraw, not just the first paint. */
     R.checkViews();
+
+    /* This redraw made new bars; hand them to the motion system. */
+    if (RVU.motion) { RVU.motion.scan(); }
   }
 
   function wireTabs() {

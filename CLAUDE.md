@@ -185,3 +185,31 @@ rvu.edu.in runs WordPress with WP Rocket and a page builder. This static build m
 - [ ] no percentage without its denominator in the same view
 - [ ] no dead links
 - [ ] opens correctly from `file://`
+
+---
+
+## J. Motion — three primitives, and nothing else
+
+Motion is a budget, not a palette. Three effects exist; adding a fourth is a change to this section, not a styling decision.
+
+1. **Scroll-linked bar fill.** Every bar on the site — distribution, school breakdown, cohort segments — fills as the reader scrolls and **locks permanently once full**. It never animates a second time, including on scroll back up.
+2. **Section reveal.** A section's contents fade and rise 12px on first entry, once, 380ms `ease-out`. Never again.
+3. **The recruiter ticker.** One continuous horizontal band, paused on hover and on focus.
+
+Plus the existing focus and hover transitions. **No parallax, no scroll-jacking, no counters that tick numbers up, no carousels beyond the ticker.**
+
+### The two rules that make it safe
+
+- **Nothing is hidden by CSS alone.** Every element rests in its finished, readable state by default. `js/motion.js` applies an offset only at the moment it has committed to animating it back. Delete `js/motion.js` and every page reads identically — bars full, sections visible. A rule that parks content at `opacity: 0` and waits for script is a rule that deletes the page when the script fails.
+- **`prefers-reduced-motion` is checked once, at the top of `motion.js`.** Under it the file observes nothing and writes nothing, and the stylesheet forces the resting state. The bar arrives already complete, which is the readable state, so no information is lost. This is required by §G and is not optional.
+
+### How the fill is built
+
+- Animate `transform: scaleX(var(--fill))` with `transform-origin: left center`. **Never animate `width`** — it forces layout on every scroll frame.
+- `IntersectionObserver` starts a `requestAnimationFrame` loop per bar; progress maps the bar's position through the viewport to 0→1, reaching 1 when its top hits 65% of viewport height so it completes before leaving the screen.
+- At 1: set `--fill: 1`, set `data-filled="true"`, cancel the loop, `unobserve`.
+- **Read every `getBoundingClientRect()` first, write every value after.** Interleaving reads and writes makes the browser recompute layout once per bar per frame.
+- `RVU.motion.scan()` is idempotent and re-callable: views that rebuild their bars (the outcomes explorer's tabs and toggle) call it after rendering, and a bar already seen or already full is left alone.
+- **Do not use `animation-timeline: view()` as the primary path.** MDN lists it as limited availability and not Baseline, so it would silently do nothing in some browsers. It may be added inside `@supports` as an enhancement, but only once the JS path is complete and working.
+
+---

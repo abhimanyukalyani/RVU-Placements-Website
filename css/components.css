@@ -1240,3 +1240,57 @@ legend {
    pushes each item down inside its own grid row and the rows stop aligning —
    which is what made the four calendar terms sit on four different baselines. */
 .calendar-grid > * { margin-block-start: 0; }
+
+/* ============================================================== MOTION =====
+   CLAUDE.md §J. Three primitives; every element rests in its finished state
+   and is only offset once js/motion.js has committed to animating it back.
+   Delete motion.js and the page reads identically, fully filled and visible.
+   ========================================================================= */
+
+/* --- 1 · scroll-linked bar fill ----------------------------------------- */
+/* transform, never width: width forces layout on every scroll frame. The
+   default is 1 — full — so a bar with no JS is a bar that is simply correct. */
+
+[data-fill-bar] {
+  transform: scaleX(var(--fill, 1));
+  transform-origin: left center;
+  will-change: transform;
+}
+
+/* The last tenth eases out so the bar settles rather than stopping dead. */
+[data-fill-bar][data-filled="true"] {
+  transition: transform 220ms var(--motion-ease);
+  will-change: auto;
+}
+
+/* --- 2 · section reveal -------------------------------------------------- */
+/* data-reveal-armed is written by JS, so the offset only ever exists when
+   something is going to undo it. */
+
+[data-reveal][data-reveal-armed] {
+  opacity: 0;
+  transform: translateY(12px);
+}
+[data-reveal][data-reveal-armed][data-revealed="true"] {
+  opacity: 1;
+  transform: none;
+  transition: opacity 380ms ease-out, transform 380ms ease-out;
+}
+
+/* --- reduced motion ------------------------------------------------------ */
+/* Required by §G. The resting state is the final state, so nothing is lost:
+   bars are full, sections are in place, and motion.js observes nothing. */
+
+@media (prefers-reduced-motion: reduce) {
+  [data-fill-bar] {
+    transform: scaleX(1) !important;
+    transition: none !important;
+    will-change: auto;
+  }
+  [data-reveal],
+  [data-reveal][data-reveal-armed] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
