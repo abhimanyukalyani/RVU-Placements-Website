@@ -35,7 +35,9 @@
     }
 
     if (doc.querySelector("[data-recruiters]")) {
-      R.mount("[data-recruiters]", R.recruiterStrip(RVU.recruiters.sectors));
+      /* The hub shows a strip, not the whole register; the figure beside it
+         still counts every organisation in the data. */
+      R.mount("[data-recruiters]", R.recruiterStrip(RVU.recruiters.sectors, 24));
     }
 
     if (doc.querySelector("[data-spine]")) {

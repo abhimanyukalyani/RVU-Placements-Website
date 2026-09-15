@@ -255,6 +255,34 @@
       }
     }
 
+    /* 6b · PLAUSIBILITY. The 98 arithmetic checks all passed while the hub
+       stated 301 offers against 20 recruiting organisations — 15 offers each,
+       where campus recruiting runs one to five. Internal consistency is not the
+       same as being believable, so these assert the shape of the numbers rather
+       than their sums. */
+    var recruiterCount = 0;
+    var sectors = (RVU.recruiters && RVU.recruiters.sectors) || [];
+    for (var rs = 0; rs < sectors.length; rs++) {
+      recruiterCount += sectors[rs].companies.length;
+      assert("recruiter sector '" + sectors[rs].sector + "' lists at least one organisation",
+             sectors[rs].companies.length > 0, String(sectors[rs].companies.length));
+    }
+
+    var perOrg = recruiterCount ? (c.offers_made / recruiterCount) : 0;
+    assert("offers per recruiting organisation is between 1 and 6",
+           perOrg >= 1 && perOrg <= 6,
+           c.offers_made + " offers / " + recruiterCount + " organisations = " +
+           (Math.round(perOrg * 100) / 100));
+
+    /* A salary distribution with a long right tail has its mean at or above its
+       median. A mean below the median would mean the tail runs the other way,
+       which no placement cohort does. */
+    for (var pb = 0; pb < blocks.length; pb++) {
+      assert(blocks[pb][0] + ": mean at or above median (right-skewed)",
+             blocks[pb][1].mean >= blocks[pb][1].median,
+             "mean " + blocks[pb][1].mean + " vs median " + blocks[pb][1].median);
+    }
+
     /* 7 · every drive references a real school id and closes after it opens */
     var drives = RVU.drives || [];
     var validStatus = { open: 1, closing: 1, closed: 1, offers_out: 1 };
@@ -488,18 +516,35 @@
   /* --- recruiter-strip ----------------------------------------------------
      Names as text with hairline dividers. Never logos: nobody's mark is
      misused, and no image placeholder ships. */
-  function recruiterStrip(sectors) {
+  /* `limit` caps how many names the strip renders. The count beside the figure
+     still derives from the whole list, and the shortfall is stated under the
+     strip rather than truncated silently — the hub would otherwise carry 96
+     near-identical placeholders, which reads as filler, not as a recruiter
+     strip. Pass no limit to render every name. */
+  function recruiterStrip(sectors, limit) {
     var names = [], i, j;
     for (i = 0; i < sectors.length; i++) {
       for (j = 0; j < sectors[i].companies.length; j++) {
         names.push(sectors[i].companies[j]);
       }
     }
+
+    var total = names.length;
+    var shown = (limit && limit < total) ? names.slice(0, limit) : names;
+
     var html = "<ul class=\"recruiter-strip\">";
-    for (i = 0; i < names.length; i++) {
-      html += "<li class=\"recruiter-strip__name\">" + esc(names[i]) + "</li>";
+    for (i = 0; i < shown.length; i++) {
+      html += "<li class=\"recruiter-strip__name\">" + esc(shown[i]) + "</li>";
     }
-    return html + "</ul>";
+    html += "</ul>";
+
+    if (shown.length < total) {
+      html += "<p class=\"t-caption distribution__note\">Showing " +
+              esc(R.fig(shown.length)) + " of " + esc(R.fig(total)) +
+              " recruiting organisations. The full list comes from the placement " +
+              "sheet; every name here is a placeholder until it does.</p>";
+    }
+    return html;
   }
 
   /* The figure beside "Recruiting organisations" is derived by counting this

@@ -183,6 +183,12 @@
     var s = F.steps[step - 1];
     var html = "";
 
+    if (step === 1 && data.source === "parent_referral") {
+      html += "<p class=\"example-note\"><span class=\"t-label\">Referral</span> " +
+              "You're referring an organisation on behalf of a student. We'll note " +
+              "that and approach them ourselves.</p>";
+    }
+
     html += "<p class=\"eyebrow\">Step " + step + " of " + TOTAL + "</p>";
     html += "<h2 class=\"section-head__title\" id=\"step-title\" tabindex=\"-1\">" +
             R.esc(s.legend) + "</h2>";
@@ -246,13 +252,34 @@
       var f = fields[i];
       if (f.type === "radio") {
         var checked = doc.querySelector("input[name=\"" + f.name + "\"]:checked");
-        if (checked) { data[f.name] = checked.value; }
+        /* Assign either way. Only writing on a hit left a stale value in place —
+           arriving on ?intent=planning and then clearing the radios passed
+           validation on a choice that was no longer selected. */
+        data[f.name] = checked ? checked.value : null;
       } else {
         var node = doc.getElementById("f-" + f.name);
         if (node) { data[f.name] = node.value; }
       }
     }
   }
+
+  /* Each message names the action to take. None says "required", and none
+     tells the reader what they did wrong (CLAUDE.md §F). */
+  var MISSING = {
+    intent:       "Choose the option that best describes where you are.",
+    "function":   "Choose the function you are hiring for, so we can match the right cohort.",
+    sector:       "Choose your sector — it decides which schools we match you to.",
+    positions:    "Enter how many positions you are hiring for.",
+    location:     "Add the location, so we can tell you which cohort is available there.",
+    work_term:    "Choose a work term, so we can show you the right window.",
+    start_date:   "Add your earliest start date, so we can match it to a drive window.",
+    organisation: "Add your organisation's name.",
+    contact_name: "Add your name, so the reply is addressed to you.",
+    designation:  "Add your role.",
+    email:        "Add an email address, so the office can reply to you.",
+    phone:        "Add a phone number, so the office can reach you if email stalls.",
+    mode:         "Choose how you would like to meet students."
+  };
 
   function validateStep() {
     var errors = [], fields = stepFields(step);
@@ -261,28 +288,49 @@
       if (!f.required) { continue; }
       var v = data[f.name];
       if (v === undefined || v === null || String(v).trim() === "") {
-        errors.push({ field: f.name, message: "Add your " + f.label.toLowerCase() +
-                      " so the office can act on this without emailing you back." });
+        errors.push({ field: f.name, group: f.type === "radio",
+                      message: MISSING[f.name] || ("Add your " + f.label.toLowerCase() + ".") });
       } else if (f.type === "email" && String(v).indexOf("@") === -1) {
         errors.push({ field: f.name, message: "Include the @ so we can reply — for example name@company.com." });
       } else if (f.type === "number" && (isNaN(Number(v)) || Number(v) < 1)) {
-        errors.push({ field: f.name, message: "Enter how many positions you are hiring for, as a number." });
+        errors.push({ field: f.name, message: "Enter how many positions you are hiring for, as a whole number." });
       }
     }
     return errors;
   }
 
+  /* One short sentence into a dedicated status node. The step panel itself must
+     never be the live region: a screen reader then re-reads every heading, label
+     and option on each transition. */
+  function announce(text) {
+    var node = doc.getElementById("intake-status");
+    if (node) { node.textContent = text; }
+  }
+
   function showErrors(errors) {
     var all = doc.querySelectorAll(".field__error");
     for (var i = 0; i < all.length; i++) { all[i].textContent = ""; }
+    var stale = doc.querySelectorAll("#intake-form [aria-invalid]");
+    for (var k = 0; k < stale.length; k++) { stale[k].removeAttribute("aria-invalid"); }
+
     for (var j = 0; j < errors.length; j++) {
-      var slot = doc.getElementById("error-" + errors[j].field);
-      if (slot) { slot.textContent = errors[j].message; }
-      var input = doc.getElementById("f-" + errors[j].field) ||
-                  doc.querySelector("[name=\"" + errors[j].field + "\"]");
-      if (input) { input.setAttribute("aria-invalid", "true"); }
+      var e = errors[j];
+      var slot = doc.getElementById("error-" + e.field);
+      if (slot) { slot.textContent = e.message; }
+      var input = doc.getElementById("f-" + e.field) ||
+                  doc.querySelector("[name=\"" + e.field + "\"]");
+      if (input) {
+        /* For a radio group the invalid thing is the group, not one option, so
+           the flag goes on the fieldset that carries the legend. */
+        var target = e.group ? (input.closest("fieldset") || input) : input;
+        target.setAttribute("aria-invalid", "true");
+      }
     }
+
     if (errors.length) {
+      announce(errors.length === 1
+        ? "One thing to add. " + errors[0].message
+        : errors.length + " things to add. " + errors[0].message);
       var first = doc.getElementById("f-" + errors[0].field) ||
                   doc.querySelector("[name=\"" + errors[0].field + "\"]");
       if (first) { first.focus(); }
@@ -293,12 +341,17 @@
     collect();
     var errors = validateStep();
     if (errors.length) { showErrors(errors); return; }
-    if (step < TOTAL) { step++; render(); focusHeading(); }
+    if (step < TOTAL) { step++; render(); focusHeading(); announceStep(); }
   }
 
   function back() {
     collect();                 // keep what is on screen before stepping away
-    if (step > 1) { step--; render(); focusHeading(); }
+    if (step > 1) { step--; render(); focusHeading(); announceStep(); }
+  }
+
+  function announceStep() {
+    announce("Step " + step + " of " + TOTAL + ", " +
+             F.steps[step - 1].legend.replace(/\?$/, "").toLowerCase() + ".");
   }
 
   function focusHeading() {
@@ -312,6 +365,9 @@
      drop-in import. Reconciling them is a conversation with the office. */
   function payload() {
     var out = { submitted_at: new Date().toISOString(), source: "rvu-placements-site" };
+    /* Where the request came from, when the link carried it — a parent referral
+       reaches the office as a referral, not as an anonymous hiring request. */
+    if (data.source) { out["Referral source"] = data.source; }
     for (var s = 0; s < F.steps.length; s++) {
       var fields = F.steps[s].fields || [];
       for (var i = 0; i < fields.length; i++) {
@@ -394,6 +450,12 @@
 
     var m = global.location.search.match(/intent=([^&]+)/);
     if (m) { data.intent = decodeURIComponent(m[1]); }
+
+    /* A parent arriving from "Refer an organisation" on parents.html was landing
+       on a form addressed entirely to recruiters, with no sign their context had
+       survived the click. */
+    var src = global.location.search.match(/source=([^&]+)/);
+    if (src) { data.source = decodeURIComponent(src[1]); }
 
     doc.getElementById("intake-form").addEventListener("submit", submit);
     render();

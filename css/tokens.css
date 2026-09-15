@@ -117,5 +117,11 @@
     --type-display-m:  27px;  --lh-display-m:  32px;
     --type-figure:     44px;  --lh-figure:     46px;
     --section-padding: 32px;  --section-gutter: 40px;
+
+    /* Labels step up on a phone. 10.5px uppercase at 0.17em tracking is hard
+       to read held at arm's length, and it was setting both hero pills — the
+       page's two primary calls to action. Size only: the tracking, the
+       uppercase and every colour are unchanged. See CLAUDE.md §B. */
+    --type-label:      12px;  --lh-label:      18px;
   }
 }

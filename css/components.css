@@ -1016,6 +1016,9 @@ legend {
 }
 
 @media (max-width: 640px) {
+  /* A pill carries an action, so it takes one step more than a label. */
+  .pill, .chip { font-size: 13px; }
+
   .router { grid-template-columns: 1fr; }
   .match  { padding-inline: 20px; }
   .progress { display: grid; grid-template-columns: 1fr; }

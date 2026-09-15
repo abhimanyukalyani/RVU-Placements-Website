@@ -382,6 +382,9 @@
       var input = el(f) || doc.querySelector("[name=\"" + f + "\"]");
       if (input) { input.setAttribute("aria-invalid", "true"); }
     }
+    announce(errors.length === 1
+      ? "One thing to add. " + errors[0].message
+      : errors.length + " things to add. " + errors[0].message);
     var first = el(errors[0].field) || doc.querySelector("[name=\"" + errors[0].field + "\"]");
     if (first) { first.focus(); }
   }
@@ -390,6 +393,15 @@
     eligible:    "Eligible",
     conditions:  "Eligible, with something to know",
     not_current: "Paused — and here is the way back"
+  };
+
+  /* The spoken label is shorter than the printed one: the headline that follows
+     it already carries the meaning, and the printed label's full wording pushed
+     the announcement past 90 characters. */
+  var STATE_SPOKEN = {
+    eligible:    "Eligible",
+    conditions:  "Eligible, with a condition",
+    not_current: "Paused"
   };
 
   function renderResult(result, input) {
@@ -441,6 +453,23 @@
     var panel = el("result");
     panel.innerHTML = html;
     panel.hidden = false;
+
+    /* One sentence, not the panel. The panel had aria-live on it, so every
+       result re-read its headline, all three lines, both actions, both pills,
+       three notes and the cohort stamp — 937 characters. */
+    /* The "conditions" headlines already say they are conditional ("here is what
+       changes that", "drives come later"), and prefixing them pushed the spoken
+       string to 113 characters. The other two states get their one-word prefix,
+       which they need and can afford. */
+    announce(result.state === "conditions"
+      ? result.headline + "."
+      : STATE_SPOKEN[result.state] + ". " + result.headline + ".");
+  }
+
+  /* Short status, spoken once. Kept separate from the panel it describes. */
+  function announce(text) {
+    var node = el("eligibility-status");
+    if (node) { node.textContent = text; }
   }
 
   /* An untouched page shows a worked example rather than an empty form, so a

@@ -67,7 +67,10 @@ Cantarell 700        · labels, eyebrows
 | Body | 15 / 24 | — | cards, table cells |
 | Caption | 13 / 21 italic | — | notes, methodology, cohort stamps |
 | Label | 10–11 / 16 uppercase | 0.16–0.18em | eyebrows, figure captions |
+| Label, below 640px | 12 / 18 uppercase | 0.16–0.18em | the same, on a phone |
+| Pill / chip label, below 640px | 13 | 0.16–0.18em | buttons and filter chips on a phone |
 
+- **Below 640px, labels are 12px and pill labels 13px.** The table above was written for desktop and had no mobile row, so the build was compliant and still wrong: 10.5px uppercase at 0.17em held at arm's length was setting 51 elements on a phone, including the audience switcher and both hero pills. Size only — tracking, uppercase and every colour are unchanged, and the contrast table in §A is unaffected.
 - Measure **62–68 characters** for running text. Never a full-width paragraph at 1080px.
 - `text-wrap: balance` on every heading. `text-wrap: pretty` on body copy.
 - `font-variant-numeric: tabular-nums` on **every** figure, table column and chart label.
