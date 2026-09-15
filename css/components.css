@@ -371,7 +371,13 @@
 .ticker__rail {
   display: flex;
   width: max-content;
-  animation: ticker-run 120s linear infinite;
+  /* 360s over an 18312px track is 51px/s: one organisation name clears a fixed
+     point every ~3.8s, which is readable at a glance. At the original 120s the
+     rail ran at 153px/s and a name crossed in 1.25s — too fast to read, which
+     is the one thing a band of names has to allow. The duration is tied to the
+     track's measured width, so if the list grows, re-measure rather than
+     nudging this number by eye. */
+  animation: ticker-run 360s linear infinite;
 }
 .ticker:hover .ticker__rail,
 .ticker:focus-within .ticker__rail { animation-play-state: paused; }
@@ -1474,33 +1480,55 @@ legend {
 
 .mega__trigger[aria-expanded="true"] { border-block-end-color: var(--rvu-gold); }
 
+/* Two things were wrong here. The panel carried its own 1px gold top border
+   while the open trigger carried a 2px gold underline, so two gold rules of
+   different widths met on nearly the same line and read as a stepped mistake —
+   §D spends one gold rule to open a thing, not two. And the panel's ground was
+   --rvu-paper, the page ground, so an overlay of text floated over the text
+   beneath it with only a hairline to separate them.
+
+   Now: the trigger's underline is the only gold, and the panel takes
+   --rvu-white, which §A keeps for exactly this — a card or table lifted off
+   the paper. Slate on white measures 13.52:1. */
 .mega__panel {
   position: absolute;
   top: 100%;
   left: 0;
   z-index: 40;
-  min-width: 232px;
-  padding: 14px 0 8px;
-  background: var(--rvu-paper);
-  border-block-start: 1px solid var(--rvu-gold);
-  border-inline: var(--rule-divide);
-  border-block-end: var(--rule-divide);
+  min-width: 248px;
+  padding-block: 10px;
+  background: var(--rvu-white);
+  border: var(--rule-divide);
 }
+/* The last panel hangs off the right edge of the viewport between 900px — where
+   panels are still absolutely positioned — and roughly 1200px, clipping its
+   links. It aligns to its trigger's right edge instead, which keeps it on
+   screen at every width the absolute layout is used at. */
+.mega__item:last-child .mega__panel { left: auto; right: 0; }
+
 .mega__panel[hidden] { display: none; }
 
 .mega__links { margin: 0; padding: 0; list-style: none; }
 
+/* 14px matches .audience-switcher__link's inline padding, which the trigger
+   reuses, so a link's first letter sits directly under the trigger's. At 18px
+   the whole panel read as indented from the control that opened it. */
 .mega__link {
   display: flex;
   align-items: center;
   min-height: var(--tap-target-min);
-  padding-inline: 18px;
+  padding-inline: 14px;
   font-family: var(--font-body);
   font-size: var(--t-body);
   color: var(--rvu-slate);                /* #233039 on #faf7f1 · 12.64:1 */
   text-decoration: none;
 }
-.mega__link:hover { text-decoration: underline; text-underline-offset: 0.18em; }
+.mega__link:hover,
+.mega__link:focus-visible {
+  color: var(--rvu-ink);                  /* #04070a on #ffffff · 20.13:1 */
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
 
 /* Below 900px the panel drops into flow and the trigger becomes a disclosure. */
 @media (max-width: 900px) {
