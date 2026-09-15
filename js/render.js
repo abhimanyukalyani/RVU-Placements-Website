@@ -513,15 +513,24 @@
     return html + "</div>";
   }
 
-  /* --- recruiter-strip ----------------------------------------------------
-     Names as text with hairline dividers. Never logos: nobody's mark is
-     misused, and no image placeholder ships. */
-  /* `limit` caps how many names the strip renders. The count beside the figure
-     still derives from the whole list, and the shortfall is stated under the
-     strip rather than truncated silently — the hub would otherwise carry 96
-     near-identical placeholders, which reads as filler, not as a recruiter
-     strip. Pass no limit to render every name. */
-  function recruiterStrip(sectors, limit) {
+  /* --- recruiter ticker ---------------------------------------------------
+     §J.3, the third and last motion primitive: one continuous horizontal band.
+
+     The band is built from two identical tracks. The animation translates the
+     pair by -50%, which is exactly one track's width, so the moment it wraps
+     the second track sits where the first began and the seam is invisible.
+     The duplicate is aria-hidden and its controls are removed from the tab
+     order: a screen reader and a keyboard both meet the 96 names once.
+
+     Every name is a <button>, not a <span>. Reading a name and being unable to
+     ask what it means is the failure mode of every logo wall in the audit; here
+     the name opens that organisation's drives, which are figures, so they come
+     through fig() and carry a cohort stamp like every other figure on the site.
+
+     Pausing is CSS, not script: :hover and :focus-within set
+     animation-play-state, so the band stops for a mouse and for a Tab key
+     alike, and it still stops if js/motion.js never loads. */
+  function recruiterTicker(sectors) {
     var names = [], i, j;
     for (i = 0; i < sectors.length; i++) {
       for (j = 0; j < sectors[i].companies.length; j++) {
@@ -529,21 +538,47 @@
       }
     }
 
-    var total = names.length;
-    var shown = (limit && limit < total) ? names.slice(0, limit) : names;
-
-    var html = "<ul class=\"recruiter-strip\">";
-    for (i = 0; i < shown.length; i++) {
-      html += "<li class=\"recruiter-strip__name\">" + esc(shown[i]) + "</li>";
+    function track(dup) {
+      var h = "<ul class=\"ticker__track\"" + (dup ? " aria-hidden=\"true\"" : "") + ">";
+      for (var k = 0; k < names.length; k++) {
+        h += "<li class=\"ticker__item\"><button type=\"button\" class=\"ticker__name\"" +
+             " data-recruiter=\"" + esc(names[k]) + "\"" +
+             " aria-expanded=\"false\"" +
+             (dup ? " tabindex=\"-1\"" : "") + ">" + esc(names[k]) + "</button></li>";
+      }
+      return h + "</ul>";
     }
-    html += "</ul>";
 
-    if (shown.length < total) {
-      html += "<p class=\"t-caption distribution__note\">Showing " +
-              esc(R.fig(shown.length)) + " of " + esc(R.fig(total)) +
-              " recruiting organisations. The full list comes from the placement " +
-              "sheet; every name here is a placeholder until it does.</p>";
+    return "<div class=\"ticker\" data-ticker>" +
+             "<div class=\"ticker__rail\">" + track(false) + track(true) + "</div>" +
+           "</div>" +
+           "<div class=\"ticker__panel\" data-recruiter-panel hidden></div>" +
+           "<p class=\"ledger-status t-caption\" data-recruiter-status" +
+             " role=\"status\" aria-live=\"polite\"></p>";
+  }
+
+  /* What one organisation is doing this cycle. Every number resolves through
+     fig() from drives.js — nothing here is typed — and the block closes with
+     the cohort stamp, so a figure lifted out of this panel still carries its
+     date (§E.5). */
+  function recruiterPanel(name, drives) {
+    var mine = [];
+    for (var i = 0; i < drives.length; i++) {
+      if (drives[i].company === name) { mine.push(drives[i]); }
     }
+
+    var html = "<h3 class=\"school__sub\">" + esc(name) + "</h3>";
+
+    if (!mine.length) {
+      html += "<p>No drive from this organisation is recorded in the current " +
+              "cycle. It appears here because it recruited from an earlier " +
+              "cohort. <a href=\"drives.html\">See the drives that are live now</a>.</p>";
+    } else {
+      html += "<p class=\"t-caption\">" + esc(R.fig(mine.length)) +
+              (mine.length === 1 ? " drive" : " drives") + " in this cycle.</p>" +
+              ledger(mine);
+    }
+    html += "<p class=\"cohort-stamp t-caption\">" + esc(R.stamp()) + "</p>";
     return html;
   }
 
@@ -675,7 +710,10 @@
   R.distributionRow = distributionRow;
   R.doors = doors;
   R.doorBlock = doorBlock;
-  R.recruiterStrip = recruiterStrip;
+  R.recruiterTicker = recruiterTicker;
+  R.recruiterPanel = recruiterPanel;
+  R.recruiterTicker = recruiterTicker;
+  R.recruiterPanel = recruiterPanel;
   R.countRecruiters = countRecruiters;
   R.ledger = ledger;
   R.ledgerRow = ledgerRow;

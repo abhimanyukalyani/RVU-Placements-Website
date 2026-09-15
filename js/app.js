@@ -42,9 +42,10 @@
     }
 
     if (doc.querySelector("[data-recruiters]")) {
-      /* The hub shows a strip, not the whole register; the figure beside it
-         still counts every organisation in the data. */
-      R.mount("[data-recruiters]", R.recruiterStrip(RVU.recruiters.sectors, 24));
+      /* The hub band carries every organisation in the data, so the figure
+         beside it and the band itself count the same list. */
+      R.mount("[data-recruiters]", R.recruiterTicker(RVU.recruiters.sectors));
+      wireTicker();
     }
 
     if (doc.querySelector("[data-spine]")) {
@@ -156,6 +157,51 @@
        university name the masthead already says. */
     var yr = doc.querySelector("[data-stamp-year]");
     if (yr) { yr.textContent = "Cohort " + RVU.meta.cohort_year; }
+  }
+
+  /* A name in the band opens that organisation's drives beneath it. One panel
+     is reused: a second click on the same name closes it, and the status node
+     says which organisation is open so a screen-reader user is told what
+     changed rather than left to discover it. */
+  function wireTicker() {
+    var band   = doc.querySelector("[data-ticker]");
+    var panel  = doc.querySelector("[data-recruiter-panel]");
+    var status = doc.querySelector("[data-recruiter-status]");
+    if (!band || !panel) { return; }
+    var open = null;
+
+    band.addEventListener("click", function (ev) {
+      var btn = ev.target.closest("[data-recruiter]");
+      if (!btn) { return; }
+      var name = btn.getAttribute("data-recruiter");
+
+      var pressed = band.querySelectorAll("[data-recruiter][aria-expanded='true']");
+      for (var i = 0; i < pressed.length; i++) {
+        pressed[i].setAttribute("aria-expanded", "false");
+      }
+
+      if (open === name) {
+        open = null;
+        panel.hidden = true;
+        panel.innerHTML = "";
+        if (status) { status.textContent = "Closed."; }
+        return;
+      }
+
+      open = name;
+      btn.setAttribute("aria-expanded", "true");
+      panel.innerHTML = R.recruiterPanel(name, RVU.drives);
+      panel.hidden = false;
+      if (status) {
+        var n = 0;
+        for (var d = 0; d < RVU.drives.length; d++) {
+          if (RVU.drives[d].company === name) { n++; }
+        }
+        status.textContent = name + ": " + (n === 1 ? "1 drive" : n + " drives") +
+                             " in this cycle.";
+      }
+      R.fillSlots(panel);
+    });
   }
 
   /* Every top-level block below the hero reveals once on first entry. The hero

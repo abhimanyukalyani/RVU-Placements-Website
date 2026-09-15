@@ -301,32 +301,88 @@
   color: var(--rvu-ink);                  /* #04070a on #ecf1f5 · 17.76:1 */
 }
 
-/* -------------------------------------------------------- recruiter-strip */
-/* Names as text, Cantarell 700 uppercase, hairline dividers. Not a logo wall:
-   nobody's mark is misused, and it reads as more editorial than a grid of
-   images. No <img>, by design. */
+/* -------------------------------------------------------- recruiter ticker */
+/* §J.3. Two identical tracks side by side; the rail translates by -50%, which
+   is exactly one track, so the wrap is seamless. transform only — never
+   margin or scroll position — so the band stays off the layout path.
 
-.recruiter-strip {
+   The band pauses on :hover and on :focus-within. Both are CSS, so pausing
+   survives js/motion.js failing to load, and a keyboard user tabbing into the
+   band stops it exactly as a mouse does. */
+
+.ticker {
+  overflow: hidden;
+  border-block: var(--rule-divide);
+  /* Full-bleed inside the 1080px wrap: the band should run off both edges. */
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 40px,
+                                      #000 calc(100% - 40px), transparent);
+          mask-image: linear-gradient(to right, transparent, #000 40px,
+                                      #000 calc(100% - 40px), transparent);
+}
+
+.ticker__rail {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0;
+  width: max-content;
+  animation: ticker-run 120s linear infinite;
+}
+.ticker:hover .ticker__rail,
+.ticker:focus-within .ticker__rail { animation-play-state: paused; }
+
+@keyframes ticker-run {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.ticker__track {
+  display: flex;
   margin: 0;
   padding: 0;
   list-style: none;
-  border-block: var(--rule-divide);
 }
 
-.recruiter-strip__name {
+/* 44px tap target from the padding alone (§D), and the divider is the same
+   hairline the strip used. */
+.ticker__name {
+  display: block;
   padding: 14px 20px;
+  min-height: 44px;
+  background: none;
+  border: 0;
+  border-inline-start: var(--rule-divide);
   font-family: var(--font-body);
   font-weight: var(--weight-label);
   font-size: var(--t-label);
   letter-spacing: var(--track-label);
   text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
   color: var(--rvu-slate);                /* #233039 on #faf7f1 · 12.64:1 */
-  border-inline-start: var(--rule-divide);
 }
-.recruiter-strip__name:first-child { border-inline-start: 0; padding-inline-start: 0; }
+.ticker__name:hover,
+.ticker__name[aria-expanded="true"] {
+  color: var(--rvu-ink);                  /* #04070a on #faf7f1 · 18.89:1 */
+  box-shadow: inset 0 -2px 0 var(--rvu-gold);   /* gold as a rule, never as text */
+}
+
+.ticker__track > .ticker__item:first-child .ticker__name { border-inline-start: 0; }
+
+.ticker__panel {
+  margin-block-start: var(--row-gutter-vertical);
+  padding-block-start: var(--module-gutter);
+  border-block-start: var(--rule-close);
+}
+
+/* Under reduced motion the band does not move, so it must not clip either:
+   the rail wraps and becomes a plain list of names, the duplicate track is
+   removed outright, and every name stays reachable. Nothing is lost —
+   which is the test §J sets for this state. */
+@media (prefers-reduced-motion: reduce) {
+  .ticker { overflow: visible; -webkit-mask-image: none; mask-image: none; }
+  .ticker__rail { width: auto; animation: none; }
+  .ticker__track[aria-hidden="true"] { display: none; }
+  .ticker__track { flex-wrap: wrap; }
+  .ticker__name { white-space: normal; }
+}
 
 /* ------------------------------------------------------------- ledger-row */
 /* Six columns, 19px vertical padding, 1px divider.
@@ -468,10 +524,7 @@
 
   .denominator { padding-inline: 20px; }
 
-  .recruiter-strip__name {
-    padding-inline: 0 16px;
-    border-inline-start: 0;
-  }
+  .ticker__name { padding-inline: 16px; }
 
   /* The ledger becomes a stack of labelled pairs rather than a squeezed grid.
      Its own labels come from data-label, so no text is typed into markup. */
