@@ -371,13 +371,13 @@
 .ticker__rail {
   display: flex;
   width: max-content;
-  /* 360s over an 18312px track is 51px/s: one organisation name clears a fixed
-     point every ~3.8s, which is readable at a glance. At the original 120s the
-     rail ran at 153px/s and a name crossed in 1.25s — too fast to read, which
-     is the one thing a band of names has to allow. The duration is tied to the
+  /* 480s over an 18312px track is 38px/s: one organisation name clears a fixed
+     point every ~5s, slow enough to read without stopping. The original 120s
+     ran at 153px/s and crossed a name in 1.25s — too fast to read, which is
+     the one thing a band of names has to allow. The duration is tied to the
      track's measured width, so if the list grows, re-measure rather than
      nudging this number by eye. */
-  animation: ticker-run 360s linear infinite;
+  animation: ticker-run 480s linear infinite;
 }
 .ticker:hover .ticker__rail,
 .ticker:focus-within .ticker__rail { animation-play-state: paused; }
@@ -1462,7 +1462,13 @@ legend {
   }
 }
 
-/* ========================================================== MEGA-MENU =====
+/* ================================================ MEGA-MENU (PARKED) =====
+   Not rendered at the moment. js/app.js mounts the three-link audience
+   switcher instead; the mega-menu ships when there is time to finish
+   reviewing it. Everything here is complete and tested — left in place so
+   turning it back on is one line in app.js plus restoring the js/nav.js
+   script tag, not a rebuild. Do not delete.
+   ------------------------------------------------------------------------
    The audience switcher, upgraded. Same three targets, same gold underline on
    the current one; each now opens a panel listing the pages beneath it.
    Below 900px it is a disclosure list — hover does not exist on touch.

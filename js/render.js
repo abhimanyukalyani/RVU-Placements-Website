@@ -1519,6 +1519,9 @@
     ] }
   ];
 
+  /* PARKED: not called at the moment — js/app.js mounts audienceSwitcher()
+     instead. Kept complete and tested so the mega-menu can be turned back on
+     without rebuilding it. See "MEGA-MENU (PARKED)" in components.css. */
   function megaMenu(currentId) {
     var html = "<nav class=\"mega\" aria-label=\"Choose your audience\">" +
                "<ul class=\"mega__list\">";

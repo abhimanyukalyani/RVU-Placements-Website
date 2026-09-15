@@ -1,6 +1,11 @@
 /* ===========================================================================
    nav.js — the mega-menu's behaviour.
 
+   PARKED: no page loads this file at the moment. It drives the mega-menu,
+   which js/app.js is not mounting; restore <script src="js/nav.js"></script>
+   before js/app.js on all 11 pages to bring both back. Complete and tested —
+   do not delete.
+
    Desktop: hover or focus opens a panel. Escape closes and returns focus to
    the trigger. Arrow keys move within an open panel.
 

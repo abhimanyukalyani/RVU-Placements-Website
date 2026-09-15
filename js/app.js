@@ -18,10 +18,21 @@
   /* Navigation is plain markup and works with JS off; only the active state
      is set here. A page declares its audience with data-audience on <body>. */
   /* One nav, rendered from one list in render.js, on every page. */
+  /* The three-link audience switcher, not the mega-menu.
+
+     The mega-menu is finished and tested — R.megaMenu() in render.js, its
+     behaviour in js/nav.js, its styling under "mega-menu (parked)" in
+     components.css — but it is held back for now. To ship it, swap the one
+     call below for R.megaMenu(...) and restore <script src="js/nav.js">
+     before js/app.js on all 11 pages. Nothing else changes.
+
+     What the switcher does not reach directly, the footer does: it carries
+     outcomes, schools, methodology, the office and the hiring request from
+     every page. */
   function mountMenu() {
-    var mount = doc.querySelector("[data-mega-mount]");
+    var mount = doc.querySelector("[data-nav-mount]");
     if (!mount) { return; }
-    mount.innerHTML = R.megaMenu(doc.body.getAttribute("data-audience") || "");
+    mount.innerHTML = R.audienceSwitcher(doc.body.getAttribute("data-audience") || "");
   }
 
   function markCurrentAudience() {

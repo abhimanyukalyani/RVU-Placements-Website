@@ -338,7 +338,7 @@
     padding-block: var(--section-padding);
     display: grid;
     gap: var(--module-gutter);
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
   .site-footer h2,
   .site-footer h3 { color: var(--text-inverse); }        /* 15.78:1 */
