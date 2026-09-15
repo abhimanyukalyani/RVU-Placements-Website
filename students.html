@@ -31,13 +31,16 @@
       <span class="site-mark__section">Placements</span>
     </a>
 
-    <nav class="audience-switcher" aria-label="Choose your audience">
-      <ul class="audience-switcher__list">
-        <li><a class="audience-switcher__link" href="students.html">For students</a></li>
-        <li><a class="audience-switcher__link" href="recruiters.html">For recruiters</a></li>
-        <li><a class="audience-switcher__link" href="parents.html">For parents</a></li>
-      </ul>
-    </nav>
+    <div data-mega-mount>
+      <noscript>
+        <ul class="audience-switcher__list">
+          <li><a class="audience-switcher__link" href="students.html">For students</a></li>
+          <li><a class="audience-switcher__link" href="recruiters.html">For recruiters</a></li>
+          <li><a class="audience-switcher__link" href="parents.html">For parents</a></li>
+          <li><a class="audience-switcher__link" href="schools.html">By school</a></li>
+        </ul>
+      </noscript>
+    </div>
 
   </div>
 </header>
@@ -88,6 +91,16 @@
       calendar, so this page cannot fall out of step with the office.</p>
     <div class="stack" data-timeline></div>
     <p class="cohort-stamp t-caption" data-stamp></p>
+  </section>
+
+  <section class="wrap section" id="closing" aria-labelledby="closing-title">
+    <p class="eyebrow">Act this week</p>
+    <h2 class="section-head__title" id="closing-title">Closing this week</h2>
+    <p class="section-head__aside">The drives whose applications shut inside the
+      next seven days. The full list, including those opening later, is on the
+      drives page.</p>
+    <div class="stack" data-closing></div>
+    <p class="hero__actions"><a class="pill" href="drives.html">See all live drives</a></p>
   </section>
 
   <section class="wrap section" id="eligibility" aria-labelledby="capability-title">
@@ -225,6 +238,8 @@
 <script src="data/office.js"></script>
 <script src="js/render.js"></script>
 <script src="js/app.js"></script>
+<script src="js/nav.js"></script>
 
+<script src="js/motion.js"></script>
 </body>
 </html>

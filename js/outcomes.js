@@ -38,12 +38,22 @@
     var c = P.cohort, i, sum = 0;
     for (i = 0; i < BUCKETS.length; i++) { sum += c[BUCKETS[i].key]; }
 
-    var segs = "", rows = "";
+    /* Sequential fill on §J's one bar primitive. Each segment used to carry
+       data-fill-bar of its own; because all five sit on the same row they
+       received the same scroll progress and filled in step, which reads as one
+       bar widening rather than a class being divided. motion.js now fills the
+       row — the carrier — and each segment derives its own local progress in
+       CSS from where it sits along it, so group two does not start until group
+       one is full. One primitive, no per-segment timer, no width animation. */
+    var segs = "", rows = "", from = 0;
     for (i = 0; i < BUCKETS.length; i++) {
       var v = c[BUCKETS[i].key];
-      var w = (v / c.total_graduates) * 100;
-      segs += "<span class=\"segbar__seg segbar__seg--" + (i + 1) + "\" style=\"width:" +
-              (Math.round(w * 10) / 10) + "%\" aria-hidden=\"true\"></span>";
+      var share = v / c.total_graduates;
+      segs += "<span class=\"segbar__seg segbar__seg--" + (i + 1) + "\" style=\"" +
+              "flex-basis:" + (Math.round(share * 1000) / 10) + "%;" +
+              "--from:" + (Math.round(from * 1000) / 1000) + ";" +
+              "--span:" + (Math.round(share * 1000) / 1000) + ";\" aria-hidden=\"true\"></span>";
+      from += share;
       rows += "<li class=\"segkey__item\">" +
                 "<span class=\"segkey__swatch segkey__swatch--" + (i + 1) + "\" aria-hidden=\"true\"></span>" +
                 "<span class=\"segkey__label\">" + R.esc(BUCKETS[i].label) + "</span>" +
@@ -51,7 +61,7 @@
               "</li>";
     }
 
-    return "<div class=\"segbar\" role=\"img\" aria-label=\"" +
+    return "<div class=\"segbar\" data-fill-bar data-fill-carrier role=\"img\" aria-label=\"" +
              R.esc("Every graduate in exactly one group, totalling " +
                    R.fig(c.total_graduates)) + "\">" + segs + "</div>" +
            "<ul class=\"segkey\">" + rows + "</ul>" +
@@ -123,7 +133,7 @@
                 "</span>" +
                 "<span class=\"distribution__track\" aria-hidden=\"true\">" +
                   "<span class=\"distribution__bar" + (outside ? " distribution__bar--outside" : "") +
-                    "\" style=\"width:" + w + "%\"></span>" +
+                    "\" data-fill-bar style=\"width:" + w + "%\"></span>" +
                 "</span>" +
                 "<span class=\"distribution__count\">" + R.esc(R.fig(b.count)) + "</span>" +
               "</div>";
@@ -208,6 +218,9 @@
 
     /* The rules are checked on every redraw, not just the first paint. */
     R.checkViews();
+
+    /* This redraw made new bars; hand them to the motion system. */
+    if (RVU.motion) { RVU.motion.scan(); }
   }
 
   function wireTabs() {

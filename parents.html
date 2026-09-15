@@ -31,13 +31,16 @@
       <span class="site-mark__section">Placements</span>
     </a>
 
-    <nav class="audience-switcher" aria-label="Choose your audience">
-      <ul class="audience-switcher__list">
-        <li><a class="audience-switcher__link" href="students.html">For students</a></li>
-        <li><a class="audience-switcher__link" href="recruiters.html">For recruiters</a></li>
-        <li><a class="audience-switcher__link" href="parents.html">For parents</a></li>
-      </ul>
-    </nav>
+    <div data-mega-mount>
+      <noscript>
+        <ul class="audience-switcher__list">
+          <li><a class="audience-switcher__link" href="students.html">For students</a></li>
+          <li><a class="audience-switcher__link" href="recruiters.html">For recruiters</a></li>
+          <li><a class="audience-switcher__link" href="parents.html">For parents</a></li>
+          <li><a class="audience-switcher__link" href="schools.html">By school</a></li>
+        </ul>
+      </noscript>
+    </div>
 
   </div>
 </header>
@@ -151,9 +154,10 @@
           taken &mdash; three months after graduation. Almost no Indian university
           publishes that date. It is the difference between a number you can check and a
           number you have to trust.</p>
-        <p>The full breakdown, including what the students who did not seek placement went
-          on to do, is on <a href="outcomes.html">the outcomes page</a>, and the definitions
-          behind every figure are on <a href="methodology.html">how we report</a>.</p>
+        <p>The full breakdown is on <a href="outcomes.html">the outcomes page</a>,
+          including what the students who did not seek placement went on to do. The
+          definitions behind every figure are on
+          <a href="methodology.html">how we report</a>.</p>
       </div>
     </div>
   </section>
@@ -168,14 +172,13 @@
         <p>Specifically: not every student who wants a placement receives an offer in the
           cycle. Not every offer is in the field the student trained for. The figures on
           this site describe last year&rsquo;s cohort in last year&rsquo;s market, and a
-          market can change in a year. A student who does not engage with the office
-          &mdash; who skips the readiness sessions and applies to nothing &mdash; will
-          usually not be placed by it, and there is a limit to how far the office can chase
-          someone who is not answering.</p>
-        <p>What the office does guarantee is process: that every drive is published to the
-          students it is open to, that the criteria are the same for everyone, and that
-          your child can find out where they stand at any point using
-          <a href="eligibility.html">the eligibility check</a> rather than by asking a
+          market can change in a year. A student who skips the readiness sessions and
+          applies to nothing will usually not be placed. The office can only reach a
+          student who answers.</p>
+        <p>What the office does guarantee is process. Every drive is published to the
+          students it is open to, and the criteria are the same for everyone. Your child
+          can find out where they stand at any point with
+          <a href="eligibility.html">the eligibility check</a>, rather than by asking a
           favour.</p>
       </div>
     </div>
@@ -211,10 +214,10 @@
     <div class="wrap section">
       <div class="noscript-note">
         <p><strong>The figures and the glossary on this page are switched off.</strong>
-        Every number here is read from a single record when the page opens, so that this
-        page, the outcomes page and the office all quote the same figure with the same
+        Every number here is read from a single record when the page opens. That is how
+        this page, the outcomes page and the office all quote the same figure with the same
         date on it. Repeating them in the page itself would create a second copy that could
-        drift, which is exactly the problem this site is built to avoid.</p>
+        drift &mdash; exactly the problem this site is built to avoid.</p>
         <p>The explanations above are all readable without JavaScript. For the numbers
         themselves, write to <a href="mailto:placements@rvu.edu.in">placements@rvu.edu.in</a> and
         the office will send the outcomes report, or read
@@ -277,6 +280,8 @@
 <script src="data/office.js"></script>
 <script src="js/render.js"></script>
 <script src="js/app.js"></script>
+<script src="js/nav.js"></script>
 
+<script src="js/motion.js"></script>
 </body>
 </html>

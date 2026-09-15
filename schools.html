@@ -31,13 +31,16 @@
       <span class="site-mark__section">Placements</span>
     </a>
 
-    <nav class="audience-switcher" aria-label="Choose your audience">
-      <ul class="audience-switcher__list">
-        <li><a class="audience-switcher__link" href="students.html">For students</a></li>
-        <li><a class="audience-switcher__link" href="recruiters.html">For recruiters</a></li>
-        <li><a class="audience-switcher__link" href="parents.html">For parents</a></li>
-      </ul>
-    </nav>
+    <div data-mega-mount>
+      <noscript>
+        <ul class="audience-switcher__list">
+          <li><a class="audience-switcher__link" href="students.html">For students</a></li>
+          <li><a class="audience-switcher__link" href="recruiters.html">For recruiters</a></li>
+          <li><a class="audience-switcher__link" href="parents.html">For parents</a></li>
+          <li><a class="audience-switcher__link" href="schools.html">By school</a></li>
+        </ul>
+      </noscript>
+    </div>
 
   </div>
 </header>
@@ -52,6 +55,16 @@
       spread behind it, and when its students are free to interview. Every link on this
       page resolves to a real section or a real page.</p>
     <div class="stack" data-school-index></div>
+  </section>
+
+  <section class="wrap section" aria-labelledby="compare-title">
+    <p class="eyebrow">Side by side</p>
+    <h2 class="section-head__title" id="compare-title">The six schools on one scale</h2>
+    <p class="section-head__aside">Every bar is measured against the same maximum, so a
+      longer bar means a larger median and not a differently drawn chart. Each row
+      carries the number of offers behind its figure. Select a school to read its
+      full section.</p>
+    <div class="stack" data-school-compare></div>
   </section>
 
   <section class="wrap section" aria-label="Placement by school">
@@ -142,6 +155,8 @@
 <script src="data/office.js"></script>
 <script src="js/render.js"></script>
 <script src="js/app.js"></script>
+<script src="js/nav.js"></script>
 
+<script src="js/motion.js"></script>
 </body>
 </html>

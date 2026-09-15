@@ -31,13 +31,16 @@
       <span class="site-mark__section">Placements</span>
     </a>
 
-    <nav class="audience-switcher" aria-label="Choose your audience">
-      <ul class="audience-switcher__list">
-        <li><a class="audience-switcher__link" href="students.html">For students</a></li>
-        <li><a class="audience-switcher__link" href="recruiters.html">For recruiters</a></li>
-        <li><a class="audience-switcher__link" href="parents.html">For parents</a></li>
-      </ul>
-    </nav>
+    <div data-mega-mount>
+      <noscript>
+        <ul class="audience-switcher__list">
+          <li><a class="audience-switcher__link" href="students.html">For students</a></li>
+          <li><a class="audience-switcher__link" href="recruiters.html">For recruiters</a></li>
+          <li><a class="audience-switcher__link" href="parents.html">For parents</a></li>
+          <li><a class="audience-switcher__link" href="schools.html">By school</a></li>
+        </ul>
+      </noscript>
+    </div>
 
   </div>
 </header>
@@ -82,53 +85,7 @@
     </div>
   </section>
 
-  <section class="wrap section" id="how-it-works" aria-labelledby="after-title">
-    <p class="eyebrow">After you send a request</p>
-    <h2 class="section-head__title" id="after-title">What happens next, and when</h2>
-    <p class="section-head__aside">Target service levels, published so you can hold us
-      to them. They are targets, not a contract.</p>
-    <div class="stack" data-service-levels></div>
-  </section>
-
-  <section class="wrap section" aria-labelledby="cohorts-title">
-    <p class="eyebrow">Our students</p>
-    <h2 class="section-head__title" id="cohorts-title">Match a role to a cohort without
-      emailing anyone</h2>
-    <p class="section-head__aside">Cohort sizes are students seeking placement through
-      the university. Availability is when that school&rsquo;s students are free to
-      interview. Programme lists are being confirmed with each school.
-      <a href="schools.html">Placement by school</a> carries each school&rsquo;s outcomes
-      alongside its cohort.</p>
-    <div class="stack" data-schools-table></div>
-    <p class="cohort-stamp t-caption" data-stamp></p>
-  </section>
-
-  <section class="wrap section" aria-labelledby="windows-title">
-    <p class="eyebrow">Windows and work terms</p>
-    <h2 class="section-head__title" id="windows-title">The calendar, in plain numbers</h2>
-    <p class="section-head__aside">Work-term lengths and school windows are read from the
-      same records the office schedules against.</p>
-    <div class="stack" data-work-terms></div>
-  </section>
-
-  <section class="wrap section" aria-labelledby="cost-title">
-    <p class="eyebrow">Cost</p>
-    <h2 class="section-head__title" id="cost-title">What the university provides at no
-      charge</h2>
-    <div class="prose">
-      <p>There is no fee to recruit at RV University. What you get for that:</p>
-      <ul>
-        <li>A pre-screened shortlist against the eligibility criteria you set</li>
-        <li>Campus logistics &mdash; rooms, scheduling, invigilation for written rounds</li>
-        <li>Interview infrastructure, on campus or virtual, at your preference</li>
-        <li>A single coordinating role that stays with your drive from slot to offer</li>
-      </ul>
-      <p>If a cost ever applies to something, it will be stated here before you are asked
-        for anything.</p>
-    </div>
-  </section>
-
-  <section class="wrap section" aria-labelledby="how-title">
+  <section class="wrap section" id="how-it-works" aria-labelledby="how-title">
     <p class="eyebrow">Step by step</p>
     <h2 class="section-head__title" id="how-title">How to hire here</h2>
     <div class="prose">
@@ -158,6 +115,54 @@
       </div>
     </details>
   </section>
+
+  <section class="wrap section" id="what-happens-next" aria-labelledby="after-title">
+    <p class="eyebrow">After you send a request</p>
+    <h2 class="section-head__title" id="after-title">What happens next, and when</h2>
+    <p class="section-head__aside">Target service levels, published so you can hold us
+      to them. They are targets, not a contract.</p>
+    <div class="stack" data-service-levels></div>
+  </section>
+
+
+  <section class="wrap section" id="cohorts" aria-labelledby="cohorts-title">
+    <p class="eyebrow">Our students</p>
+    <h2 class="section-head__title" id="cohorts-title">Match a role to a cohort without
+      emailing anyone</h2>
+    <p class="section-head__aside">Cohort sizes are students seeking placement through
+      the university. Availability is when that school&rsquo;s students are free to
+      interview. Programme lists are being confirmed with each school.
+      <a href="schools.html">Placement by school</a> carries each school&rsquo;s outcomes
+      alongside its cohort.</p>
+    <div class="stack" data-schools-table></div>
+    <p class="cohort-stamp t-caption" data-stamp></p>
+  </section>
+
+  <section class="wrap section" id="windows" aria-labelledby="windows-title">
+    <p class="eyebrow">Windows and work terms</p>
+    <h2 class="section-head__title" id="windows-title">The calendar, in plain numbers</h2>
+    <p class="section-head__aside">Work-term lengths and school windows are read from the
+      same records the office schedules against.</p>
+    <div class="stack" data-work-terms></div>
+  </section>
+
+  <section class="wrap section" aria-labelledby="cost-title">
+    <p class="eyebrow">Cost</p>
+    <h2 class="section-head__title" id="cost-title">What the university provides at no
+      charge</h2>
+    <div class="prose">
+      <p>There is no fee to recruit at RV University. What you get for that:</p>
+      <ul>
+        <li>A pre-screened shortlist against the eligibility criteria you set</li>
+        <li>Campus logistics &mdash; rooms, scheduling, invigilation for written rounds</li>
+        <li>Interview infrastructure, on campus or virtual, at your preference</li>
+        <li>A single coordinating role that stays with your drive from slot to offer</li>
+      </ul>
+      <p>If a cost ever applies to something, it will be stated here before you are asked
+        for anything.</p>
+    </div>
+  </section>
+
 
   <noscript>
     <div class="wrap section">
@@ -227,6 +232,8 @@
 <script src="data/office.js"></script>
 <script src="js/render.js"></script>
 <script src="js/app.js"></script>
+<script src="js/nav.js"></script>
 
+<script src="js/motion.js"></script>
 </body>
 </html>

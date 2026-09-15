@@ -484,7 +484,7 @@
       html += "<div class=\"distribution__item\">" +
                 "<span class=\"distribution__label\">" + esc(b.label) + "</span>" +
                 "<span class=\"distribution__track\" aria-hidden=\"true\">" +
-                  "<span class=\"distribution__bar\" style=\"width:" + width + "%\"></span>" +
+                  "<span class=\"distribution__bar\" data-fill-bar style=\"width:" + width + "%\"></span>" +
                 "</span>" +
                 "<span class=\"distribution__count\">" + esc(R.fig(b.count)) + "</span>" +
               "</div>";
@@ -513,15 +513,24 @@
     return html + "</div>";
   }
 
-  /* --- recruiter-strip ----------------------------------------------------
-     Names as text with hairline dividers. Never logos: nobody's mark is
-     misused, and no image placeholder ships. */
-  /* `limit` caps how many names the strip renders. The count beside the figure
-     still derives from the whole list, and the shortfall is stated under the
-     strip rather than truncated silently — the hub would otherwise carry 96
-     near-identical placeholders, which reads as filler, not as a recruiter
-     strip. Pass no limit to render every name. */
-  function recruiterStrip(sectors, limit) {
+  /* --- recruiter ticker ---------------------------------------------------
+     §J.3, the third and last motion primitive: one continuous horizontal band.
+
+     The band is built from two identical tracks. The animation translates the
+     pair by -50%, which is exactly one track's width, so the moment it wraps
+     the second track sits where the first began and the seam is invisible.
+     The duplicate is aria-hidden and its controls are removed from the tab
+     order: a screen reader and a keyboard both meet the 96 names once.
+
+     Every name is a <button>, not a <span>. Reading a name and being unable to
+     ask what it means is the failure mode of every logo wall in the audit; here
+     the name opens that organisation's drives, which are figures, so they come
+     through fig() and carry a cohort stamp like every other figure on the site.
+
+     Pausing is CSS, not script: :hover and :focus-within set
+     animation-play-state, so the band stops for a mouse and for a Tab key
+     alike, and it still stops if js/motion.js never loads. */
+  function recruiterTicker(sectors) {
     var names = [], i, j;
     for (i = 0; i < sectors.length; i++) {
       for (j = 0; j < sectors[i].companies.length; j++) {
@@ -529,21 +538,47 @@
       }
     }
 
-    var total = names.length;
-    var shown = (limit && limit < total) ? names.slice(0, limit) : names;
-
-    var html = "<ul class=\"recruiter-strip\">";
-    for (i = 0; i < shown.length; i++) {
-      html += "<li class=\"recruiter-strip__name\">" + esc(shown[i]) + "</li>";
+    function track(dup) {
+      var h = "<ul class=\"ticker__track\"" + (dup ? " aria-hidden=\"true\"" : "") + ">";
+      for (var k = 0; k < names.length; k++) {
+        h += "<li class=\"ticker__item\"><button type=\"button\" class=\"ticker__name\"" +
+             " data-recruiter=\"" + esc(names[k]) + "\"" +
+             " aria-expanded=\"false\"" +
+             (dup ? " tabindex=\"-1\"" : "") + ">" + esc(names[k]) + "</button></li>";
+      }
+      return h + "</ul>";
     }
-    html += "</ul>";
 
-    if (shown.length < total) {
-      html += "<p class=\"t-caption distribution__note\">Showing " +
-              esc(R.fig(shown.length)) + " of " + esc(R.fig(total)) +
-              " recruiting organisations. The full list comes from the placement " +
-              "sheet; every name here is a placeholder until it does.</p>";
+    return "<div class=\"ticker\" data-ticker>" +
+             "<div class=\"ticker__rail\">" + track(false) + track(true) + "</div>" +
+           "</div>" +
+           "<div class=\"ticker__panel\" data-recruiter-panel hidden></div>" +
+           "<p class=\"ledger-status t-caption\" data-recruiter-status" +
+             " role=\"status\" aria-live=\"polite\"></p>";
+  }
+
+  /* What one organisation is doing this cycle. Every number resolves through
+     fig() from drives.js — nothing here is typed — and the block closes with
+     the cohort stamp, so a figure lifted out of this panel still carries its
+     date (§E.5). */
+  function recruiterPanel(name, drives) {
+    var mine = [];
+    for (var i = 0; i < drives.length; i++) {
+      if (drives[i].company === name) { mine.push(drives[i]); }
     }
+
+    var html = "<h3 class=\"school__sub\">" + esc(name) + "</h3>";
+
+    if (!mine.length) {
+      html += "<p>No drive from this organisation is recorded in the current " +
+              "cycle. It appears here because it recruited from an earlier " +
+              "cohort. <a href=\"drives.html\">See the drives that are live now</a>.</p>";
+    } else {
+      html += "<p class=\"t-caption\">" + esc(R.fig(mine.length)) +
+              (mine.length === 1 ? " drive" : " drives") + " in this cycle.</p>" +
+              ledger(mine);
+    }
+    html += "<p class=\"cohort-stamp t-caption\">" + esc(R.stamp()) + "</p>";
     return html;
   }
 
@@ -675,7 +710,10 @@
   R.distributionRow = distributionRow;
   R.doors = doors;
   R.doorBlock = doorBlock;
-  R.recruiterStrip = recruiterStrip;
+  R.recruiterTicker = recruiterTicker;
+  R.recruiterPanel = recruiterPanel;
+  R.recruiterTicker = recruiterTicker;
+  R.recruiterPanel = recruiterPanel;
   R.countRecruiters = countRecruiters;
   R.ledger = ledger;
   R.ledgerRow = ledgerRow;
@@ -828,17 +866,27 @@
   /* Four stages as verbs, each a door into its own content. */
   function stageSpine(stages) {
     var html = "<div class=\"spine\">";
+    /* Native <details>/<summary> — §G forbids a hand-built accordion. The first
+       stage opens so the section is never four closed bars with nothing to
+       read; the rest are one keystroke away. The summary carries the stage
+       number and its name, which is enough to choose between them, and the
+       heading level is unchanged so the outline still reads h1 > h2 > h3. */
     for (var i = 0; i < stages.length; i++) {
       var s = stages[i];
-      html += "<section class=\"stage\" id=\"stage-" + esc(s.id) + "\">" +
-                "<span class=\"stage__order t-label\">Stage " + esc(s.order) + "</span>" +
-                "<h3 class=\"stage__name\">" + esc(s.label) + "</h3>" +
-                "<p class=\"stage__what\">" + esc(s.what_it_is) + "</p>" +
-                "<span class=\"stage__sublabel t-label\">What you do</span>" +
-                list(s.do, "stage__list") +
-                "<span class=\"stage__sublabel t-label\">What the office gives you</span>" +
-                list(s.office_offers, "stage__list") +
-              "</section>";
+      html += "<details class=\"stage\" id=\"stage-" + esc(s.id) + "\"" +
+                (i === 0 ? " open" : "") + ">" +
+                "<summary class=\"stage__summary\">" +
+                  "<span class=\"stage__order t-label\">Stage " + esc(s.order) + "</span>" +
+                  "<h3 class=\"stage__name\">" + esc(s.label) + "</h3>" +
+                "</summary>" +
+                "<div class=\"stage__body\">" +
+                  "<p class=\"stage__what\">" + esc(s.what_it_is) + "</p>" +
+                  "<span class=\"stage__sublabel t-label\">What you do</span>" +
+                  list(s.do, "stage__list") +
+                  "<span class=\"stage__sublabel t-label\">What the office gives you</span>" +
+                  list(s.office_offers, "stage__list") +
+                "</div>" +
+              "</details>";
     }
     return html + "</div>";
   }
@@ -1035,6 +1083,19 @@
       var id = links[i].getAttribute("href").slice(1);
       var target = id && doc.getElementById(id);
       if (target && target.querySelector && target.querySelector(".distribution")) { return; }
+    }
+
+    /* An explicit, declared route to the spread. A page may carry a package
+       figure without rendering the whole distribution beside it, but only if
+       it says in the markup where the spread is and links to it in the same
+       view. data-spread-link is that declaration — it is not "any link":
+       the author has to name the element as the route, and it must resolve.
+       This widens how the rule can be satisfied; it does not weaken what the
+       rule requires, which is that a reader looking at a median can always
+       reach the distribution behind it from where they are standing. */
+    var declared = view.querySelectorAll("a[data-spread-link][href]");
+    for (var d = 0; d < declared.length; d++) {
+      if (String(declared[d].getAttribute("href")).trim()) { return; }
     }
 
     throw new Error(
@@ -1251,6 +1312,57 @@
     return html;
   }
 
+  /* --- school comparison --------------------------------------------------
+     Six schools on one scale. Reading eight sections in sequence tells you
+     what each school did; it does not tell you how they compare, which is the
+     question a reader actually arrives with. Every bar is measured against the
+     same maximum — the largest median among the six — so bar length is
+     comparable across rows rather than per-row normalised, which is the trick
+     that makes every school look equally strong.
+
+     Medians only. A row of maxima would breach §E.1 in the one place where the
+     comparison is most tempting to game. Each row carries its own count of
+     offers behind the figure, so no bar stands without its denominator, and
+     the spread behind every median is one link away. */
+  function schoolComparison(schools) {
+    var rows = [], i, max = 0;
+    for (i = 0; i < schools.length; i++) {
+      if (!schools[i].in_placement_cohort) { continue; }
+      rows.push(schools[i]);
+      if (schools[i].salary_inr_lpa.median > max) {
+        max = schools[i].salary_inr_lpa.median;
+      }
+    }
+
+    var html = "<div class=\"compare\">";
+    for (i = 0; i < rows.length; i++) {
+      var s = rows[i];
+      var w = max ? Math.round((s.salary_inr_lpa.median / max) * 1000) / 10 : 0;
+      html += "<div class=\"compare__item\">" +
+                "<a class=\"compare__label\" href=\"#" + esc(s.id) + "\">" +
+                  esc(s.name) +
+                  "<span class=\"compare__n t-caption\">" +
+                    esc(R.fig(s.salary_inr_lpa.n)) + " offers</span>" +
+                "</a>" +
+                "<span class=\"compare__track\" aria-hidden=\"true\">" +
+                  "<span class=\"compare__bar\" data-fill-bar style=\"width:" + w + "%\"></span>" +
+                "</span>" +
+                "<span class=\"compare__value\">" +
+                  esc(R.fig(s.salary_inr_lpa.median, "inr_lpa")) + "</span>" +
+              "</div>";
+    }
+    html += "</div>";
+
+    return html +
+      "<p class=\"t-caption distribution__note\">Median basic package, all " +
+        esc(R.fig(rows.length)) + " schools in the placement cohort drawn against " +
+        "the same scale &mdash; the longest bar is the largest median, at " +
+        esc(R.fig(max, "inr_lpa")) + ". " +
+        "<a href=\"outcomes.html#spread\" data-spread-link>See the spread behind " +
+        "the university median</a>.</p>" +
+      "<p class=\"cohort-stamp t-caption\">" + esc(R.stamp()) + "</p>";
+  }
+
   function schoolIndex(schools) {
     var html = "<div class=\"school-index\">";
     for (var i = 0; i < schools.length; i++) {
@@ -1265,6 +1377,7 @@
   R.archiveTable = archiveTable;
   R.schoolSections = schoolSections;
   R.schoolIndex = schoolIndex;
+  R.schoolComparison = schoolComparison;
 
 }(typeof window !== "undefined" ? window : globalThis));
 
@@ -1362,4 +1475,71 @@
     });
   }
   R.scopeTable = scopeTable;
+}(typeof window !== "undefined" ? window : globalThis));
+
+/* ===========================================================================
+   render.js · part 9 — the audience mega-menu.
+
+   One source for the whole navigation. Every page renders the same markup, so
+   a page added to a panel below appears on all 11 pages at once.
+
+   schools.html sits under all three audiences on purpose: a recruiter wants
+   design students, a parent wants the School of Law. It was previously
+   reachable from no page at all.
+   =========================================================================== */
+(function (global) {
+  "use strict";
+  var RVU = global.RVU = global.RVU || {};
+  var R = RVU.render;
+  var esc = function (s) { return R.esc(s); };
+
+  var MENU = [
+    { id: "students", label: "For students", href: "students.html", items: [
+      { label: "Your journey",        href: "students.html" },
+      { label: "Where you stand",     href: "eligibility.html" },
+      { label: "Live drives",         href: "drives.html" },
+      { label: "Placement by school", href: "schools.html" },
+      { label: "Outcomes",            href: "outcomes.html" }
+    ] },
+    { id: "recruiters", label: "For recruiters", href: "recruiters.html", items: [
+      { label: "How to hire",             href: "recruiters.html#how-it-works" },
+      { label: "Start a hiring request",  href: "hire.html" },
+      { label: "Our students & schools",  href: "recruiters.html#cohorts" },
+      { label: "Drive windows",           href: "recruiters.html#windows" },
+      { label: "Placement by school",     href: "schools.html" },
+      { label: "Outcomes",                href: "outcomes.html" }
+    ] },
+    { id: "parents", label: "For parents", href: "parents.html", items: [
+      { label: "What the numbers mean",  href: "parents.html#q3" },
+      { label: "Three things you can do", href: "parents.html#q2" },
+      { label: "Placement by school",    href: "schools.html" },
+      { label: "Who to contact",         href: "office.html" },
+      { label: "Outcomes",               href: "outcomes.html" },
+      { label: "How we report",          href: "methodology.html" }
+    ] }
+  ];
+
+  function megaMenu(currentId) {
+    var html = "<nav class=\"mega\" aria-label=\"Choose your audience\">" +
+               "<ul class=\"mega__list\">";
+    for (var i = 0; i < MENU.length; i++) {
+      var a = MENU[i];
+      var current = (a.id === currentId) ? " aria-current=\"page\"" : "";
+      html += "<li class=\"mega__item\" data-mega-item>" +
+        "<a class=\"mega__trigger audience-switcher__link\" href=\"" + esc(a.href) + "\"" +
+          current + " aria-expanded=\"false\" aria-controls=\"mega-" + esc(a.id) + "\"" +
+          " data-mega-trigger>" + esc(a.label) + "</a>" +
+        "<div class=\"mega__panel\" id=\"mega-" + esc(a.id) + "\" data-mega-panel hidden>" +
+          "<ul class=\"mega__links\">";
+      for (var j = 0; j < a.items.length; j++) {
+        html += "<li><a class=\"mega__link\" href=\"" + esc(a.items[j].href) + "\">" +
+                esc(a.items[j].label) + "</a></li>";
+      }
+      html += "</ul></div></li>";
+    }
+    return html + "</ul></nav>";
+  }
+
+  R.megaMenu = megaMenu;
+  R.MENU = MENU;
 }(typeof window !== "undefined" ? window : globalThis));

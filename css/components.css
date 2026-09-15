@@ -42,7 +42,7 @@
   color: var(--rvu-ink);                  /* #04070a on #d0a863 · 9.10:1 */
   font-family: var(--font-body);
   font-weight: var(--weight-label);
-  font-size: var(--type-label);
+  font-size: var(--t-label);
   letter-spacing: var(--track-label);
   text-transform: uppercase;
   text-decoration: none;
@@ -80,7 +80,7 @@
   color: var(--rvu-slate);                /* #233039 on #faf7f1 · 12.64:1 */
   font-family: var(--font-body);
   font-weight: var(--weight-label);
-  font-size: var(--type-label);
+  font-size: var(--t-label);
   letter-spacing: var(--track-label);
   text-transform: uppercase;
   cursor: pointer;
@@ -100,8 +100,8 @@
 .hero__subhead {
   margin-block-start: 24px;
   max-width: var(--measure-prose);
-  font-size: var(--type-body-l);
-  line-height: calc(var(--lh-body-l) / var(--type-body-l));
+  font-size: var(--t-lead);
+  line-height: calc(var(--lh-t-lead) / var(--t-lead));
   color: var(--rvu-slate);                /* #233039 on #faf7f1 · 12.64:1 */
 }
 
@@ -139,8 +139,8 @@
 .door__title {
   font-family: var(--font-display);
   font-weight: var(--weight-display);
-  font-size: var(--type-heading);
-  line-height: calc(var(--lh-heading) / var(--type-heading));
+  font-size: var(--t-title);
+  line-height: calc(var(--lh-t-title) / var(--t-title));
   color: var(--rvu-ink);                  /* #04070a on #faf7f1 · 18.89:1 */
   text-wrap: balance;
   margin: 0;
@@ -160,7 +160,7 @@
   min-height: var(--tap-target-min);
   margin-block-start: 16px;
   font-weight: var(--weight-label);
-  font-size: var(--type-label);
+  font-size: var(--t-label);
   letter-spacing: var(--track-label);
   text-transform: uppercase;
   color: var(--rvu-gold-text);            /* #866c40 on #faf7f1 · 4.64:1 */
@@ -191,8 +191,8 @@
 .figure-block__value {
   font-family: var(--font-display);
   font-weight: var(--weight-display);
-  font-size: var(--type-figure);
-  line-height: calc(var(--lh-figure) / var(--type-figure));
+  font-size: var(--t-figure);
+  line-height: calc(var(--lh-t-figure) / var(--t-figure));
   font-variant-numeric: tabular-nums;
   color: var(--rvu-ink);                  /* #04070a on #faf7f1 · 18.89:1 · counts */
   display: block;
@@ -214,9 +214,21 @@
   margin-block-start: 12px;
   font-family: var(--font-display);
   font-weight: var(--weight-display);
-  font-size: calc(var(--type-figure) * 0.6);
+  font-size: calc(var(--t-figure) * 0.6);
   line-height: 1.1;
   font-variant-numeric: tabular-nums;
+  color: var(--rvu-slate);                /* #233039 on #faf7f1 · 12.64:1 */
+}
+
+/* The declared route to the spread. §E.2 asks that the distribution be
+   reachable in the same view as the figure; on the hub the distribution itself
+   now lives on outcomes.html, so the view carries an explicit link instead.
+   44px tap area via the padding, per §D. */
+.figure-block__spread {
+  display: inline-block;
+  margin-block-start: 12px;
+  padding-block: 12px;
+  font-size: var(--t-caption);
   color: var(--rvu-slate);                /* #233039 on #faf7f1 · 12.64:1 */
 }
 
@@ -280,8 +292,8 @@
 .denominator__text {
   margin-block-start: 12px;
   max-width: var(--measure-prose);
-  font-size: var(--type-body-l);
-  line-height: calc(var(--lh-body-l) / var(--type-body-l));
+  font-size: var(--t-lead);
+  line-height: calc(var(--lh-t-lead) / var(--t-lead));
 }
 .denominator__text b {
   font-weight: var(--weight-label);
@@ -289,32 +301,145 @@
   color: var(--rvu-ink);                  /* #04070a on #ecf1f5 · 17.76:1 */
 }
 
-/* -------------------------------------------------------- recruiter-strip */
-/* Names as text, Cantarell 700 uppercase, hairline dividers. Not a logo wall:
-   nobody's mark is misused, and it reads as more editorial than a grid of
-   images. No <img>, by design. */
+/* --------------------------------------------------------- school compare */
+/* The distribution row's geometry, on a wider label column because these
+   labels are school names rather than salary bands, and with the label as a
+   link into that school's own section. One shared maximum across the six rows
+   — set in render.js, not here — so bar length compares. */
 
-.recruiter-strip {
+.compare { display: grid; gap: 18px; }
+
+.compare__item {
+  display: grid;
+  grid-template-columns: minmax(180px, 280px) 1fr minmax(72px, auto);
+  align-items: center;
+  gap: 16px;
+}
+
+/* 44px tap target from the padding (§D), and the two lines stack inside it. */
+.compare__label {
+  display: block;
+  padding-block: 11px;
+  color: var(--rvu-slate);                /* #233039 on #faf7f1 · 12.64:1 */
+}
+.compare__label:hover { color: var(--rvu-ink); }        /* 18.89:1 */
+.compare__n {
+  display: block;
+  color: var(--rvu-slate);                /* 12.64:1 */
+}
+
+.compare__track {
+  display: block;                         /* see .distribution__track */
+  height: 14px;
+  background: color-mix(in srgb, var(--rvu-slate) 8%, transparent);
+}
+.compare__bar {
+  display: block;
+  height: 100%;
+  background: var(--rvu-gold);            /* a fill, never text (§A) */
+  min-width: 2px;
+}
+
+.compare__value {
+  font-family: var(--font-display);
+  font-weight: var(--weight-display);
+  font-size: var(--t-title);
+  font-variant-numeric: tabular-nums;
+  text-align: end;
+  color: var(--rvu-ink);                  /* 18.89:1 on paper */
+}
+
+/* -------------------------------------------------------- recruiter ticker */
+/* §J.3. Two identical tracks side by side; the rail translates by -50%, which
+   is exactly one track, so the wrap is seamless. transform only — never
+   margin or scroll position — so the band stays off the layout path.
+
+   The band pauses on :hover and on :focus-within. Both are CSS, so pausing
+   survives js/motion.js failing to load, and a keyboard user tabbing into the
+   band stops it exactly as a mouse does. */
+
+.ticker {
+  overflow: hidden;
+  border-block: var(--rule-divide);
+  /* Full-bleed inside the 1080px wrap: the band should run off both edges. */
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 40px,
+                                      #000 calc(100% - 40px), transparent);
+          mask-image: linear-gradient(to right, transparent, #000 40px,
+                                      #000 calc(100% - 40px), transparent);
+}
+
+.ticker__rail {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0;
+  width: max-content;
+  animation: ticker-run 120s linear infinite;
+}
+.ticker:hover .ticker__rail,
+.ticker:focus-within .ticker__rail { animation-play-state: paused; }
+
+@keyframes ticker-run {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.ticker__track {
+  display: flex;
   margin: 0;
   padding: 0;
   list-style: none;
-  border-block: var(--rule-divide);
 }
 
-.recruiter-strip__name {
+/* 44px tap target from the padding alone (§D), and the divider is the same
+   hairline the strip used. */
+.ticker__name {
+  display: block;
   padding: 14px 20px;
+  min-height: 44px;
+  background: none;
+  border: 0;
+  border-inline-start: var(--rule-divide);
   font-family: var(--font-body);
   font-weight: var(--weight-label);
-  font-size: var(--type-label);
+  font-size: var(--t-label);
   letter-spacing: var(--track-label);
   text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
   color: var(--rvu-slate);                /* #233039 on #faf7f1 · 12.64:1 */
-  border-inline-start: var(--rule-divide);
 }
-.recruiter-strip__name:first-child { border-inline-start: 0; padding-inline-start: 0; }
+.ticker__name:hover,
+.ticker__name[aria-expanded="true"] {
+  color: var(--rvu-ink);                  /* #04070a on #faf7f1 · 18.89:1 */
+  box-shadow: inset 0 -2px 0 var(--rvu-gold);   /* gold as a rule, never as text */
+}
+
+.ticker__track > .ticker__item:first-child .ticker__name { border-inline-start: 0; }
+
+/* The status node is empty until a name is opened. Left as an empty <p> it
+   still takes a line box and its margins, which put 90px of dead space under
+   the band — the one accidental stack the whitespace audit found. Collapsed
+   when empty — but collapsed, not display:none: a live region removed from
+   the box tree is also removed from the accessibility tree, and would then
+   announce nothing when it gained its first text. Zero height keeps it in
+   both, and :empty stops matching the moment text arrives. */
+[data-recruiter-status]:empty { margin: 0; height: 0; overflow: hidden; }
+
+.ticker__panel {
+  margin-block-start: var(--row-gutter-vertical);
+  padding-block-start: var(--module-gutter);
+  border-block-start: var(--rule-close);
+}
+
+/* Under reduced motion the band does not move, so it must not clip either:
+   the rail wraps and becomes a plain list of names, the duplicate track is
+   removed outright, and every name stays reachable. Nothing is lost —
+   which is the test §J sets for this state. */
+@media (prefers-reduced-motion: reduce) {
+  .ticker { overflow: visible; -webkit-mask-image: none; mask-image: none; }
+  .ticker__rail { width: auto; animation: none; }
+  .ticker__track[aria-hidden="true"] { display: none; }
+  .ticker__track { flex-wrap: wrap; }
+  .ticker__name { white-space: normal; }
+}
 
 /* ------------------------------------------------------------- ledger-row */
 /* Six columns, 19px vertical padding, 1px divider.
@@ -370,7 +495,7 @@
   border-block-end: var(--rule-divide);
   font-family: var(--font-body);
   font-weight: var(--weight-label);
-  font-size: var(--type-label);
+  font-size: var(--t-label);
   letter-spacing: var(--track-label);
   text-transform: uppercase;
 }
@@ -454,12 +579,12 @@
   }
   .distribution__track { grid-column: 1 / -1; }
 
+  .compare__item  { grid-template-columns: 1fr auto; }
+  .compare__track { grid-column: 1 / -1; }
+
   .denominator { padding-inline: 20px; }
 
-  .recruiter-strip__name {
-    padding-inline: 0 16px;
-    border-inline-start: 0;
-  }
+  .ticker__name { padding-inline: 16px; }
 
   /* The ledger becomes a stack of labelled pairs rather than a squeezed grid.
      Its own labels come from data-label, so no text is typed into markup. */
@@ -473,13 +598,13 @@
   .ledger__row > *[data-label]::before {
     content: attr(data-label);
     font-weight: var(--weight-label);
-    font-size: var(--type-label);
+    font-size: var(--t-label);
     letter-spacing: var(--track-label);
     text-transform: uppercase;
     color: var(--rvu-slate);              /* 12.64:1 */
     flex: none;
   }
-  .ledger__company { font-size: var(--type-body-l); }
+  .ledger__company { font-size: var(--t-lead); }
 }
 
 }
@@ -510,8 +635,8 @@
 .start-here__title {
   font-family: var(--font-display);
   font-weight: var(--weight-display);
-  font-size: var(--type-display-m);
-  line-height: calc(var(--lh-display-m) / var(--type-display-m));
+  font-size: var(--t-sub);
+  line-height: calc(var(--lh-t-sub) / var(--t-sub));
   color: var(--rvu-ink);                  /* #04070a on #ecf1f5 · 17.76:1 */
   margin-block: 8px 12px;
   text-wrap: balance;
@@ -519,30 +644,50 @@
 .start-here__body { max-width: var(--measure-prose); }
 
 /* ----------------------------------------------------------- stage spine */
-/* Four stages as verbs, horizontal with a connecting hairline; stacked at
-   640px. Each stage is a door into its own content. */
+/* Four stages as verbs, one per row, each a native <details> (§G: no
+   hand-built accordion). The first is open, so the section always has
+   something to read; the other three are one keystroke away.
+
+   The four columns this replaced put four headings and eight bullet lists on
+   screen at once, at a quarter of the measure each. As a disclosure the rows
+   read at the full measure and the reader chooses which stage to open. */
 
 .spine {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: var(--module-gutter);
-  position: relative;
-  padding-block-start: 28px;
   border-block-start: var(--rule-open);
 }
 
+.stage {
+  border-block-end: var(--rule-divide);
+}
+
+/* 44px from the padding alone (§D), and the marker is the only thing that
+   moves between states — no hand-built chevron, no second device. */
+.stage__summary {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding-block: 19px;
+  cursor: pointer;
+  list-style-position: outside;
+}
+.stage__summary::marker { color: var(--rvu-gold); }  /* gold as a mark, never text */
+.stage__summary:hover .stage__name { color: var(--rvu-ink); }
+
+.stage__body { padding-block-end: 28px; }
+
 .stage__order {
-  display: block;
   color: var(--rvu-gold-text);            /* #866c40 on #faf7f1 · 4.64:1 */
-  margin-block-end: 10px;
+  white-space: nowrap;
 }
 .stage__name {
+  display: inline;
   font-family: var(--font-display);
   font-weight: var(--weight-display);
-  font-size: var(--type-heading);
-  line-height: calc(var(--lh-heading) / var(--type-heading));
+  font-size: var(--t-title);
+  line-height: 1.2;
   color: var(--rvu-ink);                  /* 18.89:1 on paper */
-  margin: 0 0 10px;
+  margin: 0;
 }
 .stage__what { color: var(--rvu-slate); } /* 12.64:1 */
 .stage__list {
@@ -556,7 +701,7 @@
 .stage__sublabel {
   display: block;
   margin-block-start: 16px;
-  color: var(--rvu-slate);                /* 12.64:1 · not gold: this sits at 10px */
+  color: var(--rvu-slate);                /* 12.64:1 · not gold: this sits at 12px */
 }
 
 /* -------------------------------------------------------------- timeline */
@@ -571,8 +716,8 @@
 .year__name {
   font-family: var(--font-display);
   font-weight: var(--weight-display);
-  font-size: var(--type-display-m);
-  line-height: calc(var(--lh-display-m) / var(--type-display-m));
+  font-size: var(--t-sub);
+  line-height: calc(var(--lh-t-sub) / var(--t-sub));
   color: var(--rvu-ink);                  /* 18.89:1 */
   margin: 0;
 }
@@ -587,7 +732,7 @@
 .year__cols h4 {
   font-family: var(--font-body);
   font-weight: var(--weight-label);
-  font-size: var(--type-label);
+  font-size: var(--t-label);
   letter-spacing: var(--track-label);
   text-transform: uppercase;
   color: var(--rvu-slate);                /* 12.64:1 */
@@ -608,7 +753,7 @@
 .deadline__tag {
   font-family: var(--font-body);
   font-weight: var(--weight-label);
-  font-size: var(--type-label);
+  font-size: var(--t-label);
   letter-spacing: var(--track-label);
   text-transform: uppercase;
 }
@@ -645,7 +790,7 @@
 .field__label {
   font-family: var(--font-body);
   font-weight: var(--weight-label);
-  font-size: var(--type-label);
+  font-size: var(--t-label);
   letter-spacing: var(--track-label);
   text-transform: uppercase;
   color: var(--rvu-slate);                /* 12.64:1 */
@@ -710,7 +855,7 @@ fieldset { border: 0; padding: 0; margin: 0; }
 legend {
   font-family: var(--font-body);
   font-weight: var(--weight-label);
-  font-size: var(--type-label);
+  font-size: var(--t-label);
   letter-spacing: var(--track-label);
   text-transform: uppercase;
   color: var(--rvu-slate);                /* 12.64:1 */
@@ -729,8 +874,8 @@ legend {
 .result__headline {
   font-family: var(--font-display);
   font-weight: var(--weight-display);
-  font-size: var(--type-display-m);
-  line-height: calc(var(--lh-display-m) / var(--type-display-m));
+  font-size: var(--t-sub);
+  line-height: calc(var(--lh-t-sub) / var(--t-sub));
   color: var(--rvu-ink);                  /* 18.89:1 */
   margin-block: 8px 20px;
   text-wrap: balance;
@@ -788,8 +933,8 @@ legend {
 .empty-state__headline {
   font-family: var(--font-display);
   font-weight: var(--weight-display);
-  font-size: var(--type-heading);
-  line-height: calc(var(--lh-heading) / var(--type-heading));
+  font-size: var(--t-title);
+  line-height: calc(var(--lh-t-title) / var(--t-title));
   color: var(--rvu-ink);                  /* 18.89:1 */
   margin: 0 0 10px;
   text-wrap: balance;
@@ -802,7 +947,7 @@ legend {
 .resource-group h3 {
   font-family: var(--font-body);
   font-weight: var(--weight-label);
-  font-size: var(--type-label);
+  font-size: var(--t-label);
   letter-spacing: var(--track-label);
   text-transform: uppercase;
   color: var(--rvu-gold-text);            /* #866c40 on #faf7f1 · 4.64:1 */
@@ -813,12 +958,7 @@ legend {
 
 /* ============================================================= responsive */
 
-@media (max-width: 900px) {
-  .spine { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: var(--row-gutter-vertical); }
-}
-
 @media (max-width: 640px) {
-  .spine      { grid-template-columns: 1fr; }
   .year__cols { grid-template-columns: 1fr; }
   .result__line { grid-template-columns: 1fr; gap: 4px; }
   .start-here { padding-inline: 20px; }
@@ -853,8 +993,8 @@ legend {
 .router__label {
   font-family: var(--font-display);
   font-weight: var(--weight-display);
-  font-size: var(--type-heading);
-  line-height: calc(var(--lh-heading) / var(--type-heading));
+  font-size: var(--t-title);
+  line-height: calc(var(--lh-t-title) / var(--t-title));
   color: var(--rvu-ink);                  /* 18.89:1 */
   text-wrap: balance;
 }
@@ -862,7 +1002,7 @@ legend {
 .router__go {
   margin-block-start: auto;
   font-weight: var(--weight-label);
-  font-size: var(--type-label);
+  font-size: var(--t-label);
   letter-spacing: var(--track-label);
   text-transform: uppercase;
   color: var(--rvu-gold-text);            /* #866c40 · 4.64:1 */
@@ -887,7 +1027,7 @@ legend {
   border-block-start: var(--rule-divide);
   font-family: var(--font-body);
   font-weight: var(--weight-body);
-  font-size: var(--type-label);
+  font-size: var(--t-label);
   letter-spacing: var(--track-label);
   text-transform: uppercase;
   color: var(--rvu-slate);                /* 12.64:1 */
@@ -913,15 +1053,15 @@ legend {
 .match__title {
   font-family: var(--font-display);
   font-weight: var(--weight-display);
-  font-size: var(--type-display-m);
-  line-height: calc(var(--lh-display-m) / var(--type-display-m));
+  font-size: var(--t-sub);
+  line-height: calc(var(--lh-t-sub) / var(--t-sub));
   color: var(--rvu-ink);                  /* #04070a on #ecf1f5 · 17.76:1 */
   margin-block: 8px 12px;
   text-wrap: balance;
 }
 .match__lead { max-width: var(--measure-prose); }
 .match .figure-row { margin-block-start: 20px; }
-.match .figure-block__value--date { font-size: var(--type-display-m); }
+.match .figure-block__value--date { font-size: var(--t-sub); }
 .match__list { margin-block-start: 20px; padding: 0; list-style: none; }
 .match__school {
   display: flex;
@@ -933,7 +1073,7 @@ legend {
 }
 .match__window {
   font-weight: var(--weight-label);
-  font-size: var(--type-label);
+  font-size: var(--t-label);
   letter-spacing: var(--track-label);
   text-transform: uppercase;
   color: var(--rvu-slate);                /* 11.89:1 on panel */
@@ -960,8 +1100,8 @@ legend {
 .action-card__title {
   font-family: var(--font-display);
   font-weight: var(--weight-display);
-  font-size: var(--type-heading);
-  line-height: calc(var(--lh-heading) / var(--type-heading));
+  font-size: var(--t-title);
+  line-height: calc(var(--lh-t-title) / var(--t-title));
   color: var(--rvu-ink);                  /* 18.89:1 */
   margin: 0 0 10px;
   text-wrap: balance;
@@ -975,7 +1115,7 @@ legend {
   margin-block-start: 14px;
   align-self: flex-start;
   font-weight: var(--weight-label);
-  font-size: var(--type-label);
+  font-size: var(--t-label);
   letter-spacing: var(--track-label);
   text-transform: uppercase;
   color: var(--rvu-gold-text);            /* 4.64:1 */
@@ -995,9 +1135,9 @@ legend {
 .question__q {
   font-family: var(--font-display);
   font-weight: var(--weight-display);
-  font-size: var(--type-display-l);
-  line-height: calc(var(--lh-display-l) / var(--type-display-l));
-  letter-spacing: var(--track-display-l);
+  font-size: var(--t-opener);
+  line-height: calc(var(--lh-t-section) / var(--t-opener));
+  letter-spacing: var(--track-section);
   color: var(--rvu-ink);                  /* 18.89:1 */
   margin: 0 0 16px;
   text-wrap: balance;
@@ -1016,9 +1156,6 @@ legend {
 }
 
 @media (max-width: 640px) {
-  /* A pill carries an action, so it takes one step more than a label. */
-  .pill, .chip { font-size: 13px; }
-
   .router { grid-template-columns: 1fr; }
   .match  { padding-inline: 20px; }
   .progress { display: grid; grid-template-columns: 1fr; }
@@ -1057,8 +1194,29 @@ legend {
   border: 1px solid var(--rvu-slate);
   margin-block-end: 20px;
 }
-.segbar__seg { display: block; height: 100%; background: var(--rvu-gold); }
+/* The row is only the carrier for --fill: motion.js writes the scroll progress
+   here, and scaling the row itself would squeeze all five bands at once, which
+   is not what the bar means. */
+.segbar[data-fill-carrier] { transform: none; }
+
+.segbar__seg {
+  display: block;
+  height: 100%;
+  flex-grow: 0;
+  flex-shrink: 0;
+  background: var(--rvu-gold);
+  transform-origin: left center;
+  /* This band's own progress along the row it shares: it starts at --from and
+     is full one --span later, so the class fills group by group. --fill
+     defaults to 1, so with js/motion.js deleted the bar draws complete —
+     which is the readable state (§J). */
+  transform: scaleX(clamp(0, calc((var(--fill, 1) - var(--from)) / var(--span)), 1));
+}
 .segbar__seg + .segbar__seg { border-inline-start: 1px solid var(--rvu-slate); }
+
+@media (prefers-reduced-motion: reduce) {
+  .segbar__seg { transform: scaleX(1) !important; }
+}
 .segbar__seg--1 { opacity: 1;    }
 .segbar__seg--2 { opacity: 0.78; }
 .segbar__seg--3 { opacity: 0.58; }
@@ -1115,8 +1273,8 @@ legend {
 .school__name {
   font-family: var(--font-display);
   font-weight: var(--weight-display);
-  font-size: var(--type-display-m);
-  line-height: calc(var(--lh-display-m) / var(--type-display-m));
+  font-size: var(--t-sub);
+  line-height: calc(var(--lh-t-sub) / var(--t-sub));
   color: var(--rvu-ink);                  /* 18.89:1 */
   margin: 0 0 8px;
   text-wrap: balance;
@@ -1125,7 +1283,7 @@ legend {
 .school__sub {
   font-family: var(--font-body);
   font-weight: var(--weight-label);
-  font-size: var(--type-label);
+  font-size: var(--t-label);
   letter-spacing: var(--track-label);
   text-transform: uppercase;
   color: var(--rvu-gold-text);            /* #866c40 · 4.64:1 */
@@ -1157,8 +1315,8 @@ legend {
 .person__role {
   font-family: var(--font-display);
   font-weight: var(--weight-display);
-  font-size: var(--type-heading);
-  line-height: calc(var(--lh-heading) / var(--type-heading));
+  font-size: var(--t-title);
+  line-height: calc(var(--lh-t-title) / var(--t-title));
   color: var(--rvu-ink);                  /* #04070a on #faf7f1 · 18.89:1 */
   margin: 0 0 6px;
   text-wrap: balance;
@@ -1176,7 +1334,7 @@ legend {
 .term__name {
   font-family: var(--font-body);
   font-weight: var(--weight-label);
-  font-size: var(--type-label);
+  font-size: var(--t-label);
   letter-spacing: var(--track-label);
   text-transform: uppercase;
   color: var(--rvu-gold-text);            /* 4.64:1 */
@@ -1195,7 +1353,7 @@ legend {
 .school__abbr {
   font-family: var(--font-body);
   font-weight: var(--weight-label);
-  font-size: var(--type-label);
+  font-size: var(--t-label);
   letter-spacing: var(--track-label);
   color: var(--rvu-gold-text);            /* #866c40 on #faf7f1 · 4.64:1 */
   vertical-align: middle;
@@ -1243,3 +1401,119 @@ legend {
    pushes each item down inside its own grid row and the rows stop aligning —
    which is what made the four calendar terms sit on four different baselines. */
 .calendar-grid > * { margin-block-start: 0; }
+
+/* ============================================================== MOTION =====
+   CLAUDE.md §J. Three primitives; every element rests in its finished state
+   and is only offset once js/motion.js has committed to animating it back.
+   Delete motion.js and the page reads identically, fully filled and visible.
+   ========================================================================= */
+
+/* --- 1 · scroll-linked bar fill ----------------------------------------- */
+/* transform, never width: width forces layout on every scroll frame. The
+   default is 1 — full — so a bar with no JS is a bar that is simply correct. */
+
+[data-fill-bar] {
+  transform: scaleX(var(--fill, 1));
+  transform-origin: left center;
+  will-change: transform;
+}
+
+/* The last tenth eases out so the bar settles rather than stopping dead. */
+[data-fill-bar][data-filled="true"] {
+  transition: transform 220ms var(--motion-ease);
+  will-change: auto;
+}
+
+/* --- 2 · section reveal -------------------------------------------------- */
+/* data-reveal-armed is written by JS, so the offset only ever exists when
+   something is going to undo it. */
+
+[data-reveal][data-reveal-armed] {
+  opacity: 0;
+  transform: translateY(12px);
+}
+[data-reveal][data-reveal-armed][data-revealed="true"] {
+  opacity: 1;
+  transform: none;
+  transition: opacity 380ms ease-out, transform 380ms ease-out;
+}
+
+/* --- reduced motion ------------------------------------------------------ */
+/* Required by §G. The resting state is the final state, so nothing is lost:
+   bars are full, sections are in place, and motion.js observes nothing. */
+
+@media (prefers-reduced-motion: reduce) {
+  [data-fill-bar] {
+    transform: scaleX(1) !important;
+    transition: none !important;
+    will-change: auto;
+  }
+  [data-reveal],
+  [data-reveal][data-reveal-armed] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+/* ========================================================== MEGA-MENU =====
+   The audience switcher, upgraded. Same three targets, same gold underline on
+   the current one; each now opens a panel listing the pages beneath it.
+   Below 900px it is a disclosure list — hover does not exist on touch.
+   ========================================================================= */
+
+.mega { position: relative; }
+.mega__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin: 0; padding: 0;
+  list-style: none;
+}
+.mega__item { position: relative; }
+
+.mega__trigger[aria-expanded="true"] { border-block-end-color: var(--rvu-gold); }
+
+.mega__panel {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 40;
+  min-width: 232px;
+  padding: 14px 0 8px;
+  background: var(--rvu-paper);
+  border-block-start: 1px solid var(--rvu-gold);
+  border-inline: var(--rule-divide);
+  border-block-end: var(--rule-divide);
+}
+.mega__panel[hidden] { display: none; }
+
+.mega__links { margin: 0; padding: 0; list-style: none; }
+
+.mega__link {
+  display: flex;
+  align-items: center;
+  min-height: var(--tap-target-min);
+  padding-inline: 18px;
+  font-family: var(--font-body);
+  font-size: var(--t-body);
+  color: var(--rvu-slate);                /* #233039 on #faf7f1 · 12.64:1 */
+  text-decoration: none;
+}
+.mega__link:hover { text-decoration: underline; text-underline-offset: 0.18em; }
+
+/* Below 900px the panel drops into flow and the trigger becomes a disclosure. */
+@media (max-width: 900px) {
+  .mega__list { flex-direction: column; gap: 0; width: 100%; }
+  .mega__item { width: 100%; border-block-start: var(--rule-divide); }
+  .mega__trigger { width: 100%; }
+  .mega__panel {
+    position: static;
+    min-width: 0;
+    padding: 0 0 10px;
+    border: 0;
+    border-inline-start: 2px solid var(--rvu-gold);
+    margin-inline-start: 14px;
+  }
+  .site-header__inner { align-items: flex-start; }
+}

@@ -17,6 +17,13 @@
 
   /* Navigation is plain markup and works with JS off; only the active state
      is set here. A page declares its audience with data-audience on <body>. */
+  /* One nav, rendered from one list in render.js, on every page. */
+  function mountMenu() {
+    var mount = doc.querySelector("[data-mega-mount]");
+    if (!mount) { return; }
+    mount.innerHTML = R.megaMenu(doc.body.getAttribute("data-audience") || "");
+  }
+
   function markCurrentAudience() {
     var current = doc.body.getAttribute("data-audience");
     if (!current) { return; }
@@ -35,9 +42,10 @@
     }
 
     if (doc.querySelector("[data-recruiters]")) {
-      /* The hub shows a strip, not the whole register; the figure beside it
-         still counts every organisation in the data. */
-      R.mount("[data-recruiters]", R.recruiterStrip(RVU.recruiters.sectors, 24));
+      /* The hub band carries every organisation in the data, so the figure
+         beside it and the band itself count the same list. */
+      R.mount("[data-recruiters]", R.recruiterTicker(RVU.recruiters.sectors));
+      wireTicker();
     }
 
     if (doc.querySelector("[data-spine]")) {
@@ -109,6 +117,9 @@
     if (doc.querySelector("[data-school-index]")) {
       R.mount("[data-school-index]", R.schoolIndex(RVU.schools));
     }
+    if (doc.querySelector("[data-school-compare]")) {
+      R.mount("[data-school-compare]", R.schoolComparison(RVU.schools));
+    }
     if (doc.querySelector("[data-schools]")) {
       R.mount("[data-schools]", R.schoolSections(RVU.schools, RVU.placements.distribution));
     }
@@ -126,12 +137,88 @@
       R.mount("[data-start-here]", R.startHere(RVU.office.start_here));
     }
 
-    if (doc.querySelector("[data-closing]")) {
+    if (doc.querySelector("[data-closing]") || doc.querySelector("[data-closing-line]")) {
       var closing = [];
       for (var i = 0; i < RVU.drives.length; i++) {
         if (RVU.drives[i].status === "closing") { closing.push(RVU.drives[i]); }
       }
-      R.mount("[data-closing]", R.ledger(closing));
+      if (doc.querySelector("[data-closing]")) {
+        R.mount("[data-closing]", R.ledger(closing));
+      }
+      /* The hub keeps one live line instead of the whole ledger. The count is
+         read from drives.js like any other figure — §E.7 — so the hub still
+         reads as live without becoming a second source for the ledger. */
+      var line = doc.querySelector("[data-closing-line]");
+      if (line) {
+        line.textContent = closing.length === 1
+          ? "1 drive closing this week \u2192"
+          : closing.length + " drives closing this week \u2192";
+      }
+    }
+
+    /* The hub eyebrow carries the cohort year rather than repeating the
+       university name the masthead already says. */
+    var yr = doc.querySelector("[data-stamp-year]");
+    if (yr) { yr.textContent = "Cohort " + RVU.meta.cohort_year; }
+  }
+
+  /* A name in the band opens that organisation's drives beneath it. One panel
+     is reused: a second click on the same name closes it, and the status node
+     says which organisation is open so a screen-reader user is told what
+     changed rather than left to discover it. */
+  function wireTicker() {
+    var band   = doc.querySelector("[data-ticker]");
+    var panel  = doc.querySelector("[data-recruiter-panel]");
+    var status = doc.querySelector("[data-recruiter-status]");
+    if (!band || !panel) { return; }
+    var open = null;
+
+    band.addEventListener("click", function (ev) {
+      var btn = ev.target.closest("[data-recruiter]");
+      if (!btn) { return; }
+      var name = btn.getAttribute("data-recruiter");
+
+      var pressed = band.querySelectorAll("[data-recruiter][aria-expanded='true']");
+      for (var i = 0; i < pressed.length; i++) {
+        pressed[i].setAttribute("aria-expanded", "false");
+      }
+
+      if (open === name) {
+        open = null;
+        panel.hidden = true;
+        panel.innerHTML = "";
+        if (status) { status.textContent = "Closed."; }
+        return;
+      }
+
+      open = name;
+      btn.setAttribute("aria-expanded", "true");
+      panel.innerHTML = R.recruiterPanel(name, RVU.drives);
+      panel.hidden = false;
+      if (status) {
+        var n = 0;
+        for (var d = 0; d < RVU.drives.length; d++) {
+          if (RVU.drives[d].company === name) { n++; }
+        }
+        status.textContent = name + ": " + (n === 1 ? "1 drive" : n + " drives") +
+                             " in this cycle.";
+      }
+      R.fillSlots(panel);
+    });
+  }
+
+  /* Every top-level block below the hero reveals once on first entry. The hero
+     is deliberately excluded: it is above the fold on load, and content the
+     reader is already looking at should not move. The attribute is all this
+     does — motion.js decides whether anything animates, and under reduced
+     motion nothing does. */
+  function markReveals() {
+    var main = doc.querySelector(".site-main");
+    if (!main) { return; }
+    var kids = main.children;
+    for (var i = 1; i < kids.length; i++) {
+      if (kids[i].tagName === "NOSCRIPT") { continue; }
+      kids[i].setAttribute("data-reveal", "");
     }
   }
 
@@ -140,10 +227,13 @@
       if (global.console) { console.error("RVU: render.js did not load."); }
       return;
     }
+    mountMenu();
     markCurrentAudience();
     mountDataBlocks();
     R.fillSlots();          // last: the mounted blocks may carry slots of their own
     R.checkViews();         // §E.2 and §E.3, over every view on the page
+    markReveals();
+    if (RVU.motion) { RVU.motion.scan(); }   // bars and reveals mounted above
   }
 
   if (doc.readyState === "loading") {
