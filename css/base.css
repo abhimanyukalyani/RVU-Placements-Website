@@ -241,12 +241,38 @@
 
   .site-mark {
     display: inline-flex;
-    align-items: baseline;
-    gap: 10px;
+    align-items: center;                 /* the crest centres against both text
+                                            lines; baseline aligned it to the
+                                            first and hung it above the section */
+    gap: 12px;
     min-height: var(--tap-target-min);
-    align-content: center;
     text-decoration: none;
     color: var(--text-display);          /* #04070a on #faf7f1 · 18.89:1 */
+  }
+
+  /* RV University's own crest. It takes currentColor from .site-mark, which is
+     --rvu-ink, so the mark introduces no tenth colour: the supplied asset's own
+     #1b2e38 would have been one, and at 18.89:1 against paper the difference is
+     invisible while the palette stays at nine (§A).
+
+     The supplied file also ships a full lockup with a tagline band whose
+     smallest glyph is 1.87 units against an 84.53-unit height — 0.88px at a 40px
+     masthead. That is a signage asset; the crest beside the Playfair wordmark
+     the site already has is the legible form, and it keeps Direction A's
+     typographic character. Never below 36px, where the fine strokes close up. */
+  .site-mark__crest { display: flex; }
+  .site-mark__crest svg {
+    display: block;
+    height: 40px;
+    width: auto;
+    aspect-ratio: 82.36 / 85.59;         /* reserves the box before paint, so
+                                            the masthead does not shift */
+  }
+
+  .site-mark__text {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
   }
   .site-mark__name {
     font-family: var(--font-display);
@@ -335,6 +361,7 @@
   @media (max-width: 640px) {
     .site-footer__inner  { grid-template-columns: 1fr; }
     .site-header__inner  { gap: 12px; }
+    .site-mark__crest svg { height: 36px; }   /* the floor, never below */
   }
 }
 

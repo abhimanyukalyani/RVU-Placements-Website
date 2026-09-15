@@ -113,6 +113,7 @@ The table this replaced was not a scale. Its adjacent steps ran 2.75× · 1.5× 
 Border, fill, radius and shadow are spent **only** where something genuinely needs lifting. If you reach for a card, use a rule instead and check whether anything was lost.
 
 - **Buttons** are the theme's own geometry: 800px pill radius, gold fill, `--rvu-ink` label. 12px padding, which meets the 44px floor.
+- **Masthead crest**: RV University's own crest, from the official logo vector — `assets/rvu-crest.svg`, inlined so `currentColor` drives it and no tenth colour enters the palette. Decorative: `aria-hidden`, with the Playfair wordmark beside it carrying the accessible name. **40px tall, 36px at 640px, never below 36px** — the fine strokes close up under that. Use the crest, never the full lockup: the lockup's tagline band sets its smallest glyph at 1.87 units against an 84.53-unit height, which is 0.88px at a 40px masthead. That is a signage asset.
 - **Crop marks**: 32px arms, 1px, gold @55% opacity, inset 56px from the page edge, four corners, `aria-hidden`, **omitted below 768px**. Decorative only. This is the one borrowed device — do not add a second.
 - **Figure block**: Playfair 58px over a 10px uppercase caption, 1px vertical rules between, row bounded top and bottom by 1px slate. Medians take gold text; counts take ink.
 - **Ledger row**: six columns, 19px vertical padding, 1px divider. Status is the **only** coloured text in the row. Alternate rows may take the paper tint; never stripe every row.
