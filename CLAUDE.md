@@ -56,21 +56,26 @@ Cantarell 400        · body
 Cantarell 700        · labels, eyebrows
 ```
 
-| Style | Size / line-height | Tracking | Use |
-|---|---|---|---|
-| Display XL | 132 / 122 | −0.02em | page title only |
-| Display L | 48 / 53 | −0.015em | section openers |
-| Display M | 32 / 36 | −0.01em | sub-sections |
-| Heading | 27 / 32 | — | door and card titles |
-| Figure | 58 / 58 | — | stat blocks, `tabular-nums` |
-| Body L | 17 / 27 | — | intros, measure 62–68ch |
-| Body | 15 / 24 | — | cards, table cells |
-| Caption | 13 / 21 italic | — | notes, methodology, cohort stamps |
-| Label | 10–11 / 16 uppercase | 0.16–0.18em | eyebrows, figure captions |
-| Label, below 640px | 12 / 18 uppercase | 0.16–0.18em | the same, on a phone |
-| Pill / chip label, below 640px | 13 | 0.16–0.18em | buttons and filter chips on a phone |
+| Token | px | Line-height | Tracking | Use |
+|---|---|---|---|---|
+| `--t-label` | 12 | 16 | 0.16em | eyebrows, figure captions, table heads, chips, pills |
+| `--t-caption` | 13 | 20 | — | notes, methodology, cohort stamps |
+| `--t-body` | 16 | 26 | — | cards, table cells, default |
+| `--t-lead` | 20 | 32 | — | intros, standfirsts, door bodies |
+| `--t-title` | 25 | 30 | −0.01em | door and card titles |
+| `--t-sub` | 31 | 37 | −0.012em | sub-sections |
+| `--t-section` | 39 | 44 | −0.015em | section openers |
+| `--t-figure` | 49 | 49 | −0.015em | stat blocks, `tabular-nums` |
+| `--t-display` | 76 | 76 | −0.02em | page titles, tablet up |
+| `--t-hero` | 95 | 91 | −0.022em | hub page title, desktop |
 
-- **Below 640px, labels are 12px and pill labels 13px.** The table above was written for desktop and had no mobile row, so the build was compliant and still wrong: 10.5px uppercase at 0.17em held at arm's length was setting 51 elements on a phone, including the audience switcher and both hero pills. Size only — tracking, uppercase and every colour are unchanged, and the contrast table in §A is unaffected.
+**The ratio is 1.25 — a major third — anchored at 16px.** Every step is the one before it times 1.25, rounded to a whole pixel. To extend the scale, multiply or divide by 1.25; do not add a step by eye.
+
+The table this replaced was not a scale. Its adjacent steps ran 2.75× · 1.5× · 1.19× · 1.59× · 1.13× · 1.15× · 1.18×. Two pairs (32/27 and 17/15) sat close enough to read as mistakes rather than distinctions, and there was a 2.75× gap from 132 to 48 with nothing in it.
+
+- **Titles and section openers scale with the viewport, not with a breakpoint.** `--t-page-title: clamp(--t-figure, 8vw, --t-display)`, `--t-hub-title: clamp(--t-figure, 9vw, --t-hero)`, `--t-opener: clamp(--t-sub, 4.2vw, --t-section)`. There is no type override in any media query, so there is nothing to keep in sync.
+- **Labels are 12px at every breakpoint.** The retired 10.5px label put both hero pills and the whole audience switcher below a readable size on a phone. Do not reintroduce a smaller label at any viewport: a scale with a mobile exception is a scale with a bug waiting in it.
+- **Every `font-size` in `css/` resolves through a token.** A raw pixel value in a stylesheet is a defect. `grep -rn "font-size:" css/ | grep -v "var(--"` must return nothing. The print deck carries its own `--d-*` scale, on the same 1.25 ratio anchored at its 14px body, because a printed A4 slide is not anchored to a 16px reading size.
 - Measure **62–68 characters** for running text. Never a full-width paragraph at 1080px.
 - `text-wrap: balance` on every heading. `text-wrap: pretty` on body copy.
 - `font-variant-numeric: tabular-nums` on **every** figure, table column and chart label.

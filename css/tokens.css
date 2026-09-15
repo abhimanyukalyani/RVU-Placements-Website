@@ -63,16 +63,29 @@
   --weight-body:    400;
   --weight-label:   700;
 
-  /* size / line-height / tracking, exactly as tabulated in CLAUDE.md §B */
-  --type-display-xl:   132px;  --lh-display-xl:   122px;  --track-display-xl:  -0.02em;
-  --type-display-l:     48px;  --lh-display-l:     53px;  --track-display-l:  -0.015em;
-  --type-display-m:     32px;  --lh-display-m:     36px;  --track-display-m:  -0.01em;
-  --type-heading:       27px;  --lh-heading:       32px;
-  --type-figure:        58px;  --lh-figure:        58px;
-  --type-body-l:        17px;  --lh-body-l:        27px;
-  --type-body:          15px;  --lh-body:          24px;
-  --type-caption:       13px;  --lh-caption:       21px;
-  --type-label:       10.5px;  --lh-label:         16px;  --track-label:       0.17em;
+  /* --- the type scale · one ratio, 1.25 (major third), anchored at 16px ---
+     The previous table was not a scale: adjacent steps ran 2.75x, 1.5x, 1.19x,
+     1.59x, 1.13x, 1.15x, 1.18x. Two pairs (32/27 and 17/15) were close enough to
+     read as mistakes rather than distinctions, and 132 to 48 was a 2.75x gap
+     with nothing in it. Every step below is the one before it times 1.25,
+     rounded to a whole pixel. See CLAUDE.md §B. */
+
+  --t-label:    12px;  --lh-t-label:    16px;  --track-label:   0.16em;
+  --t-caption:  13px;  --lh-t-caption:  20px;
+  --t-body:     16px;  --lh-t-body:     26px;
+  --t-lead:     20px;  --lh-t-lead:     32px;
+  --t-title:    25px;  --lh-t-title:    30px;  --track-title:  -0.01em;
+  --t-sub:      31px;  --lh-t-sub:      37px;  --track-sub:    -0.012em;
+  --t-section:  39px;  --lh-t-section:  44px;  --track-section:-0.015em;
+  --t-figure:   49px;  --lh-t-figure:   49px;  --track-figure: -0.015em;
+  --t-display:  76px;  --lh-t-display:  76px;  --track-display:-0.02em;
+  --t-hero:     95px;  --lh-t-hero:     91px;  --track-hero:   -0.022em;
+
+  /* Page titles and section openers scale with the viewport rather than
+     stepping at a breakpoint, so there is no mobile override to keep in sync. */
+  --t-page-title: clamp(var(--t-figure), 8vw, var(--t-display));
+  --t-hub-title:  clamp(var(--t-figure), 9vw, var(--t-hero));
+  --t-opener:     clamp(var(--t-sub), 4.2vw, var(--t-section));
 
   --measure-prose: 65ch;   /* the 62–68ch band, single value */
 
@@ -109,19 +122,13 @@
 @media (max-width: 480px)  { :root { --page-margin: var(--page-margin-min); } }
 
 /* Display XL at 132px does not fit a phone. Step it, keep the ratio. */
-@media (max-width: 900px) { :root { --type-display-xl: 84px; --lh-display-xl: 82px; } }
+/* No type overrides at a breakpoint. Titles and openers use clamp(), and the
+   label is 12px at every width — the old 10.5px put both hero pills and the
+   whole audience switcher under a readable size on a phone, and a scale with a
+   mobile exception is a scale with a bug waiting in it. Only spacing steps. */
 @media (max-width: 640px) {
   :root {
-    --type-display-xl: 52px;  --lh-display-xl: 54px;
-    --type-display-l:  36px;  --lh-display-l:  41px;
-    --type-display-m:  27px;  --lh-display-m:  32px;
-    --type-figure:     44px;  --lh-figure:     46px;
+    --t-figure:        39px;  --lh-t-figure:   40px;
     --section-padding: 32px;  --section-gutter: 40px;
-
-    /* Labels step up on a phone. 10.5px uppercase at 0.17em tracking is hard
-       to read held at arm's length, and it was setting both hero pills — the
-       page's two primary calls to action. Size only: the tracking, the
-       uppercase and every colour are unchanged. See CLAUDE.md §B. */
-    --type-label:      12px;  --lh-label:      18px;
   }
 }

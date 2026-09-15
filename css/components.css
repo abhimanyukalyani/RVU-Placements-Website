@@ -42,7 +42,7 @@
   color: var(--rvu-ink);                  /* #04070a on #d0a863 · 9.10:1 */
   font-family: var(--font-body);
   font-weight: var(--weight-label);
-  font-size: var(--type-label);
+  font-size: var(--t-label);
   letter-spacing: var(--track-label);
   text-transform: uppercase;
   text-decoration: none;
@@ -80,7 +80,7 @@
   color: var(--rvu-slate);                /* #233039 on #faf7f1 · 12.64:1 */
   font-family: var(--font-body);
   font-weight: var(--weight-label);
-  font-size: var(--type-label);
+  font-size: var(--t-label);
   letter-spacing: var(--track-label);
   text-transform: uppercase;
   cursor: pointer;
@@ -100,8 +100,8 @@
 .hero__subhead {
   margin-block-start: 24px;
   max-width: var(--measure-prose);
-  font-size: var(--type-body-l);
-  line-height: calc(var(--lh-body-l) / var(--type-body-l));
+  font-size: var(--t-lead);
+  line-height: calc(var(--lh-t-lead) / var(--t-lead));
   color: var(--rvu-slate);                /* #233039 on #faf7f1 · 12.64:1 */
 }
 
@@ -139,8 +139,8 @@
 .door__title {
   font-family: var(--font-display);
   font-weight: var(--weight-display);
-  font-size: var(--type-heading);
-  line-height: calc(var(--lh-heading) / var(--type-heading));
+  font-size: var(--t-title);
+  line-height: calc(var(--lh-t-title) / var(--t-title));
   color: var(--rvu-ink);                  /* #04070a on #faf7f1 · 18.89:1 */
   text-wrap: balance;
   margin: 0;
@@ -160,7 +160,7 @@
   min-height: var(--tap-target-min);
   margin-block-start: 16px;
   font-weight: var(--weight-label);
-  font-size: var(--type-label);
+  font-size: var(--t-label);
   letter-spacing: var(--track-label);
   text-transform: uppercase;
   color: var(--rvu-gold-text);            /* #866c40 on #faf7f1 · 4.64:1 */
@@ -191,8 +191,8 @@
 .figure-block__value {
   font-family: var(--font-display);
   font-weight: var(--weight-display);
-  font-size: var(--type-figure);
-  line-height: calc(var(--lh-figure) / var(--type-figure));
+  font-size: var(--t-figure);
+  line-height: calc(var(--lh-t-figure) / var(--t-figure));
   font-variant-numeric: tabular-nums;
   color: var(--rvu-ink);                  /* #04070a on #faf7f1 · 18.89:1 · counts */
   display: block;
@@ -214,7 +214,7 @@
   margin-block-start: 12px;
   font-family: var(--font-display);
   font-weight: var(--weight-display);
-  font-size: calc(var(--type-figure) * 0.6);
+  font-size: calc(var(--t-figure) * 0.6);
   line-height: 1.1;
   font-variant-numeric: tabular-nums;
   color: var(--rvu-slate);                /* #233039 on #faf7f1 · 12.64:1 */
@@ -280,8 +280,8 @@
 .denominator__text {
   margin-block-start: 12px;
   max-width: var(--measure-prose);
-  font-size: var(--type-body-l);
-  line-height: calc(var(--lh-body-l) / var(--type-body-l));
+  font-size: var(--t-lead);
+  line-height: calc(var(--lh-t-lead) / var(--t-lead));
 }
 .denominator__text b {
   font-weight: var(--weight-label);
@@ -308,7 +308,7 @@
   padding: 14px 20px;
   font-family: var(--font-body);
   font-weight: var(--weight-label);
-  font-size: var(--type-label);
+  font-size: var(--t-label);
   letter-spacing: var(--track-label);
   text-transform: uppercase;
   color: var(--rvu-slate);                /* #233039 on #faf7f1 · 12.64:1 */
@@ -370,7 +370,7 @@
   border-block-end: var(--rule-divide);
   font-family: var(--font-body);
   font-weight: var(--weight-label);
-  font-size: var(--type-label);
+  font-size: var(--t-label);
   letter-spacing: var(--track-label);
   text-transform: uppercase;
 }
@@ -473,13 +473,13 @@
   .ledger__row > *[data-label]::before {
     content: attr(data-label);
     font-weight: var(--weight-label);
-    font-size: var(--type-label);
+    font-size: var(--t-label);
     letter-spacing: var(--track-label);
     text-transform: uppercase;
     color: var(--rvu-slate);              /* 12.64:1 */
     flex: none;
   }
-  .ledger__company { font-size: var(--type-body-l); }
+  .ledger__company { font-size: var(--t-lead); }
 }
 
 }
@@ -510,8 +510,8 @@
 .start-here__title {
   font-family: var(--font-display);
   font-weight: var(--weight-display);
-  font-size: var(--type-display-m);
-  line-height: calc(var(--lh-display-m) / var(--type-display-m));
+  font-size: var(--t-sub);
+  line-height: calc(var(--lh-t-sub) / var(--t-sub));
   color: var(--rvu-ink);                  /* #04070a on #ecf1f5 · 17.76:1 */
   margin-block: 8px 12px;
   text-wrap: balance;
@@ -539,8 +539,8 @@
 .stage__name {
   font-family: var(--font-display);
   font-weight: var(--weight-display);
-  font-size: var(--type-heading);
-  line-height: calc(var(--lh-heading) / var(--type-heading));
+  font-size: var(--t-title);
+  line-height: calc(var(--lh-t-title) / var(--t-title));
   color: var(--rvu-ink);                  /* 18.89:1 on paper */
   margin: 0 0 10px;
 }
@@ -571,8 +571,8 @@
 .year__name {
   font-family: var(--font-display);
   font-weight: var(--weight-display);
-  font-size: var(--type-display-m);
-  line-height: calc(var(--lh-display-m) / var(--type-display-m));
+  font-size: var(--t-sub);
+  line-height: calc(var(--lh-t-sub) / var(--t-sub));
   color: var(--rvu-ink);                  /* 18.89:1 */
   margin: 0;
 }
@@ -587,7 +587,7 @@
 .year__cols h4 {
   font-family: var(--font-body);
   font-weight: var(--weight-label);
-  font-size: var(--type-label);
+  font-size: var(--t-label);
   letter-spacing: var(--track-label);
   text-transform: uppercase;
   color: var(--rvu-slate);                /* 12.64:1 */
@@ -608,7 +608,7 @@
 .deadline__tag {
   font-family: var(--font-body);
   font-weight: var(--weight-label);
-  font-size: var(--type-label);
+  font-size: var(--t-label);
   letter-spacing: var(--track-label);
   text-transform: uppercase;
 }
@@ -645,7 +645,7 @@
 .field__label {
   font-family: var(--font-body);
   font-weight: var(--weight-label);
-  font-size: var(--type-label);
+  font-size: var(--t-label);
   letter-spacing: var(--track-label);
   text-transform: uppercase;
   color: var(--rvu-slate);                /* 12.64:1 */
@@ -710,7 +710,7 @@ fieldset { border: 0; padding: 0; margin: 0; }
 legend {
   font-family: var(--font-body);
   font-weight: var(--weight-label);
-  font-size: var(--type-label);
+  font-size: var(--t-label);
   letter-spacing: var(--track-label);
   text-transform: uppercase;
   color: var(--rvu-slate);                /* 12.64:1 */
@@ -729,8 +729,8 @@ legend {
 .result__headline {
   font-family: var(--font-display);
   font-weight: var(--weight-display);
-  font-size: var(--type-display-m);
-  line-height: calc(var(--lh-display-m) / var(--type-display-m));
+  font-size: var(--t-sub);
+  line-height: calc(var(--lh-t-sub) / var(--t-sub));
   color: var(--rvu-ink);                  /* 18.89:1 */
   margin-block: 8px 20px;
   text-wrap: balance;
@@ -788,8 +788,8 @@ legend {
 .empty-state__headline {
   font-family: var(--font-display);
   font-weight: var(--weight-display);
-  font-size: var(--type-heading);
-  line-height: calc(var(--lh-heading) / var(--type-heading));
+  font-size: var(--t-title);
+  line-height: calc(var(--lh-t-title) / var(--t-title));
   color: var(--rvu-ink);                  /* 18.89:1 */
   margin: 0 0 10px;
   text-wrap: balance;
@@ -802,7 +802,7 @@ legend {
 .resource-group h3 {
   font-family: var(--font-body);
   font-weight: var(--weight-label);
-  font-size: var(--type-label);
+  font-size: var(--t-label);
   letter-spacing: var(--track-label);
   text-transform: uppercase;
   color: var(--rvu-gold-text);            /* #866c40 on #faf7f1 · 4.64:1 */
@@ -853,8 +853,8 @@ legend {
 .router__label {
   font-family: var(--font-display);
   font-weight: var(--weight-display);
-  font-size: var(--type-heading);
-  line-height: calc(var(--lh-heading) / var(--type-heading));
+  font-size: var(--t-title);
+  line-height: calc(var(--lh-t-title) / var(--t-title));
   color: var(--rvu-ink);                  /* 18.89:1 */
   text-wrap: balance;
 }
@@ -862,7 +862,7 @@ legend {
 .router__go {
   margin-block-start: auto;
   font-weight: var(--weight-label);
-  font-size: var(--type-label);
+  font-size: var(--t-label);
   letter-spacing: var(--track-label);
   text-transform: uppercase;
   color: var(--rvu-gold-text);            /* #866c40 · 4.64:1 */
@@ -887,7 +887,7 @@ legend {
   border-block-start: var(--rule-divide);
   font-family: var(--font-body);
   font-weight: var(--weight-body);
-  font-size: var(--type-label);
+  font-size: var(--t-label);
   letter-spacing: var(--track-label);
   text-transform: uppercase;
   color: var(--rvu-slate);                /* 12.64:1 */
@@ -913,15 +913,15 @@ legend {
 .match__title {
   font-family: var(--font-display);
   font-weight: var(--weight-display);
-  font-size: var(--type-display-m);
-  line-height: calc(var(--lh-display-m) / var(--type-display-m));
+  font-size: var(--t-sub);
+  line-height: calc(var(--lh-t-sub) / var(--t-sub));
   color: var(--rvu-ink);                  /* #04070a on #ecf1f5 · 17.76:1 */
   margin-block: 8px 12px;
   text-wrap: balance;
 }
 .match__lead { max-width: var(--measure-prose); }
 .match .figure-row { margin-block-start: 20px; }
-.match .figure-block__value--date { font-size: var(--type-display-m); }
+.match .figure-block__value--date { font-size: var(--t-sub); }
 .match__list { margin-block-start: 20px; padding: 0; list-style: none; }
 .match__school {
   display: flex;
@@ -933,7 +933,7 @@ legend {
 }
 .match__window {
   font-weight: var(--weight-label);
-  font-size: var(--type-label);
+  font-size: var(--t-label);
   letter-spacing: var(--track-label);
   text-transform: uppercase;
   color: var(--rvu-slate);                /* 11.89:1 on panel */
@@ -960,8 +960,8 @@ legend {
 .action-card__title {
   font-family: var(--font-display);
   font-weight: var(--weight-display);
-  font-size: var(--type-heading);
-  line-height: calc(var(--lh-heading) / var(--type-heading));
+  font-size: var(--t-title);
+  line-height: calc(var(--lh-t-title) / var(--t-title));
   color: var(--rvu-ink);                  /* 18.89:1 */
   margin: 0 0 10px;
   text-wrap: balance;
@@ -975,7 +975,7 @@ legend {
   margin-block-start: 14px;
   align-self: flex-start;
   font-weight: var(--weight-label);
-  font-size: var(--type-label);
+  font-size: var(--t-label);
   letter-spacing: var(--track-label);
   text-transform: uppercase;
   color: var(--rvu-gold-text);            /* 4.64:1 */
@@ -995,9 +995,9 @@ legend {
 .question__q {
   font-family: var(--font-display);
   font-weight: var(--weight-display);
-  font-size: var(--type-display-l);
-  line-height: calc(var(--lh-display-l) / var(--type-display-l));
-  letter-spacing: var(--track-display-l);
+  font-size: var(--t-opener);
+  line-height: calc(var(--lh-t-section) / var(--t-opener));
+  letter-spacing: var(--track-section);
   color: var(--rvu-ink);                  /* 18.89:1 */
   margin: 0 0 16px;
   text-wrap: balance;
@@ -1016,9 +1016,6 @@ legend {
 }
 
 @media (max-width: 640px) {
-  /* A pill carries an action, so it takes one step more than a label. */
-  .pill, .chip { font-size: 13px; }
-
   .router { grid-template-columns: 1fr; }
   .match  { padding-inline: 20px; }
   .progress { display: grid; grid-template-columns: 1fr; }
@@ -1115,8 +1112,8 @@ legend {
 .school__name {
   font-family: var(--font-display);
   font-weight: var(--weight-display);
-  font-size: var(--type-display-m);
-  line-height: calc(var(--lh-display-m) / var(--type-display-m));
+  font-size: var(--t-sub);
+  line-height: calc(var(--lh-t-sub) / var(--t-sub));
   color: var(--rvu-ink);                  /* 18.89:1 */
   margin: 0 0 8px;
   text-wrap: balance;
@@ -1125,7 +1122,7 @@ legend {
 .school__sub {
   font-family: var(--font-body);
   font-weight: var(--weight-label);
-  font-size: var(--type-label);
+  font-size: var(--t-label);
   letter-spacing: var(--track-label);
   text-transform: uppercase;
   color: var(--rvu-gold-text);            /* #866c40 · 4.64:1 */
@@ -1157,8 +1154,8 @@ legend {
 .person__role {
   font-family: var(--font-display);
   font-weight: var(--weight-display);
-  font-size: var(--type-heading);
-  line-height: calc(var(--lh-heading) / var(--type-heading));
+  font-size: var(--t-title);
+  line-height: calc(var(--lh-t-title) / var(--t-title));
   color: var(--rvu-ink);                  /* #04070a on #faf7f1 · 18.89:1 */
   margin: 0 0 6px;
   text-wrap: balance;
@@ -1176,7 +1173,7 @@ legend {
 .term__name {
   font-family: var(--font-body);
   font-weight: var(--weight-label);
-  font-size: var(--type-label);
+  font-size: var(--t-label);
   letter-spacing: var(--track-label);
   text-transform: uppercase;
   color: var(--rvu-gold-text);            /* 4.64:1 */
@@ -1195,7 +1192,7 @@ legend {
 .school__abbr {
   font-family: var(--font-body);
   font-weight: var(--weight-label);
-  font-size: var(--type-label);
+  font-size: var(--t-label);
   letter-spacing: var(--track-label);
   color: var(--rvu-gold-text);            /* #866c40 on #faf7f1 · 4.64:1 */
   vertical-align: middle;

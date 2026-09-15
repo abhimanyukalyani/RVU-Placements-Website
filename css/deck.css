@@ -8,6 +8,22 @@
    Print to PDF from a browser at A4 landscape with background graphics on.
    =========================================================================== */
 
+/* The deck prints at A4 landscape and needs its own sizes: the screen scale is
+   anchored to a 16px reading size, a printed slide is not. Same 1.25 ratio,
+   anchored at the deck's 14px body. Declared here so no size is a loose number
+   further down the file. */
+:root {
+  --d-micro:  11.8px;
+  --d-small:  12.5px;
+  --d-table:  13.5px;
+  --d-body:     14px;
+  --d-lead:   14.5px;
+  --d-note:     19px;
+  --d-fig:      34px;
+  --d-title:    40px;
+  --d-cover:   104px;
+}
+
 @page {
   size: A4 landscape;
   margin: 0;
@@ -37,8 +53,8 @@ body.deck {
   background: var(--rvu-slate-deep);
   color: var(--rvu-white);                /* #ffffff on #1a242b · 15.78:1 */
   font-family: var(--font-body);
-  font-size: var(--type-body);
-  line-height: calc(var(--lh-body) / var(--type-body));
+  font-size: var(--t-body);
+  line-height: calc(var(--lh-t-body) / var(--t-body));
 }
 .deck__hint b { color: var(--rvu-gold); } /* #d0a863 on #1a242b · 7.11:1 */
 
@@ -61,7 +77,7 @@ body.deck {
   top: 18mm; right: 20mm;
   font-family: var(--font-body);
   font-weight: var(--weight-label);
-  font-size: var(--type-label);
+  font-size: var(--t-label);
   letter-spacing: var(--track-label);
   color: var(--rvu-gold-text);            /* #866c40 on #faf7f1 · 4.64:1 */
 }
@@ -70,7 +86,7 @@ body.deck {
   bottom: 10mm; left: 20mm; right: 20mm;
   padding-block-start: 6px;
   border-block-start: 1px solid color-mix(in srgb, var(--rvu-slate) 16%, transparent);
-  font-size: var(--type-caption);
+  font-size: var(--t-caption);
   font-style: italic;
   color: var(--rvu-slate);                /* 12.64:1 */
   display: flex;
@@ -81,7 +97,7 @@ body.deck {
 .slide__eyebrow {
   font-family: var(--font-body);
   font-weight: var(--weight-label);
-  font-size: var(--type-label);
+  font-size: var(--t-label);
   letter-spacing: var(--track-label);
   text-transform: uppercase;
   color: var(--rvu-gold-text);            /* 4.64:1 */
@@ -92,7 +108,7 @@ body.deck {
 .slide__title {
   font-family: var(--font-display);
   font-weight: var(--weight-display);
-  font-size: 40px;
+  font-size: var(--d-title);
   line-height: 1.08;
   letter-spacing: -0.015em;
   color: var(--rvu-ink);                  /* 18.89:1 */
@@ -101,8 +117,8 @@ body.deck {
   max-width: 24ch;
 }
 .slide__lead {
-  font-size: var(--type-body-l);
-  line-height: calc(var(--lh-body-l) / var(--type-body-l));
+  font-size: var(--t-lead);
+  line-height: calc(var(--lh-t-lead) / var(--t-lead));
   color: var(--rvu-slate);                /* 12.64:1 */
   max-width: 62ch;
   margin-block-end: 16px;
@@ -113,17 +129,17 @@ body.deck {
 .slide--cover { justify-content: center; background: var(--rvu-slate-deep); }
 .slide--cover .slide__num { color: var(--rvu-gold); }   /* 7.11:1 on slate-deep */
 .slide--cover h1 {
-  font-size: 104px; line-height: 0.98; letter-spacing: -0.02em;
+  font-size: var(--d-cover); line-height: 0.98; letter-spacing: -0.02em;
   color: var(--rvu-white);                /* #ffffff on #1a242b · 15.78:1 */
   margin: 0 0 20px; max-width: 18ch;
 }
 .slide--cover .cover__thesis {
-  font-size: 21px; line-height: 1.45;
+  font-size: var(--t-lead); line-height: 1.45;
   color: var(--rvu-white);                /* 15.78:1 */
   max-width: 62ch; margin-block-end: 24px;
 }
 .slide--cover .cover__meta {
-  font-size: var(--type-caption); font-style: italic;
+  font-size: var(--t-caption); font-style: italic;
   color: var(--rvu-gold);                 /* #d0a863 on #1a242b · 7.11:1 */
 }
 .slide--cover .slide__foot { border-block-start-color:
@@ -138,19 +154,19 @@ body.deck {
 .block { border-block-start: 1px solid var(--rvu-gold); padding-block-start: 10px; }
 .block__label {
   font-family: var(--font-body); font-weight: var(--weight-label);
-  font-size: var(--type-label); letter-spacing: var(--track-label);
+  font-size: var(--t-label); letter-spacing: var(--track-label);
   text-transform: uppercase; color: var(--rvu-gold-text);   /* 4.64:1 */
   display: block; margin-block-end: 6px;
 }
 .block__title {
   font-family: var(--font-display); font-weight: var(--weight-display);
-  font-size: 19px; line-height: 1.2; color: var(--rvu-ink);  /* 18.89:1 */
+  font-size: var(--d-note); line-height: 1.2; color: var(--rvu-ink);  /* 18.89:1 */
   margin: 0 0 6px; text-wrap: balance;
 }
-.block p { font-size: 14px; line-height: 1.45; color: var(--rvu-slate); }  /* 12.64:1 */
+.block p { font-size: var(--d-body); line-height: 1.45; color: var(--rvu-slate); }  /* 12.64:1 */
 
 /* --- deck tables ---------------------------------------------------------- */
-.dtable { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+.dtable { width: 100%; border-collapse: collapse; font-size: var(--d-table); }
 .dtable th, .dtable td {
   text-align: left; padding: 7px 12px 7px 0; vertical-align: top;
   color: var(--rvu-slate);                /* 12.64:1 */
@@ -158,7 +174,7 @@ body.deck {
 }
 .dtable thead th {
   font-family: var(--font-body); font-weight: var(--weight-label);
-  font-size: var(--type-label); letter-spacing: var(--track-label);
+  font-size: var(--t-label); letter-spacing: var(--track-label);
   text-transform: uppercase; color: var(--rvu-slate);
   border-block-end: 2px solid var(--rvu-slate);
 }
@@ -175,13 +191,13 @@ body.deck {
 .quad__cell--empty { background: var(--rvu-panel); border-color: var(--rvu-gold); border-width: 2px; }
 .quad__axis { display: flex; align-items: center; justify-content: center;
   font-family: var(--font-body); font-weight: var(--weight-label);
-  font-size: var(--type-label); letter-spacing: var(--track-label);
+  font-size: var(--t-label); letter-spacing: var(--track-label);
   text-transform: uppercase; color: var(--rvu-slate); }   /* 12.64:1 */
 .quad__axis--v { writing-mode: vertical-rl; transform: rotate(180deg); }
-.quad__who { font-size: 13px; line-height: 1.4; color: var(--rvu-slate); }
+.quad__who { font-size: var(--t-caption); line-height: 1.4; color: var(--rvu-slate); }
 .quad__label {
   font-family: var(--font-display); font-weight: var(--weight-display);
-  font-size: 17px; color: var(--rvu-ink); margin: 0 0 6px;   /* 18.89:1 */
+  font-size: var(--d-note); color: var(--rvu-ink); margin: 0 0 6px;   /* 18.89:1 */
 }
 .quad__cell--empty .quad__label { color: var(--rvu-ink); }   /* on panel · 17.76:1 */
 .quad__cell--empty .quad__who   { color: var(--rvu-slate); } /* on panel · 11.89:1 */
@@ -193,13 +209,13 @@ body.deck {
 .figs__item:first-child { border-inline-start: 0; padding-inline-start: 0; }
 .figs__val {
   font-family: var(--font-display); font-weight: var(--weight-display);
-  font-size: 40px; line-height: 1; font-variant-numeric: tabular-nums;
+  font-size: var(--d-title); line-height: 1; font-variant-numeric: tabular-nums;
   color: var(--rvu-ink); display: block;   /* 18.89:1 */
 }
 .figs__cap {
   display: block; margin-block-start: 8px;
   font-family: var(--font-body); font-weight: var(--weight-label);
-  font-size: var(--type-label); letter-spacing: var(--track-label);
+  font-size: var(--t-label); letter-spacing: var(--track-label);
   text-transform: uppercase; color: var(--rvu-slate);   /* 12.64:1 */
 }
 
@@ -209,19 +225,19 @@ body.deck {
   color: var(--rvu-white);                /* 15.78:1 */
   padding: 14px 16px;
   font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-  font-size: 12.5px; line-height: 1.55;
+  font-size: var(--d-small); line-height: 1.55;
   white-space: pre-wrap;
 }
 .sample b { color: var(--rvu-gold); font-weight: 400; }   /* 7.11:1 on slate-deep */
 
 .list-tight { margin: 0; padding-inline-start: 18px; }
-.list-tight li { font-size: 14px; line-height: 1.45; color: var(--rvu-slate); margin-block-start: 5px; }
+.list-tight li { font-size: var(--d-body); line-height: 1.45; color: var(--rvu-slate); margin-block-start: 5px; }
 .list-none { list-style: none; padding: 0; margin: 0; }
 
 .callout {
   border-inline-start: 3px solid var(--rvu-gold);
   padding: 10px 0 10px 14px;
-  font-size: 14.5px; line-height: 1.5;
+  font-size: var(--d-lead); line-height: 1.5;
   color: var(--rvu-slate);                /* 12.64:1 */
   max-width: 68ch;
 }
@@ -230,25 +246,25 @@ body.deck {
 /* Screen-only convenience so the deck is readable before printing. */
 @media screen and (max-width: 1120px) {
   .slide { width: 100%; height: auto; min-height: 0; padding: 24px; }
-  .slide--cover h1 { font-size: 52px; }
+  .slide--cover h1 { font-size: var(--t-figure); }
   .quad { max-height: none; }
 }
 
 /* --- density modifiers ----------------------------------------------------
    Two slides carry more rows than the A4 page allows at the default rhythm.
    Rather than cutting the content, tighten the leading on those two only. */
-.slide--dense .dtable { font-size: 12.5px; }
+.slide--dense .dtable { font-size: var(--d-small); }
 .slide--dense .dtable th,
 .slide--dense .dtable td { padding: 4.5px 12px 4.5px 0; }
 .slide--dense .slide__lead { margin-block-end: 10px; }
 .slide--dense .slide__title { margin-block-end: 8px; }
 
 .slide--tight .slide__lead { margin-block-end: 10px; }
-.slide--tight .sample { font-size: 11.8px; line-height: 1.5; padding: 12px 14px; }
-.slide--tight .dtable { font-size: 12.8px; }
+.slide--tight .sample { font-size: var(--d-micro); line-height: 1.5; padding: 12px 14px; }
+.slide--tight .dtable { font-size: var(--d-small); }
 .slide--tight .dtable th,
 .slide--tight .dtable td { padding: 5px 12px 5px 0; }
-.slide--tight .figs__val { font-size: 34px; }
+.slide--tight .figs__val { font-size: var(--d-fig); }
 
 /* base.css strips markers from any ul[class]; deck content lists keep them. */
 .list-tight { list-style: disc; }

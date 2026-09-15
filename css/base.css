@@ -44,8 +44,8 @@
     color: var(--text-body);                        /* #233039 on #faf7f1 · 12.64:1 */
     font-family: var(--font-body);
     font-weight: var(--weight-body);
-    font-size: var(--type-body);
-    line-height: calc(var(--lh-body) / var(--type-body));
+    font-size: var(--t-body);
+    line-height: calc(var(--lh-t-body) / var(--t-body));
     font-synthesis-weight: none;
     text-rendering: optimizeLegibility;
     min-height: 100vh;
@@ -61,17 +61,24 @@
     text-wrap: balance;
   }
 
-  h1 { font-size: var(--type-display-xl);
-       line-height: calc(var(--lh-display-xl) / var(--type-display-xl));
-       letter-spacing: var(--track-display-xl); }
-  h2 { font-size: var(--type-display-l);
-       line-height: calc(var(--lh-display-l) / var(--type-display-l));
-       letter-spacing: var(--track-display-l); }
-  h3 { font-size: var(--type-display-m);
-       line-height: calc(var(--lh-display-m) / var(--type-display-m));
-       letter-spacing: var(--track-display-m); }
-  h4 { font-size: var(--type-heading);
-       line-height: calc(var(--lh-heading) / var(--type-heading)); }
+  /* A clamp()ed size cannot use the calc(lh / size) ratio the fixed steps do —
+     the divisor changes with the viewport. These two carry a unitless ratio
+     taken from the scale: 91/95 and 44/39. */
+  h1 { font-size: var(--t-page-title);
+       line-height: 0.96;
+       letter-spacing: var(--track-hero); }
+
+  /* The hub's title is the one that runs to the full hero size. */
+  body[data-hub] h1 { font-size: var(--t-hub-title); }
+
+  h2 { font-size: var(--t-opener);
+       line-height: 1.13;
+       letter-spacing: var(--track-section); }
+  h3 { font-size: var(--t-sub);
+       line-height: calc(var(--lh-t-sub) / var(--t-sub));
+       letter-spacing: var(--track-sub); }
+  h4 { font-size: var(--t-title);
+       line-height: calc(var(--lh-t-title) / var(--t-title)); }
 
   p, li, dd { text-wrap: pretty; }
 
@@ -79,23 +86,23 @@
   .prose,
   .measure { max-width: var(--measure-prose); }
 
-  .prose > * + * { margin-block-start: var(--lh-body-l); }
+  .prose > * + * { margin-block-start: var(--lh-t-lead); }
   .prose li + li { margin-block-start: 9px; }   /* 7px of ink at a 24px
                                                    line-height reads as a wall */
 
   /* -- named type styles ------------------------------------------------- */
-  .t-body-l  { font-size: var(--type-body-l);
-               line-height: calc(var(--lh-body-l) / var(--type-body-l)); }
+  .t-body-l  { font-size: var(--t-lead);
+               line-height: calc(var(--lh-t-lead) / var(--t-lead)); }
 
-  .t-caption { font-size: var(--type-caption);
-               line-height: calc(var(--lh-caption) / var(--type-caption));
+  .t-caption { font-size: var(--t-caption);
+               line-height: calc(var(--lh-t-caption) / var(--t-caption));
                font-style: italic; }        /* the only italic on the site */
 
   .t-label,
   .eyebrow   { font-family: var(--font-body);
                font-weight: var(--weight-label);
-               font-size: var(--type-label);
-               line-height: calc(var(--lh-label) / var(--type-label));
+               font-size: var(--t-label);
+               line-height: calc(var(--lh-t-label) / var(--t-label));
                letter-spacing: var(--track-label);
                text-transform: uppercase;
                font-style: normal; }
@@ -107,7 +114,7 @@
   .t-display-gold { color: var(--text-accent-lg);   /* #b18733 on #faf7f1 · 3.08:1 */
                     font-family: var(--font-display);
                     font-weight: var(--weight-display);
-                    font-size: max(24px, var(--type-display-m)); }
+                    font-size: max(24px, var(--t-sub)); }
 
   /* -- figures ----------------------------------------------------------- */
   .tabular,
@@ -244,13 +251,13 @@
   .site-mark__name {
     font-family: var(--font-display);
     font-weight: var(--weight-display);
-    font-size: 21px;
+    font-size: var(--t-lead);
     letter-spacing: -0.01em;
   }
   .site-mark__section {
     font-family: var(--font-body);
     font-weight: var(--weight-label);
-    font-size: var(--type-label);
+    font-size: var(--t-label);
     letter-spacing: var(--track-label);
     text-transform: uppercase;
     color: var(--text-accent);           /* #866c40 on #faf7f1 · 4.64:1 */
@@ -273,7 +280,7 @@
     padding-inline: 14px;
     font-family: var(--font-body);
     font-weight: var(--weight-label);
-    font-size: var(--type-label);
+    font-size: var(--t-label);
     letter-spacing: var(--track-label);
     text-transform: uppercase;
     text-decoration: none;
