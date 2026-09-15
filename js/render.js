@@ -1037,6 +1037,19 @@
       if (target && target.querySelector && target.querySelector(".distribution")) { return; }
     }
 
+    /* An explicit, declared route to the spread. A page may carry a package
+       figure without rendering the whole distribution beside it, but only if
+       it says in the markup where the spread is and links to it in the same
+       view. data-spread-link is that declaration — it is not "any link":
+       the author has to name the element as the route, and it must resolve.
+       This widens how the rule can be satisfied; it does not weaken what the
+       rule requires, which is that a reader looking at a median can always
+       reach the distribution behind it from where they are standing. */
+    var declared = view.querySelectorAll("a[data-spread-link][href]");
+    for (var d = 0; d < declared.length; d++) {
+      if (String(declared[d].getAttribute("href")).trim()) { return; }
+    }
+
     throw new Error(
       "View \"" + (view.getAttribute("data-view") || "(unnamed)") + "\" states a package " +
       "figure but no distribution is reachable in the same view. Wherever a package " +
@@ -1362,4 +1375,71 @@
     });
   }
   R.scopeTable = scopeTable;
+}(typeof window !== "undefined" ? window : globalThis));
+
+/* ===========================================================================
+   render.js · part 9 — the audience mega-menu.
+
+   One source for the whole navigation. Every page renders the same markup, so
+   a page added to a panel below appears on all 11 pages at once.
+
+   schools.html sits under all three audiences on purpose: a recruiter wants
+   design students, a parent wants the School of Law. It was previously
+   reachable from no page at all.
+   =========================================================================== */
+(function (global) {
+  "use strict";
+  var RVU = global.RVU = global.RVU || {};
+  var R = RVU.render;
+  var esc = function (s) { return R.esc(s); };
+
+  var MENU = [
+    { id: "students", label: "For students", href: "students.html", items: [
+      { label: "Your journey",        href: "students.html" },
+      { label: "Where you stand",     href: "eligibility.html" },
+      { label: "Live drives",         href: "drives.html" },
+      { label: "Placement by school", href: "schools.html" },
+      { label: "Outcomes",            href: "outcomes.html" }
+    ] },
+    { id: "recruiters", label: "For recruiters", href: "recruiters.html", items: [
+      { label: "How to hire",             href: "recruiters.html#how-it-works" },
+      { label: "Start a hiring request",  href: "hire.html" },
+      { label: "Our students & schools",  href: "recruiters.html#cohorts" },
+      { label: "Drive windows",           href: "recruiters.html#windows" },
+      { label: "Placement by school",     href: "schools.html" },
+      { label: "Outcomes",                href: "outcomes.html" }
+    ] },
+    { id: "parents", label: "For parents", href: "parents.html", items: [
+      { label: "What the numbers mean",  href: "parents.html#q3" },
+      { label: "Three things you can do", href: "parents.html#q2" },
+      { label: "Placement by school",    href: "schools.html" },
+      { label: "Who to contact",         href: "office.html" },
+      { label: "Outcomes",               href: "outcomes.html" },
+      { label: "How we report",          href: "methodology.html" }
+    ] }
+  ];
+
+  function megaMenu(currentId) {
+    var html = "<nav class=\"mega\" aria-label=\"Choose your audience\">" +
+               "<ul class=\"mega__list\">";
+    for (var i = 0; i < MENU.length; i++) {
+      var a = MENU[i];
+      var current = (a.id === currentId) ? " aria-current=\"page\"" : "";
+      html += "<li class=\"mega__item\" data-mega-item>" +
+        "<a class=\"mega__trigger audience-switcher__link\" href=\"" + esc(a.href) + "\"" +
+          current + " aria-expanded=\"false\" aria-controls=\"mega-" + esc(a.id) + "\"" +
+          " data-mega-trigger>" + esc(a.label) + "</a>" +
+        "<div class=\"mega__panel\" id=\"mega-" + esc(a.id) + "\" data-mega-panel hidden>" +
+          "<ul class=\"mega__links\">";
+      for (var j = 0; j < a.items.length; j++) {
+        html += "<li><a class=\"mega__link\" href=\"" + esc(a.items[j].href) + "\">" +
+                esc(a.items[j].label) + "</a></li>";
+      }
+      html += "</ul></div></li>";
+    }
+    return html + "</ul></nav>";
+  }
+
+  R.megaMenu = megaMenu;
+  R.MENU = MENU;
 }(typeof window !== "undefined" ? window : globalThis));

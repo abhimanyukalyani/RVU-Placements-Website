@@ -31,13 +31,16 @@
       <span class="site-mark__section">Placements</span>
     </a>
 
-    <nav class="audience-switcher" aria-label="Choose your audience">
-      <ul class="audience-switcher__list">
-        <li><a class="audience-switcher__link" href="students.html">For students</a></li>
-        <li><a class="audience-switcher__link" href="recruiters.html">For recruiters</a></li>
-        <li><a class="audience-switcher__link" href="parents.html">For parents</a></li>
-      </ul>
-    </nav>
+    <div data-mega-mount>
+      <noscript>
+        <ul class="audience-switcher__list">
+          <li><a class="audience-switcher__link" href="students.html">For students</a></li>
+          <li><a class="audience-switcher__link" href="recruiters.html">For recruiters</a></li>
+          <li><a class="audience-switcher__link" href="parents.html">For parents</a></li>
+          <li><a class="audience-switcher__link" href="schools.html">By school</a></li>
+        </ul>
+      </noscript>
+    </div>
 
   </div>
 </header>
@@ -102,10 +105,10 @@
     </div>
   </section>
 
-  <section class="wrap section" aria-label="The cohort at a glance">
-    <p class="eyebrow">The cohort at a glance</p>
+  <section class="wrap section" data-view="hub-figures" aria-label="The cohort at a glance">
+    <p class="eyebrow" data-stamp-year></p>
 
-    <div class="figure-row">
+    <div class="figure-row" data-package-figure>
       <div class="figure-block">
         <span class="figure-block__value" data-fig="placements.cohort.offers_made"></span>
         <span class="figure-block__caption t-label">Offers made</span>
@@ -120,17 +123,11 @@
         <span class="figure-block__max">Highest <span
               data-fig="placements.salary_inr_lpa.basic.max" data-fmt="inr_lpa"></span></span>
         <span class="figure-block__caption t-label">Median package</span>
+        <a class="figure-block__spread" href="outcomes.html#spread" data-spread-link>
+          See the spread behind it</a>
       </div>
     </div>
     <p class="cohort-stamp t-caption" data-stamp></p>
-  </section>
-
-  <section class="wrap section" aria-labelledby="spread-title">
-    <p class="eyebrow">Where the offers landed</p>
-    <h2 class="section-head__title" id="spread-title">The spread behind the median</h2>
-    <p class="section-head__aside">Every student placed, sorted by the size of their
-      offer. The median sits inside the second band.</p>
-    <div class="stack" data-distribution></div>
   </section>
 
   <div class="wrap">
@@ -160,11 +157,10 @@
     <div class="stack" data-recruiters></div>
   </section>
 
-  <section class="wrap section" aria-labelledby="closing-title">
-    <p class="eyebrow">Act this week</p>
-    <h2 class="section-head__title" id="closing-title">Closing this week</h2>
-    <div class="stack" data-closing></div>
-    <p class="hero__actions"><a class="pill" href="drives.html">See all live drives</a></p>
+  <section class="wrap section" aria-label="Closing this week">
+    <p class="hero__actions">
+      <a class="pill" href="drives.html" data-closing-line>See the live drives</a>
+    </p>
   </section>
 
   <noscript>
@@ -237,6 +233,7 @@
 <script src="data/office.js"></script>
 <script src="js/render.js"></script>
 <script src="js/app.js"></script>
+<script src="js/nav.js"></script>
 
 <script src="js/motion.js"></script>
 </body>

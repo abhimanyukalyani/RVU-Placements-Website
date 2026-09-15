@@ -220,6 +220,18 @@
   color: var(--rvu-slate);                /* #233039 on #faf7f1 · 12.64:1 */
 }
 
+/* The declared route to the spread. §E.2 asks that the distribution be
+   reachable in the same view as the figure; on the hub the distribution itself
+   now lives on outcomes.html, so the view carries an explicit link instead.
+   44px tap area via the padding, per §D. */
+.figure-block__spread {
+  display: inline-block;
+  margin-block-start: 12px;
+  padding-block: 12px;
+  font-size: var(--t-caption);
+  color: var(--rvu-slate);                /* #233039 on #faf7f1 · 12.64:1 */
+}
+
 /* ----------------------------------------------------------- cohort-stamp */
 /* 13px italic: cohort year · record date · updated date · maintainer.
    Rendered by every figure block. Almost no peer institution dates its
@@ -1293,4 +1305,66 @@ legend {
     transform: none !important;
     transition: none !important;
   }
+}
+
+/* ========================================================== MEGA-MENU =====
+   The audience switcher, upgraded. Same three targets, same gold underline on
+   the current one; each now opens a panel listing the pages beneath it.
+   Below 900px it is a disclosure list — hover does not exist on touch.
+   ========================================================================= */
+
+.mega { position: relative; }
+.mega__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin: 0; padding: 0;
+  list-style: none;
+}
+.mega__item { position: relative; }
+
+.mega__trigger[aria-expanded="true"] { border-block-end-color: var(--rvu-gold); }
+
+.mega__panel {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 40;
+  min-width: 232px;
+  padding: 14px 0 8px;
+  background: var(--rvu-paper);
+  border-block-start: 1px solid var(--rvu-gold);
+  border-inline: var(--rule-divide);
+  border-block-end: var(--rule-divide);
+}
+.mega__panel[hidden] { display: none; }
+
+.mega__links { margin: 0; padding: 0; list-style: none; }
+
+.mega__link {
+  display: flex;
+  align-items: center;
+  min-height: var(--tap-target-min);
+  padding-inline: 18px;
+  font-family: var(--font-body);
+  font-size: var(--t-body);
+  color: var(--rvu-slate);                /* #233039 on #faf7f1 · 12.64:1 */
+  text-decoration: none;
+}
+.mega__link:hover { text-decoration: underline; text-underline-offset: 0.18em; }
+
+/* Below 900px the panel drops into flow and the trigger becomes a disclosure. */
+@media (max-width: 900px) {
+  .mega__list { flex-direction: column; gap: 0; width: 100%; }
+  .mega__item { width: 100%; border-block-start: var(--rule-divide); }
+  .mega__trigger { width: 100%; }
+  .mega__panel {
+    position: static;
+    min-width: 0;
+    padding: 0 0 10px;
+    border: 0;
+    border-inline-start: 2px solid var(--rvu-gold);
+    margin-inline-start: 14px;
+  }
+  .site-header__inner { align-items: flex-start; }
 }

@@ -17,6 +17,13 @@
 
   /* Navigation is plain markup and works with JS off; only the active state
      is set here. A page declares its audience with data-audience on <body>. */
+  /* One nav, rendered from one list in render.js, on every page. */
+  function mountMenu() {
+    var mount = doc.querySelector("[data-mega-mount]");
+    if (!mount) { return; }
+    mount.innerHTML = R.megaMenu(doc.body.getAttribute("data-audience") || "");
+  }
+
   function markCurrentAudience() {
     var current = doc.body.getAttribute("data-audience");
     if (!current) { return; }
@@ -126,13 +133,29 @@
       R.mount("[data-start-here]", R.startHere(RVU.office.start_here));
     }
 
-    if (doc.querySelector("[data-closing]")) {
+    if (doc.querySelector("[data-closing]") || doc.querySelector("[data-closing-line]")) {
       var closing = [];
       for (var i = 0; i < RVU.drives.length; i++) {
         if (RVU.drives[i].status === "closing") { closing.push(RVU.drives[i]); }
       }
-      R.mount("[data-closing]", R.ledger(closing));
+      if (doc.querySelector("[data-closing]")) {
+        R.mount("[data-closing]", R.ledger(closing));
+      }
+      /* The hub keeps one live line instead of the whole ledger. The count is
+         read from drives.js like any other figure — §E.7 — so the hub still
+         reads as live without becoming a second source for the ledger. */
+      var line = doc.querySelector("[data-closing-line]");
+      if (line) {
+        line.textContent = closing.length === 1
+          ? "1 drive closing this week \u2192"
+          : closing.length + " drives closing this week \u2192";
+      }
     }
+
+    /* The hub eyebrow carries the cohort year rather than repeating the
+       university name the masthead already says. */
+    var yr = doc.querySelector("[data-stamp-year]");
+    if (yr) { yr.textContent = "Cohort " + RVU.meta.cohort_year; }
   }
 
   /* Every top-level block below the hero reveals once on first entry. The hero
@@ -155,6 +178,7 @@
       if (global.console) { console.error("RVU: render.js did not load."); }
       return;
     }
+    mountMenu();
     markCurrentAudience();
     mountDataBlocks();
     R.fillSlots();          // last: the mounted blocks may carry slots of their own
