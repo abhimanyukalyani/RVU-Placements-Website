@@ -301,6 +301,54 @@
   color: var(--rvu-ink);                  /* #04070a on #ecf1f5 · 17.76:1 */
 }
 
+/* --------------------------------------------------------- school compare */
+/* The distribution row's geometry, on a wider label column because these
+   labels are school names rather than salary bands, and with the label as a
+   link into that school's own section. One shared maximum across the six rows
+   — set in render.js, not here — so bar length compares. */
+
+.compare { display: grid; gap: 18px; }
+
+.compare__item {
+  display: grid;
+  grid-template-columns: minmax(180px, 280px) 1fr minmax(72px, auto);
+  align-items: center;
+  gap: 16px;
+}
+
+/* 44px tap target from the padding (§D), and the two lines stack inside it. */
+.compare__label {
+  display: block;
+  padding-block: 11px;
+  color: var(--rvu-slate);                /* #233039 on #faf7f1 · 12.64:1 */
+}
+.compare__label:hover { color: var(--rvu-ink); }        /* 18.89:1 */
+.compare__n {
+  display: block;
+  color: var(--rvu-slate);                /* 12.64:1 */
+}
+
+.compare__track {
+  display: block;                         /* see .distribution__track */
+  height: 14px;
+  background: color-mix(in srgb, var(--rvu-slate) 8%, transparent);
+}
+.compare__bar {
+  display: block;
+  height: 100%;
+  background: var(--rvu-gold);            /* a fill, never text (§A) */
+  min-width: 2px;
+}
+
+.compare__value {
+  font-family: var(--font-display);
+  font-weight: var(--weight-display);
+  font-size: var(--t-title);
+  font-variant-numeric: tabular-nums;
+  text-align: end;
+  color: var(--rvu-ink);                  /* 18.89:1 on paper */
+}
+
 /* -------------------------------------------------------- recruiter ticker */
 /* §J.3. Two identical tracks side by side; the rail translates by -50%, which
    is exactly one track, so the wrap is seamless. transform only — never
@@ -365,6 +413,15 @@
 }
 
 .ticker__track > .ticker__item:first-child .ticker__name { border-inline-start: 0; }
+
+/* The status node is empty until a name is opened. Left as an empty <p> it
+   still takes a line box and its margins, which put 90px of dead space under
+   the band — the one accidental stack the whitespace audit found. Collapsed
+   when empty — but collapsed, not display:none: a live region removed from
+   the box tree is also removed from the accessibility tree, and would then
+   announce nothing when it gained its first text. Zero height keeps it in
+   both, and :empty stops matching the moment text arrives. */
+[data-recruiter-status]:empty { margin: 0; height: 0; overflow: hidden; }
 
 .ticker__panel {
   margin-block-start: var(--row-gutter-vertical);
@@ -522,6 +579,9 @@
   }
   .distribution__track { grid-column: 1 / -1; }
 
+  .compare__item  { grid-template-columns: 1fr auto; }
+  .compare__track { grid-column: 1 / -1; }
+
   .denominator { padding-inline: 20px; }
 
   .ticker__name { padding-inline: 16px; }
@@ -584,30 +644,50 @@
 .start-here__body { max-width: var(--measure-prose); }
 
 /* ----------------------------------------------------------- stage spine */
-/* Four stages as verbs, horizontal with a connecting hairline; stacked at
-   640px. Each stage is a door into its own content. */
+/* Four stages as verbs, one per row, each a native <details> (§G: no
+   hand-built accordion). The first is open, so the section always has
+   something to read; the other three are one keystroke away.
+
+   The four columns this replaced put four headings and eight bullet lists on
+   screen at once, at a quarter of the measure each. As a disclosure the rows
+   read at the full measure and the reader chooses which stage to open. */
 
 .spine {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: var(--module-gutter);
-  position: relative;
-  padding-block-start: 28px;
   border-block-start: var(--rule-open);
 }
 
+.stage {
+  border-block-end: var(--rule-divide);
+}
+
+/* 44px from the padding alone (§D), and the marker is the only thing that
+   moves between states — no hand-built chevron, no second device. */
+.stage__summary {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding-block: 19px;
+  cursor: pointer;
+  list-style-position: outside;
+}
+.stage__summary::marker { color: var(--rvu-gold); }  /* gold as a mark, never text */
+.stage__summary:hover .stage__name { color: var(--rvu-ink); }
+
+.stage__body { padding-block-end: 28px; }
+
 .stage__order {
-  display: block;
   color: var(--rvu-gold-text);            /* #866c40 on #faf7f1 · 4.64:1 */
-  margin-block-end: 10px;
+  white-space: nowrap;
 }
 .stage__name {
+  display: inline;
   font-family: var(--font-display);
   font-weight: var(--weight-display);
   font-size: var(--t-title);
-  line-height: calc(var(--lh-t-title) / var(--t-title));
+  line-height: 1.2;
   color: var(--rvu-ink);                  /* 18.89:1 on paper */
-  margin: 0 0 10px;
+  margin: 0;
 }
 .stage__what { color: var(--rvu-slate); } /* 12.64:1 */
 .stage__list {
@@ -621,7 +701,7 @@
 .stage__sublabel {
   display: block;
   margin-block-start: 16px;
-  color: var(--rvu-slate);                /* 12.64:1 · not gold: this sits at 10px */
+  color: var(--rvu-slate);                /* 12.64:1 · not gold: this sits at 12px */
 }
 
 /* -------------------------------------------------------------- timeline */
@@ -878,12 +958,7 @@ legend {
 
 /* ============================================================= responsive */
 
-@media (max-width: 900px) {
-  .spine { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: var(--row-gutter-vertical); }
-}
-
 @media (max-width: 640px) {
-  .spine      { grid-template-columns: 1fr; }
   .year__cols { grid-template-columns: 1fr; }
   .result__line { grid-template-columns: 1fr; gap: 4px; }
   .start-here { padding-inline: 20px; }
@@ -1119,8 +1194,29 @@ legend {
   border: 1px solid var(--rvu-slate);
   margin-block-end: 20px;
 }
-.segbar__seg { display: block; height: 100%; background: var(--rvu-gold); }
+/* The row is only the carrier for --fill: motion.js writes the scroll progress
+   here, and scaling the row itself would squeeze all five bands at once, which
+   is not what the bar means. */
+.segbar[data-fill-carrier] { transform: none; }
+
+.segbar__seg {
+  display: block;
+  height: 100%;
+  flex-grow: 0;
+  flex-shrink: 0;
+  background: var(--rvu-gold);
+  transform-origin: left center;
+  /* This band's own progress along the row it shares: it starts at --from and
+     is full one --span later, so the class fills group by group. --fill
+     defaults to 1, so with js/motion.js deleted the bar draws complete —
+     which is the readable state (§J). */
+  transform: scaleX(clamp(0, calc((var(--fill, 1) - var(--from)) / var(--span)), 1));
+}
 .segbar__seg + .segbar__seg { border-inline-start: 1px solid var(--rvu-slate); }
+
+@media (prefers-reduced-motion: reduce) {
+  .segbar__seg { transform: scaleX(1) !important; }
+}
 .segbar__seg--1 { opacity: 1;    }
 .segbar__seg--2 { opacity: 0.78; }
 .segbar__seg--3 { opacity: 0.58; }

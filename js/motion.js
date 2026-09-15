@@ -153,25 +153,13 @@
   }
 
   /* ----------------------------------------------------------- 3 · ticker */
-
-  function wireTicker() {
-    var track = doc.querySelector("[data-ticker-track]");
-    if (!track) { return; }
-    var band = track.parentNode;
-
-    function pause() { band.setAttribute("data-paused", "true"); }
-    function play()  { band.removeAttribute("data-paused"); }
-
-    band.addEventListener("mouseenter", pause);
-    band.addEventListener("mouseleave", play);
-    band.addEventListener("focusin", pause);
-    band.addEventListener("focusout", function (e) {
-      if (!band.contains(e.relatedTarget)) { play(); }
-    });
-  }
+  /* The band pauses in CSS — .ticker:hover and .ticker:focus-within set
+     animation-play-state — so it stops for a mouse and for a Tab key without
+     this file, and it keeps stopping if this file fails to load. There is
+     nothing here to wire, which is the point: the primitive is real, its
+     implementation is one rule in components.css. */
 
   function scan() {
-    wireTicker();                 // pause-on-focus matters even under reduced motion
     if (REDUCED) { return; }      // bars and sections are already in final state
     observeBars();
     observeReveals();

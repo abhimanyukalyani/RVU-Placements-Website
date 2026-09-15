@@ -117,6 +117,9 @@
     if (doc.querySelector("[data-school-index]")) {
       R.mount("[data-school-index]", R.schoolIndex(RVU.schools));
     }
+    if (doc.querySelector("[data-school-compare]")) {
+      R.mount("[data-school-compare]", R.schoolComparison(RVU.schools));
+    }
     if (doc.querySelector("[data-schools]")) {
       R.mount("[data-schools]", R.schoolSections(RVU.schools, RVU.placements.distribution));
     }
