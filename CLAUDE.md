@@ -75,12 +75,12 @@ The table this replaced was not a scale. Its adjacent steps ran 2.75× · 1.5× 
 
 - **Titles and section openers scale with the viewport, not with a breakpoint.** `--t-page-title: clamp(--t-figure, 8vw, --t-display)`, `--t-hub-title: clamp(--t-figure, 9vw, --t-hero)`, `--t-opener: clamp(--t-sub, 4.2vw, --t-section)`. There is no type override in any media query, so there is nothing to keep in sync.
 - **Labels are 12px at every breakpoint.** The retired 10.5px label put both hero pills and the whole audience switcher below a readable size on a phone. Do not reintroduce a smaller label at any viewport: a scale with a mobile exception is a scale with a bug waiting in it.
-- **Every `font-size` in `css/` resolves through a token.** A raw pixel value in a stylesheet is a defect. `grep -rn "font-size:" css/ | grep -v "var(--"` must return nothing. The print deck carries its own `--d-*` scale, on the same 1.25 ratio anchored at its 14px body, because a printed A4 slide is not anchored to a 16px reading size.
+- **Every `font-size` in `css/` resolves through a token**, with one exception: a relative `em` on a `<sup>` or `<sub>`, which *must* be relative so the mark scales with the text it rides on — a token there would pin a superscript to a fixed size while its parent moved. Everything else is a defect, and `grep -rn "font-size:" css/ | grep -v "var(--" | grep -vE "font-size: *[0-9.]+em"` must return nothing. The earlier form of this check did not carve out `em` and had been failing silently on the footer's `®` for exactly that reason, with nothing running it. The print deck carries its own `--d-*` scale, on the same 1.25 ratio anchored at its 14px body, because a printed A4 slide is not anchored to a 16px reading size.
 - Measure **62–68 characters** for running text. Never a full-width paragraph at 1080px.
 - `text-wrap: balance` on every heading. `text-wrap: pretty` on body copy.
 - `font-variant-numeric: tabular-nums` on **every** figure, table column and chart label.
 - Fallbacks: `Playfair Display, Georgia, serif` · `Cantarell, Carlito, "Helvetica Neue", sans-serif`. Metrics are close enough that layout must not reflow.
-- No italics beyond the caption style.
+- No italics beyond the caption style, **with one carve-out**: RV University's registered tagline, "Go, change the world®", in the footer. It is not body copy — it is someone else's mark, and the university sets it in italic, so setting it upright was rendering their trademark in a style they do not use. This is the only italic outside the caption style on the site; adding a second is a change to this rule.
 
 ---
 
@@ -172,7 +172,7 @@ rvu.edu.in runs WordPress with WP Rocket and a page builder. This static build m
 - Keep markup semantic and shallow so it maps to a custom page template or clean Gutenberg blocks.
 - Mirror the theme's `--gcid-*` custom property names so the two token systems stay legible to each other.
 - Figures are designed to come from ACF fields, a custom post type, or a scheduled sync from the placement sheet. Keeping every number in `data/` is what makes that a swap rather than a rebuild.
-- No new webfont request. No added layout shift. No added weight.
+- No new webfont **request**. The one addition since: an `ital` axis on the existing Playfair Display request, for the registered tagline above. It is a second face on a request the site already makes — same URL, same preconnect, no new host — and the browser fetches it only because one line renders in it. No added layout shift. No added weight beyond that face.
 
 ---
 
