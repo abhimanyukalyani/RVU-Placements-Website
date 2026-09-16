@@ -1413,6 +1413,9 @@
   var RVU = global.RVU = global.RVU || {};
   var R = RVU.render;
   var esc = function (s) { return R.esc(s); };
+  /* Same aliasing part 2 uses: an attribute value is escaped the same way as
+     text, so attr() is esc() under a name that says where it is going. */
+  var attr = esc;
 
   /* Roles, not people. A role plus a working route is real information; a
      name we cannot verify is not, and a column of [pending] names reads as an
@@ -1467,7 +1470,64 @@
     return html + "</ul>";
   }
 
+  /* --- the university footer block ---------------------------------------
+     Address, phone and admissions inbox, transcribed from rvu.edu.in into
+     office.js and rendered from there — the same one-source rule the figures
+     follow, so none of it is typed into 11 separate footers. */
+  function universityContact(c) {
+    return "<span class=\"contact__line\">" + esc(c.address) + "</span>" +
+           "<span class=\"contact__line\">" +
+             "<a href=\"" + attr(c.phone_href) + "\">" + esc(c.phone) + "</a>" +
+           "</span>" +
+           "<span class=\"contact__line\">" +
+             "<span class=\"contact__label t-label\">Admissions</span> " +
+             "<a href=\"mailto:" + attr(c.admissions_email) + "\">" +
+               esc(c.admissions_email) + "</a>" +
+           "</span>";
+  }
+
+  /* Four brand marks drawn as 1.5px outlines on currentColor (§G: inline SVG,
+     no icon font, no second colour). Outlines rather than the usual solid
+     glyphs so they share the icon language the rest of the site uses.
+
+     Each link carries a visible-to-screen-readers name; the glyph itself is
+     aria-hidden, so the control is never announced as just "link". */
+  var SOCIAL_ICON = {
+    Facebook:
+      "<rect x=\"3\" y=\"3\" width=\"18\" height=\"18\" rx=\"4\"/>" +
+      "<path d=\"M15 8h-1.5A1.5 1.5 0 0 0 12 9.5V21M9.5 13.5h5\"/>",
+    YouTube:
+      "<rect x=\"2.5\" y=\"6\" width=\"19\" height=\"12\" rx=\"4\"/>" +
+      "<path d=\"M10.5 9.5l4.5 2.5-4.5 2.5z\"/>",
+    LinkedIn:
+      "<rect x=\"3\" y=\"3\" width=\"18\" height=\"18\" rx=\"4\"/>" +
+      "<path d=\"M7.5 10.5V17M7.5 7.5v.01M11.5 17v-3.75a2.25 2.25 0 0 1 4.5 0V17\"/>",
+    Instagram:
+      "<rect x=\"3\" y=\"3\" width=\"18\" height=\"18\" rx=\"5\"/>" +
+      "<circle cx=\"12\" cy=\"12\" r=\"3.5\"/>" +
+      "<path d=\"M16.9 7.1v.01\"/>"
+  };
+
+  function socialLinks(list) {
+    var html = "<ul class=\"social\">";
+    for (var i = 0; i < list.length; i++) {
+      var s = list[i];
+      var glyph = SOCIAL_ICON[s.name] || "";
+      html += "<li><a class=\"social__link\" href=\"" + attr(s.href) + "\"" +
+                " rel=\"noopener noreferrer\">" +
+                "<svg class=\"social__icon\" viewBox=\"0 0 24 24\" fill=\"none\"" +
+                  " stroke=\"currentColor\" stroke-width=\"1.5\"" +
+                  " stroke-linecap=\"round\" stroke-linejoin=\"round\"" +
+                  " aria-hidden=\"true\" focusable=\"false\">" + glyph + "</svg>" +
+                "<span class=\"visually-hidden\">" + esc(s.name) + "</span>" +
+              "</a></li>";
+    }
+    return html + "</ul>";
+  }
+
   R.roles = roles;
+  R.universityContact = universityContact;
+  R.socialLinks = socialLinks;
   R.calendar = calendar;
   R.startHere = startHere;
 }(typeof window !== "undefined" ? window : globalThis));

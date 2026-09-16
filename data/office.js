@@ -21,6 +21,31 @@ RVU.office = {
   /* The one address, repeated everywhere on the site rather than scattered. */
   general_email: "placements@rvu.edu.in",
 
+  /* The university's own footer details, transcribed from rvu.edu.in — not
+     composed here. The placement office's address stays general_email above;
+     admissions_email is the university's front door and is labelled as such on
+     the page so a recruiter does not write to the wrong inbox. */
+  university_contact: {
+    address: "RV Vidyanikethan Post, 8th Mile, Mysuru Road, Bengaluru \u2013 560 059",
+    phone: "+91 63669 85882",
+    phone_href: "tel:+916366985882",
+    admissions_email: "admissions@rvu.edu.in",
+    tagline: "Go, change the world"
+  },
+
+  /* TODO before submission: open each of these from a browser on the RVU site
+     and confirm it is the account the university itself links to. They were
+     resolved from search attribution because this build environment cannot
+     reach rvu.edu.in or any of these hosts to check them first-hand. A wrong
+     URL here is a dead link in the one place the site claims never to have
+     one (§G), and each is a one-line fix in this file. */
+  social: [
+    { name: "Facebook",  href: "https://www.facebook.com/RV.University1/" },
+    { name: "YouTube",   href: "https://www.youtube.com/@RVUniversity" },
+    { name: "LinkedIn",  href: "https://in.linkedin.com/company/rv-university" },
+    { name: "Instagram", href: "https://www.instagram.com/rv.university/" }
+  ],
+
   /* The convention, stated once and rendered on the page. */
   convention: "Where the placement sheet has not yet supplied a detail, this " +
               "page shows it in brackets rather than filling it with a guess — " +

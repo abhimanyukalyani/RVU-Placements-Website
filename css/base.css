@@ -263,10 +263,21 @@
   .site-mark__crest { display: flex; }
   .site-mark__crest svg {
     display: block;
-    height: 40px;
+    height: 56px;                        /* the wordmark beside it stands 55px,
+                                            so at 40px the crest read as the
+                                            smaller of the two; at 56px it leads */
     width: auto;
     aspect-ratio: 82.36 / 85.59;         /* reserves the box before paint, so
                                             the masthead does not shift */
+  }
+
+  /* The symbol the two crests reference. It must stay in the box tree for
+     <use> to resolve, so it is collapsed rather than display:none. */
+  .svg-defs {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
   }
 
   .site-mark__text {
@@ -340,6 +351,84 @@
     gap: var(--module-gutter);
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
+
+  /* The university's own footer, above the site's three link columns: its
+     tagline, then the mark, the postal details and the social accounts on one
+     row. Both rows span the full grid and carry their own internal layout. */
+  .site-footer__tagline {
+    grid-column: 1 / -1;
+    margin: 0;
+    text-align: center;
+    font-family: var(--font-display);
+    font-weight: var(--weight-display);
+    font-size: var(--t-sub);
+    line-height: 1.2;
+    color: var(--text-inverse);          /* #ffffff on #1a242b · 15.78:1 */
+  }
+  /* Set upright, not in the italic the university uses: §B allows italics only
+     in the caption style. The registered mark keeps its position either way. */
+  .site-footer__tagline sup {
+    font-size: 0.42em;
+    vertical-align: super;
+  }
+
+  .site-footer__top {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: var(--module-gutter);
+    padding-block: 28px;
+    border-block: 1px solid color-mix(in srgb, var(--rvu-white) 22%, transparent);
+  }
+
+  /* On the slate ground the crest and the wordmark invert by inheritance
+     alone — the crest is currentColor, so one file serves both grounds. */
+  .site-mark--footer { color: var(--text-inverse); }
+  .site-mark--footer .site-mark__name    { color: var(--text-inverse); }        /* 15.78:1 */
+  .site-mark--footer .site-mark__section { color: var(--text-inverse-accent); } /* #d0a863 on #1a242b · 7.11:1 */
+
+  .contact {
+    font-style: normal;                  /* <address> italicises by default */
+    display: grid;
+    gap: 2px;
+    font-size: var(--t-caption);
+    color: var(--text-inverse);          /* 15.78:1 */
+  }
+  .contact__label { color: var(--text-inverse-accent); }   /* 7.11:1 */
+
+  /* The phone and the admissions inbox each sit on their own line and are
+     therefore standalone controls, not inline prose — they take the 44px floor
+     (§D) rather than the WCAG 2.5.8 inline exemption. The row gap drops to 2px
+     so the padding that buys the height does not also add a visible gap. */
+  .contact__line { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+  .contact a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap-target-min);
+  }
+
+  /* Both blocks are mounted from office.js. With JS off they stay empty, and an
+     empty labelled <nav> is worse than no <nav> — so they collapse. The details
+     themselves are not figures, so unlike a figure they could be restated in
+     the page's <noscript> notice without creating a second source (§G). */
+  .contact:empty, .social-nav:empty { display: none; }
+
+  .social { display: flex; gap: 8px; margin: 0; padding: 0; list-style: none; }
+  .social__link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--tap-target-min);
+    height: var(--tap-target-min);       /* 44px on its own (§D) */
+    border-radius: 50%;
+    color: var(--text-inverse);          /* 15.78:1 */
+  }
+  .social__link:hover {
+    color: var(--rvu-slate-deep);
+    background: var(--rvu-gold);         /* #1a242b on #d0a863 · 7.11:1 */
+  }
+  .social__icon { width: 22px; height: 22px; }
   .site-footer h2,
   .site-footer h3 { color: var(--text-inverse); }        /* 15.78:1 */
   .site-footer .eyebrow { color: var(--text-inverse-accent); } /* #d0a863 on #1a242b · 7.11:1 */
@@ -360,8 +449,9 @@
   /* Every multi-column row collapses to one column at 640px. */
   @media (max-width: 640px) {
     .site-footer__inner  { grid-template-columns: 1fr; }
+    .site-footer__top    { grid-template-columns: 1fr; justify-items: start; gap: 24px; }
     .site-header__inner  { gap: 12px; }
-    .site-mark__crest svg { height: 36px; }   /* the floor, never below */
+    .site-mark__crest svg { height: 44px; }   /* floor is 36px; never below */
   }
 }
 

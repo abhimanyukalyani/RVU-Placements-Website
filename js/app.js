@@ -138,6 +138,15 @@
     if (doc.querySelector("[data-roles]")) {
       R.mount("[data-roles]", R.roles(RVU.office.roles));
     }
+    /* The footer's university block, on every page. */
+    if (doc.querySelector("[data-footer-contact]")) {
+      R.mount("[data-footer-contact]",
+              R.universityContact(RVU.office.university_contact));
+    }
+    if (doc.querySelector("[data-social]")) {
+      R.mount("[data-social]", R.socialLinks(RVU.office.social));
+    }
+
     if (doc.querySelector("[data-office-convention]")) {
       doc.querySelector("[data-office-convention]").textContent = RVU.office.convention;
     }
