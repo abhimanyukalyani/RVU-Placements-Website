@@ -447,7 +447,18 @@
     border-block-start: 1px solid color-mix(in srgb, var(--rvu-white) 22%, transparent);
     color: var(--text-inverse);                          /* 15.78:1 */
   }
-  .site-footer__list { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+  /* Centred while the three sit side by side, matching the contact block on
+     the row above. justify-items centres the grid items themselves; text-align
+     centres a line that wraps inside one. */
+  .site-footer__inner > section { text-align: center; }
+  .site-footer__list {
+    display: grid;
+    justify-items: center;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
   .site-footer__list a {
     display: inline-flex;
     align-items: center;
@@ -458,7 +469,12 @@
   @media (max-width: 640px) {
     .site-footer__inner  { grid-template-columns: 1fr; }
     .site-footer__top    { grid-template-columns: 1fr; justify-items: start; gap: 24px; }
+    /* Stacked, everything in the footer aligns to the same left edge — the
+       columns included, so they line up with the mark above rather than
+       floating centred over a start-aligned block. */
     .contact             { text-align: start; }
+    .site-footer__inner > section { text-align: start; }
+    .site-footer__list   { justify-items: start; }
     .contact__line       { justify-content: flex-start; }
     .site-header__inner  { gap: 12px; }
     .site-mark__crest svg { height: 44px; }   /* floor is 36px; never below */
