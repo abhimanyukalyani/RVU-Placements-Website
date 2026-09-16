@@ -140,8 +140,7 @@
     }
     /* The footer's university block, on every page. */
     if (doc.querySelector("[data-footer-contact]")) {
-      R.mount("[data-footer-contact]",
-              R.universityContact(RVU.office.university_contact));
+      R.mount("[data-footer-contact]", R.universityContact(RVU.office));
     }
     if (doc.querySelector("[data-social]")) {
       R.mount("[data-social]", R.socialLinks(RVU.office.social));

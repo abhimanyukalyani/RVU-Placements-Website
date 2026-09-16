@@ -22,14 +22,11 @@ RVU.office = {
   general_email: "placements@rvu.edu.in",
 
   /* The university's own footer details, transcribed from rvu.edu.in — not
-     composed here. The placement office's address stays general_email above;
-     admissions_email is the university's front door and is labelled as such on
-     the page so a recruiter does not write to the wrong inbox. */
+     composed here. No email field: the footer shows general_email above, so
+     there is one placements address on the site rather than two strings that
+     could drift apart. */
   university_contact: {
     address: "RV Vidyanikethan Post, 8th Mile, Mysuru Road, Bengaluru \u2013 560 059",
-    phone: "+91 63669 85882",
-    phone_href: "tel:+916366985882",
-    admissions_email: "admissions@rvu.edu.in",
     tagline: "Go, change the world"
   },
 

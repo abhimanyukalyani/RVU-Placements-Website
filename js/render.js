@@ -1471,18 +1471,17 @@
   }
 
   /* --- the university footer block ---------------------------------------
-     Address, phone and admissions inbox, transcribed from rvu.edu.in into
-     office.js and rendered from there — the same one-source rule the figures
-     follow, so none of it is typed into 11 separate footers. */
-  function universityContact(c) {
+     The postal address comes from office.js; the email is general_email, the
+     same string the Recruiting column uses, so the site has one placements
+     address rather than two that could drift. Neither is typed into 11
+     separate footers — the same one-source rule the figures follow. */
+  function universityContact(office) {
+    var c = office.university_contact;
     return "<span class=\"contact__line\">" + esc(c.address) + "</span>" +
            "<span class=\"contact__line\">" +
-             "<a href=\"" + attr(c.phone_href) + "\">" + esc(c.phone) + "</a>" +
-           "</span>" +
-           "<span class=\"contact__line\">" +
-             "<span class=\"contact__label t-label\">Admissions</span> " +
-             "<a href=\"mailto:" + attr(c.admissions_email) + "\">" +
-               esc(c.admissions_email) + "</a>" +
+             "<span class=\"contact__label t-label\">Placements</span> " +
+             "<a href=\"mailto:" + attr(office.general_email) + "\">" +
+               esc(office.general_email) + "</a>" +
            "</span>";
   }
 
