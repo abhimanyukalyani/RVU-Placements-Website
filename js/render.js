@@ -441,20 +441,21 @@
       );
     }
 
+    /* Label, figure, figure, label. Every caption sits against the number it
+       names: the median's above it, the maximum's below it. The old order put
+       both captions after both figures, so the only label in the block could
+       be read as belonging to the wrong one. */
     var cls = "figure-block" + (block.isMedian ? " figure-block--median" : "");
     var html = "<div class=\"" + cls + "\">";
-    html += "<span class=\"figure-block__value\">" +
-            esc(R.fig(block.value, block.fmt)) + "</span>";
-    /* Caption before max. The caption names the value above it, so putting the
-       maximum in between left "Median package" sitting directly under the
-       highest offer, labelling the wrong number. The max trails as the
-       subordinate note it is — §E.1's order, now also the reading order. */
     html += "<span class=\"figure-block__caption t-label\">" +
             esc(block.caption) + "</span>";
+    html += "<span class=\"figure-block__value\">" +
+            esc(R.fig(block.value, block.fmt)) + "</span>";
     if (block.max !== undefined && block.max !== null) {
       html += "<span class=\"figure-block__max\">" +
-              esc(block.maxLabel || "Highest") + " " +
-              esc(R.fig(block.max, block.fmt)) + "</span>";
+              esc(R.fig(block.max, block.fmt)) + "</span>" +
+              "<span class=\"figure-block__max-caption t-label\">" +
+              esc(block.maxCaption || "Highest") + "</span>";
     }
     html += "</div>";
     return html;
@@ -1294,17 +1295,18 @@
 
         "<div class=\"figure-row\" data-package-figure>" +
           "<div class=\"figure-block figure-block--median\">" +
-            "<span class=\"figure-block__value\">" + esc(R.fig(sal.median, "inr_lpa")) + "</span>" +
             "<span class=\"figure-block__caption t-label\">Median package</span>" +
-            "<span class=\"figure-block__max\">Highest " + esc(R.fig(sal.max, "inr_lpa")) + "</span>" +
+            "<span class=\"figure-block__value\">" + esc(R.fig(sal.median, "inr_lpa")) + "</span>" +
+            "<span class=\"figure-block__max\">" + esc(R.fig(sal.max, "inr_lpa")) + "</span>" +
+            "<span class=\"figure-block__max-caption t-label\">Highest package</span>" +
           "</div>" +
           "<div class=\"figure-block\">" +
-            "<span class=\"figure-block__value\">" + esc(R.fig(s.cohort.students_placed)) + "</span>" +
             "<span class=\"figure-block__caption t-label\">Students placed</span>" +
+            "<span class=\"figure-block__value\">" + esc(R.fig(s.cohort.students_placed)) + "</span>" +
           "</div>" +
           "<div class=\"figure-block\">" +
-            "<span class=\"figure-block__value\">" + esc(R.fig(sal.n)) + "</span>" +
             "<span class=\"figure-block__caption t-label\">Offers behind these figures</span>" +
+            "<span class=\"figure-block__value\">" + esc(R.fig(sal.n)) + "</span>" +
           "</div>" +
         "</div>" +
         "<p class=\"cohort-stamp t-caption\">" + esc(R.stamp()) + "</p>" +

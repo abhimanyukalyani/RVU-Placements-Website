@@ -201,26 +201,34 @@
 /* A median is the headline figure and takes gold. 4.64:1 — passes at any size. */
 .figure-block--median .figure-block__value { color: var(--rvu-gold-text); }
 
+/* The label leads the block and sits against the figure it names. */
 .figure-block__caption {
   display: block;
-  margin-block-start: 10px;
+  margin-block-end: 10px;
   color: var(--rvu-slate);                /* #233039 on #faf7f1 · 12.64:1 */
 }
 
 /* Median first, and the maximum can never outgrow it: capped at 60% of the
    median's size in CSS so the rule cannot drift (CLAUDE.md §E.1).
 
-   It now sits below the caption rather than above it, so it needs air: the
-   caption belongs to the figure above it and the max is a separate note, and
-   at 12px apart the three lines read as one undifferentiated stack. */
+   The block reads label · figure · figure · label, so the maximum now carries
+   the number alone and its own caption sits under it. The word "Highest" left
+   the figure itself, which also means the count-up sees a clean single
+   number rather than a prefixed string. */
 .figure-block__max {
   display: block;
-  margin-block-start: 20px;
+  margin-block-start: 18px;
   font-family: var(--font-display);
   font-weight: var(--weight-display);
   font-size: calc(var(--t-figure) * 0.6);
   line-height: 1.1;
   font-variant-numeric: tabular-nums;
+  color: var(--rvu-slate);                /* #233039 on #faf7f1 · 12.64:1 */
+}
+
+.figure-block__max-caption {
+  display: block;
+  margin-block-start: 8px;
   color: var(--rvu-slate);                /* #233039 on #faf7f1 · 12.64:1 */
 }
 
