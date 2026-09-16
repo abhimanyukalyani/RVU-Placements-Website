@@ -219,7 +219,34 @@
 
   var countObserver = null;
 
-  function observeCounts() {
+  /* Nothing counts until the reader has actually scrolled. The hub's figure
+     row sits close enough to the top that the observer fired on load and the
+     numbers were already climbing before anyone had touched the page — an
+     effect nobody saw, on a figure they had not looked at yet.
+
+     Deferring the observer, rather than the animation, is what keeps this
+     safe: countUp() is the only thing that writes a zero, and it cannot run
+     until the observer arms. A reader who never scrolls, or a page too short
+     to scroll, simply keeps the real figure on screen the whole time. */
+  var hasScrolled = false;
+  var waitingOnScroll = [];
+
+  function onFirstScroll() {
+    if (hasScrolled) { return; }
+    hasScrolled = true;
+    global.removeEventListener("scroll", onFirstScroll);
+    while (waitingOnScroll.length) { waitingOnScroll.shift()(); }
+  }
+
+  function afterFirstScroll(fn) {
+    if (hasScrolled) { fn(); return; }
+    waitingOnScroll.push(fn);
+    global.addEventListener("scroll", onFirstScroll, { passive: true });
+  }
+
+  function observeCounts() { afterFirstScroll(collectCounts); }
+
+  function collectCounts() {
     var all = doc.querySelectorAll(".figure-block__value, .figure-block__max");
     var pending = [];
     for (var i = 0; i < all.length; i++) {
