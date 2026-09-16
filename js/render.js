@@ -866,15 +866,15 @@
   /* Four stages as verbs, each a door into its own content. */
   function stageSpine(stages) {
     var html = "<div class=\"spine\">";
-    /* Native <details>/<summary> — §G forbids a hand-built accordion. The first
-       stage opens so the section is never four closed bars with nothing to
-       read; the rest are one keystroke away. The summary carries the stage
-       number and its name, which is enough to choose between them, and the
-       heading level is unchanged so the outline still reads h1 > h2 > h3. */
+    /* Native <details>/<summary> — §G forbids a hand-built accordion. All four
+       start closed, so the section reads as four equal choices rather than one
+       already made for the reader; the standfirst above it already says what
+       the stages are, so nothing is left unexplained. The summary carries the
+       stage number and its name, which is enough to choose between them, and
+       the heading level is unchanged so the outline still reads h1 > h2 > h3. */
     for (var i = 0; i < stages.length; i++) {
       var s = stages[i];
-      html += "<details class=\"stage\" id=\"stage-" + esc(s.id) + "\"" +
-                (i === 0 ? " open" : "") + ">" +
+      html += "<details class=\"stage\" id=\"stage-" + esc(s.id) + "\">" +
                 "<summary class=\"stage__summary\">" +
                   "<span class=\"stage__order t-label\">Stage " + esc(s.order) + "</span>" +
                   "<h3 class=\"stage__name\">" + esc(s.label) + "</h3>" +
