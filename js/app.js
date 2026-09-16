@@ -91,8 +91,8 @@
         "<div class=\"figure-row\">" +
           "<div class=\"figure-block figure-block--median\">" +
             "<span class=\"figure-block__value\">" + R.esc(R.fig(basic.median, "inr_lpa")) + "</span>" +
-            "<span class=\"figure-block__max\">Highest " + R.esc(R.fig(basic.max, "inr_lpa")) + "</span>" +
             "<span class=\"figure-block__caption t-label\">Median package, last cohort</span>" +
+            "<span class=\"figure-block__max\">Highest " + R.esc(R.fig(basic.max, "inr_lpa")) + "</span>" +
           "</div>" +
         "</div>");
     }

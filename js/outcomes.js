@@ -82,9 +82,9 @@
     return "<div class=\"figure-row\" data-package-figure>" +
         "<div class=\"figure-block figure-block--median\">" +
           "<span class=\"figure-block__value\">" + R.esc(R.fig(s.median, "inr_lpa")) + "</span>" +
-          "<span class=\"figure-block__max\">Highest " + R.esc(R.fig(s.max, "inr_lpa")) + "</span>" +
           "<span class=\"figure-block__caption t-label\">Median basic package" +
             (middle80 ? ", middle 80%" : "") + "</span>" +
+          "<span class=\"figure-block__max\">Highest " + R.esc(R.fig(s.max, "inr_lpa")) + "</span>" +
         "</div>" +
         "<div class=\"figure-block\">" +
           "<span class=\"figure-block__value\">" + R.esc(R.fig(s.mean, "inr_lpa")) + "</span>" +
