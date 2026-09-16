@@ -1479,7 +1479,6 @@
     var c = office.university_contact;
     return "<span class=\"contact__line\">" + esc(c.address) + "</span>" +
            "<span class=\"contact__line\">" +
-             "<span class=\"contact__label t-label\">Placements</span> " +
              "<a href=\"mailto:" + attr(office.general_email) + "\">" +
                esc(office.general_email) + "</a>" +
            "</span>";

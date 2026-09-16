@@ -395,7 +395,6 @@
     font-size: var(--t-caption);
     color: var(--text-inverse);          /* 15.78:1 */
   }
-  .contact__label { color: var(--text-inverse-accent); }   /* 7.11:1 */
 
   /* The phone and the admissions inbox each sit on their own line and are
      therefore standalone controls, not inline prose — they take the 44px floor
