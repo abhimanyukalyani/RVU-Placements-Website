@@ -48,33 +48,38 @@ RVU.journey = {
 
   // Year 1 to final year. Deadlines that have passed render muted; the next
   // one is highlighted. Both are computed from the date, never hard-coded.
+  /* PLACEHOLDER. The four years and the stage each maps to are structural —
+     they come from this site's own model, not from the university — so they
+     stay. Everything inside a year is institution-specific and is therefore
+     bracketed: the activities, what the office provides, and the deadline with
+     its date. Nothing here is a guess dressed as a fact.
+
+     Deadlines carry date: null on purpose. render.js prints [DD MMM YYYY] for
+     a null date and tags the row "Pending" rather than computing a next or a
+     passed deadline, so the timeline cannot claim a date it does not have.
+
+     TODO: replace every bracket below from the placement calendar. The count
+     of items in each list is itself a placeholder — three is a layout
+     decision, not a finding. */
   years: [
     { year: 1, label: "First year", stage: "understand",
-      do: ["Attend the strengths and interests session",
-           "Join one student club that does something you might work in",
-           "Meet your school's placement coordinator once"],
-      office_offers: ["Strengths and interests session", "Drop-in hours"],
-      deadline: { label: "Strengths and interests session closes", date: "2026-11-14" } },
+      do: ["[First-year action 1]", "[First-year action 2]", "[First-year action 3]"],
+      office_offers: ["[Office provision 1]", "[Office provision 2]", "[Office provision 3]"],
+      deadline: { label: "[First-year deadline]", date: null } },
 
     { year: 2, label: "Second year", stage: "explore",
-      do: ["Attend two sector talks",
-           "Draft a CV and have it reviewed",
-           "Do one informational interview"],
-      office_offers: ["Sector talks", "CV review", "Alumni introductions"],
-      deadline: { label: "CV review window closes", date: "2027-01-30" } },
+      do: ["[Second-year action 1]", "[Second-year action 2]", "[Second-year action 3]"],
+      office_offers: ["[Office provision 1]", "[Office provision 2]", "[Office provision 3]"],
+      deadline: { label: "[Second-year deadline]", date: null } },
 
     { year: 3, label: "Third year", stage: "experience",
-      do: ["Apply to summer internships",
-           "Take a live industry project",
-           "Sit one aptitude practice test"],
-      office_offers: ["Internship drives", "Live projects", "Aptitude practice"],
-      deadline: { label: "Summer internship applications close", date: "2027-02-26" } },
+      do: ["[Third-year action 1]", "[Third-year action 2]", "[Third-year action 3]"],
+      office_offers: ["[Office provision 1]", "[Office provision 2]", "[Office provision 3]"],
+      deadline: { label: "[Third-year deadline]", date: null } },
 
     { year: 4, label: "Final year", stage: "implement",
-      do: ["Register for the placement cycle",
-           "Check the drives ledger weekly",
-           "Book a mock interview before your first round"],
-      office_offers: ["Full-time drives", "Mock interviews", "A placement coordinator for your school"],
-      deadline: { label: "Placement cycle registration closes", date: "2026-10-31" } }
+      do: ["[Final-year action 1]", "[Final-year action 2]", "[Final-year action 3]"],
+      office_offers: ["[Office provision 1]", "[Office provision 2]", "[Office provision 3]"],
+      deadline: { label: "[Final-year deadline]", date: null } }
   ]
 };

@@ -711,50 +711,81 @@
 }
 
 /* -------------------------------------------------------------- timeline */
-/* Passed deadlines are muted by WORDING AND WEIGHT, never by a lighter
-   colour: the palette has nine values and none of them is a grey. Both
-   states keep slate or ink, both far past the body floor. */
+/* A two-rail year. The rail names the year, its stage and the one date that
+   closes it; the body carries the two lists. The deadline used to sit under
+   both bullet columns, which put the only actionable line in the block last —
+   it now reads first, where the eye starts.
 
-.year { border-block-start: var(--rule-divide); padding-block: 24px; }
-.year:first-child { border-block-start: 0; }
+   A vertical hairline divides rail from body and, because the years stack
+   against each other, runs as one continuous spine down the section. That is
+   the whole device: no cards, no fills, no second colour (§D).
 
-.year__head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 16px; }
+   Status is wording and weight, never hue: the palette has nine values and
+   none of them is a grey to mute with. */
+
+.years { margin: 0; padding: 0; list-style: none; }
+
+.year {
+  display: grid;
+  grid-template-columns: minmax(200px, 260px) 1fr;
+  gap: var(--module-gutter);
+  border-block-start: var(--rule-divide);
+  padding-block: 28px;
+}
+.year:first-child { border-block-start: 0; padding-block-start: 8px; }
+
 .year__name {
   font-family: var(--font-display);
   font-weight: var(--weight-display);
-  font-size: var(--t-sub);
-  line-height: calc(var(--lh-t-sub) / var(--t-sub));
-  color: var(--rvu-ink);                  /* 18.89:1 */
+  font-size: var(--t-title);
+  line-height: 1.15;
+  color: var(--rvu-ink);                  /* #04070a on #faf7f1 · 18.89:1 */
   margin: 0;
 }
-.year__stage { color: var(--rvu-gold-text); }  /* #866c40 · 4.64:1 */
+.year__stage {
+  margin-block: 8px 0;
+  color: var(--rvu-gold-text);            /* #866c40 on #faf7f1 · 4.64:1 */
+}
 
-.year__cols {
+/* --- the body: two lists, on the far side of the spine ------------------- */
+
+.year__body {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--module-gutter);
-  margin-block-start: 16px;
+  padding-inline-start: var(--module-gutter);
+  border-inline-start: var(--rule-divide);
 }
-.year__cols h4 {
-  font-family: var(--font-body);
-  font-weight: var(--weight-label);
-  font-size: var(--t-label);
-  letter-spacing: var(--track-label);
-  text-transform: uppercase;
+
+.year__colhead {
+  display: block;
+  margin: 0 0 12px;
+  color: var(--rvu-slate);                /* #233039 on #faf7f1 · 12.64:1 */
+}
+
+/* No bullet markers. Each item is one line on its own hairline, which reads
+   as a schedule rather than as prose — and keeps a column of bracketed
+   placeholders legible instead of looking like an unfinished list. */
+.year__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
   color: var(--rvu-slate);                /* 12.64:1 */
-  margin-block-end: 8px;
 }
-.year__cols ul { padding-inline-start: 18px; color: var(--rvu-slate); }
-.year__cols li { margin-block-start: 9px; }
+.year__list li {
+  padding-block: 10px;
+  border-block-start: var(--rule-divide);
+}
+.year__list li:first-child { border-block-start: 0; padding-block-start: 0; }
+
+/* --- the deadline, in the rail ------------------------------------------ */
 
 .deadline {
-  margin-block-start: 18px;
+  display: grid;
+  gap: 4px;
+  margin-block-start: 20px;
   padding-block-start: 14px;
   border-block-start: var(--rule-divide);
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 16px;
-  align-items: baseline;
 }
 .deadline__tag {
   font-family: var(--font-body);
@@ -762,27 +793,40 @@
   font-size: var(--t-label);
   letter-spacing: var(--track-label);
   text-transform: uppercase;
-}
-.deadline__date { font-variant-numeric: tabular-nums; }
-
-/* Next: a gold rule and ink text carry it. */
-.deadline--next {
-  border-block-start: var(--rule-open);
-}
-.deadline--next .deadline__tag,
-.deadline--next .deadline__date { color: var(--rvu-gold-text); }  /* 4.64:1 */
-.deadline--next .deadline__label {
-  color: var(--rvu-ink);                  /* 18.89:1 */
-  font-weight: var(--weight-label);
-}
-
-/* Passed: same colours, lighter weight, and the word "Passed" doing the work.
-   Muting by hue would need a tenth colour, and status is never hue here. */
-.deadline--passed .deadline__tag,
-.deadline--passed .deadline__label,
-.deadline--passed .deadline__date {
   color: var(--rvu-slate);                /* 12.64:1 */
+}
+.deadline__date {
+  font-family: var(--font-display);
+  font-weight: var(--weight-display);
+  font-size: var(--t-lead);
+  font-variant-numeric: tabular-nums;
+  color: var(--rvu-ink);                  /* 18.89:1 */
+}
+.deadline__label {
+  font-size: var(--t-caption);
+  color: var(--rvu-slate);                /* 12.64:1 */
+}
+
+/* Next: a gold rule opens it and the tag takes gold text. */
+.deadline--next { border-block-start: var(--rule-open); }
+.deadline--next .deadline__tag { color: var(--rvu-gold-text); }  /* 4.64:1 */
+
+/* Passed: same colours, the word "Passed" and a lighter date doing the work. */
+.deadline--passed .deadline__date {
+  font-family: var(--font-body);
   font-weight: var(--weight-body);
+  font-size: var(--t-body);
+  color: var(--rvu-slate);                /* 12.64:1 */
+}
+
+/* Pending: no date yet, so the bracket is the figure and it is set in the
+   body face — a bracket in 20px Playfair reads as a number that failed to
+   load rather than as a slot waiting to be filled (§E.6). */
+.deadline--pending .deadline__date {
+  font-family: var(--font-body);
+  font-weight: var(--weight-body);
+  font-size: var(--t-body);
+  color: var(--rvu-slate);                /* 12.64:1 */
 }
 
 /* ----------------------------------------------------------------- forms */
@@ -964,8 +1008,22 @@ legend {
 
 /* ============================================================= responsive */
 
+/* The two lists share the rail's row until there is no width for both. */
+@media (max-width: 900px) {
+  .year__body { grid-template-columns: 1fr; gap: 20px; }
+}
+
 @media (max-width: 640px) {
-  .year__cols { grid-template-columns: 1fr; }
+  /* The rail stops being a rail: year, stage and deadline stack above the
+     lists, and the spine turns from a vertical rule into a horizontal one so
+     the division still reads. */
+  .year { grid-template-columns: 1fr; gap: 20px; }
+  .year__body {
+    border-inline-start: 0;
+    padding-inline-start: 0;
+    border-block-start: var(--rule-divide);
+    padding-block-start: 20px;
+  }
   .result__line { grid-template-columns: 1fr; gap: 4px; }
   .start-here { padding-inline: 20px; }
   .filters .field,

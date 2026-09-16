@@ -899,40 +899,62 @@
   function yearTimeline(years, todayISO) {
     var today = todayISO || (RVU.meta && RVU.meta.updated);
 
+    /* A deadline with no date is pending, not passed and not next. Comparing
+       null against today would silently sort it as the earliest date there is
+       and rule an empty row in gold, which is the timeline claiming a date it
+       does not have. */
     var nextIndex = -1, i;
     for (i = 0; i < years.length; i++) {
       var d = years[i].deadline;
-      if (d && d.date >= today && (nextIndex === -1 || d.date < years[nextIndex].deadline.date)) {
+      if (d && d.date && d.date >= today &&
+          (nextIndex === -1 || d.date < years[nextIndex].deadline.date)) {
         nextIndex = i;
       }
     }
 
-    var html = "";
+    var html = "<ol class=\"years\">";
     for (i = 0; i < years.length; i++) {
       var y = years[i];
-      var passed = y.deadline && y.deadline.date < today;
+      var dl = y.deadline || {};
+      var pending = !dl.date;
+      var passed = !pending && dl.date < today;
       var isNext = (i === nextIndex);
 
-      var cls = "deadline" + (isNext ? " deadline--next" : (passed ? " deadline--passed" : ""));
-      var tag = isNext ? "Next deadline" : (passed ? "Passed" : "Deadline");
+      var cls = "deadline" + (isNext ? " deadline--next"
+                                     : (passed ? " deadline--passed"
+                                               : (pending ? " deadline--pending" : "")));
+      var tag = isNext ? "Next deadline"
+                       : (passed ? "Passed" : (pending ? "Pending" : "Deadline"));
 
-      html += "<section class=\"year\" id=\"year-" + esc(y.year) + "\">" +
-                "<div class=\"year__head\">" +
+      /* The rail carries who the year is for and what it closes on; the body
+         carries the two lists. Putting the deadline in the rail rather than
+         under the lists moves the one actionable line to where the eye starts,
+         instead of leaving it as a footnote to two bullet columns. */
+      html += "<li class=\"year\" id=\"year-" + esc(y.year) + "\">" +
+                "<div class=\"year__rail\">" +
                   "<h3 class=\"year__name\">" + esc(y.label) + "</h3>" +
-                  "<span class=\"year__stage t-label\">Stage: " + esc(y.stage) + "</span>" +
+                  "<p class=\"year__stage t-label\">Stage &middot; " + esc(y.stage) + "</p>" +
+                  "<p class=\"" + cls + "\">" +
+                    "<span class=\"deadline__tag\">" + esc(tag) + "</span>" +
+                    "<span class=\"deadline__date\">" +
+                      esc(R.fig(dl.date, "date")) + "</span>" +
+                    "<span class=\"deadline__label\">" +
+                      esc(R.fig(dl.label, "text")) + "</span>" +
+                  "</p>" +
                 "</div>" +
-                "<div class=\"year__cols\">" +
-                  "<div><h4>What you do</h4>" + list(y.do, "") + "</div>" +
-                  "<div><h4>What the office gives you</h4>" + list(y.office_offers, "") + "</div>" +
+                "<div class=\"year__body\">" +
+                  "<div class=\"year__col\">" +
+                    "<h4 class=\"year__colhead t-label\">What you do</h4>" +
+                    list(y.do, "year__list") +
+                  "</div>" +
+                  "<div class=\"year__col\">" +
+                    "<h4 class=\"year__colhead t-label\">What the office gives you</h4>" +
+                    list(y.office_offers, "year__list") +
+                  "</div>" +
                 "</div>" +
-                "<p class=\"" + cls + "\">" +
-                  "<span class=\"deadline__tag\">" + esc(tag) + "</span>" +
-                  "<span class=\"deadline__label\">" + esc(y.deadline.label) + "</span>" +
-                  "<span class=\"deadline__date\">" + esc(R.fig(y.deadline.date, "date")) + "</span>" +
-                "</p>" +
-              "</section>";
+              "</li>";
     }
-    return html;
+    return html + "</ol>";
   }
 
   R.stageSpine = stageSpine;
