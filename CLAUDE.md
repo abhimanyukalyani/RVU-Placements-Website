@@ -189,15 +189,20 @@ rvu.edu.in runs WordPress with WP Rocket and a page builder. This static build m
 
 ---
 
-## J. Motion — three primitives, and nothing else
+## J. Motion — four primitives, and nothing else
 
-Motion is a budget, not a palette. Three effects exist; adding a fourth is a change to this section, not a styling decision.
+Motion is a budget, not a palette. Four effects exist; adding a fifth is a change to this section, not a styling decision.
 
 1. **Scroll-linked bar fill.** Every bar on the site — distribution, school breakdown, cohort segments — fills as the reader scrolls and **locks permanently once full**. It never animates a second time, including on scroll back up.
 2. **Section reveal.** A section's contents fade and rise 12px on first entry, once, 380ms `ease-out`. Never again.
 3. **The recruiter ticker.** One continuous horizontal band, paused on hover and on focus.
+4. **The figure count-up.** A figure block counts from zero to its value on first entry, once, and locks. Added deliberately, replacing this section's earlier blanket ban on counters — the ban existed because a counter shows a wrong number on a site whose whole argument is that its numbers are right, so the effect is allowed **only** under all four of these:
+   - **The target is never computed.** It is read from the DOM as rendered by `render.js`, kept verbatim, and written back unchanged at the end. The settled value is byte-identical to the data; only the middle of the animation is ever wrong.
+   - **Never on a non-quantity.** A bracketed placeholder has nothing to count to and a date is not a quantity. Both are skipped, so `[XXX]` and `30 Jun 2026` never animate. The regex is anchored, so anything containing more than one number cannot match.
+   - **`tabular-nums` is required** on anything that counts, or the box changes width on every frame.
+   - **Nothing is announced.** The element is not a live region, so a screen reader reads the settled value once, not every frame.
 
-Plus the existing focus and hover transitions. **No parallax, no scroll-jacking, no counters that tick numbers up, no carousels beyond the ticker.**
+Plus the existing focus and hover transitions. **No parallax, no scroll-jacking, no carousels beyond the ticker.**
 
 ### The two rules that make it safe
 

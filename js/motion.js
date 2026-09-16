@@ -1,9 +1,10 @@
 /* ===========================================================================
-   motion.js — the whole motion budget. Three primitives, no library.
+   motion.js — the whole motion budget. Four primitives, no library.
 
      1 · scroll-linked bar fill, which locks permanently once full
      2 · section reveal, once per section, on first entry
      3 · the recruiter ticker's pause-on-hover/focus (the loop itself is CSS)
+     4 · the figure count-up, which lands on the exact rendered value
 
    Two rules govern everything here:
 
@@ -159,10 +160,108 @@
      nothing here to wire, which is the point: the primitive is real, its
      implementation is one rule in components.css. */
 
+  /* ----------------------------------------------- 4 · the figure count-up */
+  /* A figure counts from zero to the value already in the markup, once, on
+     first entry. Three things make it safe to show a number that is briefly
+     wrong (CLAUDE.md §J.4):
+
+     1. The final value is never computed. It is read out of the DOM, kept
+        verbatim, and written back at the end, so the number that settles is
+        byte-identical to what render.js produced from data/. The animation
+        can only ever be wrong in the middle, never at rest.
+     2. It never runs on anything that is not a single number. A bracketed
+        placeholder has nothing to count to, and a date is not a quantity —
+        both are skipped, so [XXX] and 30 Jun 2026 never animate.
+     3. Under prefers-reduced-motion nothing here runs at all, because scan()
+        returns before reaching it. The markup's resting state is the final
+        value, so deleting this file changes nothing. */
+
+  /* prefix, number, suffix — "₹9.4 LPA" → ["₹", "9.4", " LPA"]. Anchored so a
+     string with more than one number (a date) cannot match. */
+  var ONE_NUMBER = /^([^\d]*)(\d+(?:\.\d+)?)([^\d]*)$/;
+
+  var COUNT_MS = 1100;
+  var STAGGER_MS = 90;
+
+  function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
+
+  function countUp(el, delay) {
+    var raw = el.textContent.trim();
+    var m = ONE_NUMBER.exec(raw);
+    if (!m) { return; }                       // a date, or no number at all
+
+    var prefix = m[1], digits = m[2], suffix = m[3];
+    var target = parseFloat(digits);
+    if (!isFinite(target)) { return; }
+
+    var dot = digits.indexOf(".");
+    var places = dot === -1 ? 0 : digits.length - dot - 1;
+
+    var started = null;
+    function step(now) {
+      if (started === null) { started = now; }
+      var t = (now - started - delay) / COUNT_MS;
+      if (t < 0) { global.requestAnimationFrame(step); return; }
+      if (t >= 1) {
+        el.textContent = raw;                 // the exact original string
+        el.removeAttribute("data-counting");
+        return;
+      }
+      var v = target * easeOutCubic(t);
+      el.textContent = prefix + v.toFixed(places) + suffix;
+      global.requestAnimationFrame(step);
+    }
+
+    el.setAttribute("data-counting", "true");
+    el.textContent = prefix + (0).toFixed(places) + suffix;
+    global.requestAnimationFrame(step);
+  }
+
+  var countObserver = null;
+
+  function observeCounts() {
+    var all = doc.querySelectorAll(".figure-block__value, .figure-block__max");
+    var pending = [];
+    for (var i = 0; i < all.length; i++) {
+      var el = all[i];
+      if (el.getAttribute("data-count-seen")) { continue; }
+      el.setAttribute("data-count-seen", "true");
+      if (el.textContent.indexOf("[") !== -1) { continue; }   // a placeholder
+      if (!ONE_NUMBER.test(el.textContent.trim())) { continue; }
+      pending.push(el);
+    }
+    if (!pending.length) { return; }
+
+    if (!countObserver) {
+      countObserver = new global.IntersectionObserver(function (entries) {
+        for (var e = 0; e < entries.length; e++) {
+          if (!entries[e].isIntersecting) { continue; }
+          var node = entries[e].target;
+          countObserver.unobserve(node);
+          /* Figures in one row start a beat apart, left to right, so the row
+             reads as a sequence rather than four things twitching at once. */
+          countUp(node, Number(node.getAttribute("data-count-order") || 0) * STAGGER_MS);
+        }
+      }, { threshold: 0.4 });
+    }
+
+    /* Order within the row, not the document, so each row restarts the beat. */
+    var rows = doc.querySelectorAll(".figure-row");
+    for (var r = 0; r < rows.length; r++) {
+      var vals = rows[r].querySelectorAll(".figure-block__value, .figure-block__max");
+      for (var v = 0; v < vals.length; v++) {
+        vals[v].setAttribute("data-count-order", String(v));
+      }
+    }
+
+    for (var p = 0; p < pending.length; p++) { countObserver.observe(pending[p]); }
+  }
+
   function scan() {
     if (REDUCED) { return; }      // bars and sections are already in final state
     observeBars();
     observeReveals();
+    observeCounts();
   }
 
   /* Pages that mount content after load — the outcomes explorer, the drives
