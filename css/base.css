@@ -400,7 +400,16 @@
      therefore standalone controls, not inline prose — they take the 44px floor
      (§D) rather than the WCAG 2.5.8 inline exemption. The row gap drops to 2px
      so the padding that buys the height does not also add a visible gap. */
-  .contact__line { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+  /* Centred in its column: it is the middle of three items on this row, so
+     ragged-left text pulled away from both the mark and the social icons. */
+  .contact { text-align: center; }
+  .contact__line {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
   .contact a {
     display: inline-flex;
     align-items: center;
@@ -449,6 +458,8 @@
   @media (max-width: 640px) {
     .site-footer__inner  { grid-template-columns: 1fr; }
     .site-footer__top    { grid-template-columns: 1fr; justify-items: start; gap: 24px; }
+    .contact             { text-align: start; }
+    .contact__line       { justify-content: flex-start; }
     .site-header__inner  { gap: 12px; }
     .site-mark__crest svg { height: 44px; }   /* floor is 36px; never below */
   }
