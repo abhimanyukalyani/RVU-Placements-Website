@@ -1400,7 +1400,69 @@
     return html + "</div>";
   }
 
+  /* --- the cohort field ---------------------------------------------------
+     412 marks, one per graduate, grouped into the five classes of §E.4. The
+     denominator stops being a sentence and becomes a shape: a parent can see
+     at a glance how large "the class" is and how much of it each group takes,
+     without reading a number first.
+
+     It fills on scroll like every other bar on the site, and by the same
+     mechanism, not a new one (§J.1). motion.js writes the row's progress into
+     --fill on the carrier; each mark derives its own local progress from where
+     it sits in the sequence. The spans overlap, so what travels across the
+     field is a wave of about thirty marks rather than a hard edge — the effect
+     is counting, which is what the figure is.
+
+     --fill defaults to 1, so with js/motion.js deleted the field is drawn
+     complete, which is the readable state. */
+  var FIELD_WAVE = 0.08;          // each mark's share of the scroll, overlapped
+
+  function cohortField(cohort) {
+    var i, k, sum = 0;
+    for (k = 0; k < BUCKET_ROWS.length; k++) { sum += cohort[BUCKET_ROWS[k][0]]; }
+
+    /* The field must not draw a class it cannot stand behind. */
+    if (sum !== cohort.total_graduates) {
+      throw new Error("Cohort field does not reconcile: the five groups sum to " +
+                      sum + " against a graduating class of " +
+                      cohort.total_graduates + " (CLAUDE.md §E.4).");
+    }
+
+    var marks = "<div class=\"cohort-field__grid\" data-fill-bar data-fill-carrier " +
+                "aria-hidden=\"true\">";
+    var n = 0;
+    for (k = 0; k < BUCKET_ROWS.length; k++) {
+      var count = cohort[BUCKET_ROWS[k][0]];
+      for (i = 0; i < count; i++) {
+        var from = (n / (sum - 1)) * (1 - FIELD_WAVE);
+        marks += "<span class=\"cohort-field__mark\" data-group=\"" + (k + 1) + "\"" +
+                 " style=\"--from:" + (Math.round(from * 10000) / 10000) +
+                 ";--span:" + FIELD_WAVE + ";\"></span>";
+        n++;
+      }
+    }
+    marks += "</div>";
+
+    var legend = "<ol class=\"cohort-field__key\">";
+    for (k = 0; k < BUCKET_ROWS.length; k++) {
+      legend += "<li class=\"cohort-field__item\" data-group=\"" + (k + 1) + "\">" +
+                  "<span class=\"cohort-field__swatch\" aria-hidden=\"true\"></span>" +
+                  "<span class=\"cohort-field__name\">" + esc(BUCKET_ROWS[k][1]) + "</span>" +
+                  "<span class=\"cohort-field__count\">" +
+                    esc(R.fig(cohort[BUCKET_ROWS[k][0]])) + "</span>" +
+                "</li>";
+    }
+    legend += "</ol>";
+
+    return "<div class=\"cohort-field\">" + marks + legend + "</div>" +
+           "<p class=\"t-caption distribution__note\">One mark, one graduate: " +
+             esc(R.fig(sum)) + " of them, which is the whole class. Every figure on " +
+             "this page is a part of this shape, and the groups are summed and " +
+             "checked against the graduating class each time the page loads.</p>";
+  }
+
   R.classificationTable = classificationTable;
+  R.cohortField = cohortField;
   R.deviationsTable = deviationsTable;
   R.archiveTable = archiveTable;
   R.schoolSections = schoolSections;

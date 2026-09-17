@@ -98,6 +98,10 @@
         "</div>");
     }
 
+    if (doc.querySelector("[data-cohort-field]")) {
+      R.mount("[data-cohort-field]", R.cohortField(RVU.placements.cohort));
+    }
+
     if (doc.querySelector("[data-denominator-plain]")) {
       var c = RVU.placements.cohort;
       R.mount("[data-denominator-plain]",

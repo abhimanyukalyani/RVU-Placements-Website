@@ -1255,6 +1255,90 @@ legend {
   margin-block-end: 4px;
 }
 
+/* NOTE ON PLACEMENT: this block must stay OUTSIDE @layer components.
+   [data-fill-bar] in the MOTION section is unlayered, and an unlayered rule
+   beats a layered one whatever its specificity — so a carrier override
+   written inside the layer is silently ignored and the whole figure scales
+   to nothing. The segmented bar below sits out here for the same reason. */
+/* ---------------------------------------------------------- cohort field */
+/* One mark per graduate, 412 of them, grouped into the five classes of §E.4.
+   The grid auto-fills, so it reflows at any width without a media query and
+   the fill order is DOM order regardless of how it wraps.
+
+   Five groups, one hue, at the same opacity steps the segmented bar uses, so
+   the two figures read as one system. Opacity is not a tenth colour. The key
+   beneath carries every count as text, so the field never means by colour
+   alone. */
+
+.cohort-field { margin-block-start: 28px; }
+
+.cohort-field__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 8px);
+  gap: 5px;
+  justify-content: space-between;
+  padding-block-end: 28px;
+  border-block-end: var(--rule-divide);
+}
+
+/* The grid is only the carrier for --fill: scaling it would shrink the whole
+   field at once, which is not what the figure means. */
+.cohort-field__grid[data-fill-carrier] { transform: none; }
+
+.cohort-field__mark {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--rvu-gold);            /* a fill, never text (§A) */
+  transform-origin: center;
+  /* This mark's own progress along the sequence it shares. --fill defaults to
+     1, so without script every mark is drawn at full size. */
+  transform: scale(clamp(0, calc((var(--fill, 1) - var(--from)) / var(--span)), 1));
+}
+.cohort-field__mark[data-group="2"] { opacity: 0.78; }
+.cohort-field__mark[data-group="3"] { opacity: 0.58; }
+.cohort-field__mark[data-group="4"] { opacity: 0.40; }
+.cohort-field__mark[data-group="5"] { opacity: 0.26; }
+
+.cohort-field__key {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.cohort-field__item {
+  display: grid;
+  grid-template-columns: 10px 1fr auto;
+  align-items: baseline;
+  gap: 14px;
+  padding-block: 12px;
+  border-block-start: var(--rule-divide);
+}
+.cohort-field__item:first-child { border-block-start: 0; }
+
+.cohort-field__swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--rvu-gold);
+  transform: translateY(1px);
+}
+.cohort-field__item[data-group="2"] .cohort-field__swatch { opacity: 0.78; }
+.cohort-field__item[data-group="3"] .cohort-field__swatch { opacity: 0.58; }
+.cohort-field__item[data-group="4"] .cohort-field__swatch { opacity: 0.40; }
+.cohort-field__item[data-group="5"] .cohort-field__swatch { opacity: 0.26; }
+
+.cohort-field__name  { color: var(--rvu-slate); }   /* #233039 on #faf7f1 · 12.64:1 */
+.cohort-field__count {
+  font-family: var(--font-display);
+  font-weight: var(--weight-display);
+  font-variant-numeric: tabular-nums;
+  color: var(--rvu-ink);                            /* 18.89:1 on paper */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cohort-field__mark { transform: scale(1) !important; }
+}
+
 /* ============================================================ PHASE 5 =====
    Segmented cohort bar, outcomes headline, school sections.
    The segmented bar needs five distinguishable bands from a palette with one
