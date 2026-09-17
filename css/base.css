@@ -505,4 +505,11 @@
   .scroll-x { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 
   .stack > * + * { margin-block-start: var(--row-gutter-vertical); }
+
+  /* Two stacked modules sitting side by side had no gutter between them at
+     all — the cohort field's caption ran straight into the top edge of the
+     denominator callout. Every other block in that section is separated by
+     its own margin; a .stack carries none, so two of them touched. This is
+     the only adjacent pair on the site. */
+  .stack + .stack { margin-block-start: var(--row-gutter-vertical); }
 }

@@ -1274,7 +1274,7 @@ legend {
 
 .cohort-field__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, 8px);
+  grid-template-columns: repeat(auto-fill, 9px);
   gap: 5px;
   justify-content: space-between;
   padding-block-end: 28px;
@@ -1285,9 +1285,18 @@ legend {
    field at once, which is not what the figure means. */
 .cohort-field__grid[data-fill-carrier] { transform: none; }
 
+/* Five groups told apart by FORM as well as tone. Five steps of one hue could
+   not be separated at this size — groups three, four and five read as the same
+   mark. Filled against ring is a difference the eye catches instantly, and the
+   ring is the site's own hairline language rather than a new device.
+
+   Gold marks the one group every figure on this page is about — the students
+   seeking placement through the university. The other four are slate: not a
+   lesser state, a different one, and the key beneath names and counts all five
+   so the figure never means by colour alone. */
 .cohort-field__mark {
-  width: 8px;
-  height: 8px;
+  width: 9px;
+  height: 9px;
   border-radius: 50%;
   background: var(--rvu-gold);            /* a fill, never text (§A) */
   transform-origin: center;
@@ -1295,10 +1304,17 @@ legend {
      1, so without script every mark is drawn at full size. */
   transform: scale(clamp(0, calc((var(--fill, 1) - var(--from)) / var(--span)), 1));
 }
-.cohort-field__mark[data-group="2"] { opacity: 0.78; }
-.cohort-field__mark[data-group="3"] { opacity: 0.58; }
-.cohort-field__mark[data-group="4"] { opacity: 0.40; }
-.cohort-field__mark[data-group="5"] { opacity: 0.26; }
+.cohort-field__mark[data-group="2"] { background: var(--rvu-slate); }
+.cohort-field__mark[data-group="3"] {
+  background: none;
+  box-shadow: inset 0 0 0 1.5px var(--rvu-slate);
+}
+.cohort-field__mark[data-group="4"] { background: var(--rvu-slate); opacity: 0.45; }
+.cohort-field__mark[data-group="5"] {
+  background: none;
+  box-shadow: inset 0 0 0 1.5px var(--rvu-slate);
+  opacity: 0.5;
+}
 
 .cohort-field__key {
   margin: 0;
@@ -1315,17 +1331,26 @@ legend {
 }
 .cohort-field__item:first-child { border-block-start: 0; }
 
+/* The key's swatch is the same mark, so the legend is read against the field
+   rather than translated into it. */
 .cohort-field__swatch {
-  width: 10px;
-  height: 10px;
+  width: 9px;
+  height: 9px;
   border-radius: 50%;
   background: var(--rvu-gold);
   transform: translateY(1px);
 }
-.cohort-field__item[data-group="2"] .cohort-field__swatch { opacity: 0.78; }
-.cohort-field__item[data-group="3"] .cohort-field__swatch { opacity: 0.58; }
-.cohort-field__item[data-group="4"] .cohort-field__swatch { opacity: 0.40; }
-.cohort-field__item[data-group="5"] .cohort-field__swatch { opacity: 0.26; }
+.cohort-field__item[data-group="2"] .cohort-field__swatch { background: var(--rvu-slate); }
+.cohort-field__item[data-group="3"] .cohort-field__swatch {
+  background: none;
+  box-shadow: inset 0 0 0 1.5px var(--rvu-slate);
+}
+.cohort-field__item[data-group="4"] .cohort-field__swatch { background: var(--rvu-slate); opacity: 0.45; }
+.cohort-field__item[data-group="5"] .cohort-field__swatch {
+  background: none;
+  box-shadow: inset 0 0 0 1.5px var(--rvu-slate);
+  opacity: 0.5;
+}
 
 .cohort-field__name  { color: var(--rvu-slate); }   /* #233039 on #faf7f1 · 12.64:1 */
 .cohort-field__count {
